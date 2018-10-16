@@ -16,7 +16,7 @@
 (def ch10 (atom {:freq 0.0 :peak 0.0 :beatnumber 0 :x 0 :y 0 :z 0 :a 0 :b 0 :c 0 :d 0 :rendering false :vizsynth box/add :render box/render :update box/updateviz}))
 
 
-( setVizToChannel box ch1)
+
 
 
 

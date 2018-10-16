@@ -86,6 +86,7 @@
     )
   )
 
+
 (defn toggleRender [channel]
   (if (get @channel :rendering)
     (swap! channel assoc :rendering false)
