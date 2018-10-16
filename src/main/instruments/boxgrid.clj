@@ -10,10 +10,10 @@
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
- ; (println "drawing " id  x y z freq beat)
+;  (println "drawing " id  x y z freq beat)
   (dotimes [u 10]
     (q/with-translation [(* 50 u) (* u 100) z]
-      (q/fill 25 34 53 ttl)
+      (q/fill 25 34 253)
       (q/stroke 255 freq 0)
       (q/box 40)))
   )
@@ -56,7 +56,8 @@
         q (get channel :a)
         r (get channel :b)
         s (+ 50 (rand-int 50))
-        ttl (/  (get channel :d) 5)]
+        ttl (int (/  (get channel :d) 5))]
+;    (println ttl)
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
