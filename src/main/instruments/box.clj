@@ -25,7 +25,7 @@
 
 (defn draw [x y z a b c d freq peak beat id]
   "main draw for this visual instrument"
-  (println "drawing " id  x y z freq beat)
+ ; (println "drawing " id  x y z freq beat)
   (q/with-translation [(* id 500) y z]
                        (q/fill 255)
                        (q/stroke 255 freq 0)

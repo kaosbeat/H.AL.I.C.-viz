@@ -3,33 +3,18 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             [quil.applet :as qa]
-            [quil.helpers.seqs :refer [seq->stream range-incl cycle-between steps]]
-            [main.state]
-            ; [main.kaosmidifilters]
-            ; [main.kaosinst]
-                                        ;            [main.vizinstruments]
-            ;;  [main.instruments.linesquares :as ls]
-            ;; ;;  [main.instruments.template :as t]
             [main.instruments.box :as box]
-            [main.instruments.channel01 :as ch1]
-            [main.instruments.boxes :as boxes]
-            [main.instruments.particleslide :as ps]
-
-            ;; ;; ;;                             ; [main.instruments.rsq :as rsq]
-            [main.instruments.channel02 :as ch2]
-            [main.instruments.channel03 :as ch3]
-            [main.instruments.channel04 :as ch4]
-            [main.instruments.channel05 :as ch5]
-            [main.instruments.channel06 :as ch6]
-            [main.instruments.channel07 :as ch7]
-            [main.instruments.channel08 :as ch8]
-            [main.instruments.channel09 :as ch9]
-            [main.instruments.channel10 :as ch10]
+            [main.instruments.boxgrid :as boxgrid]
+           ; [main.instruments.channel01 :as ch1]
+           [main.instruments.boxes :as boxes]
+           ; [main.instruments.particleslide :as ps]
+           ; [main.instruments.channel02 :as ch2]
+           ; [main.instruments.channel03 :as ch3]
+           ; [main.instruments.channel04 :as ch4]
             [main.instruments.measurebox :as mb]
             [main.channelmapping]
-            [main.util]
             [main.kaososcfilters]
-
+            [main.macros]
 
             )
     (:import ( 'codeanticode.syphon.SyphonServer))
@@ -40,7 +25,8 @@
 
 
 
-;;(def server1 (atom nil))
+
+(def server (atom nil))
 
 (defn setup []
   (q/frame-rate 30)
@@ -100,7 +86,11 @@
   ;(ch8/updatech8)
   ;(ch9/updatech9)
   ;(ch10/updatech10)
-  (box/updateviz)
+
+  ((get @ch1 :update))
+  ((get @ch2 :update))
+  ((get @ch3 :update))
+  ((get @ch4 :update))
   )
 
 (defn renderstuff []
