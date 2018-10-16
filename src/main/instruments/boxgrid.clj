@@ -5,16 +5,15 @@
 
 (def viz (atom []))
 (def vizcount (atom 0))
-(defn channel [channel]
-  (swap! channel assoc :vizsynth add :render render :update updateviz))
 
 
-(defn draw [x y z q r s a b c d freq peak beat id]
+
+(defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
  ; (println "drawing " id  x y z freq beat)
   (dotimes [u 10]
     (q/with-translation [(* 50 u) (* u 100) z]
-      (q/fill 25 34 53)
+      (q/fill 25 34 53 ttl)
       (q/stroke 255 freq 0)
       (q/box 40)))
   )
@@ -31,6 +30,7 @@
             q (get (nth @viz n) :q)
             r (get (nth @viz n) :r)
             s (get (nth @viz n) :s)
+            ttl (get (nth @viz n) :ttl)
             a (get channel :a)
             b (get channel :b)
             c (get channel :c)
@@ -40,22 +40,23 @@
             peak (get channel :peak)
             beat (get channel :beatnumber)
             id (get channel :id)
+
             ]
-        (draw x y z q r s a b c d freq peak beat id)
+        (draw x y z q r s ttl a b c d freq peak beat id)
         )
       ))
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
   )
 
 
-(defn add []
+(defn add [channel]
   (let [ x 0
         y 0
         z 0
-        q 0
-        r 0
+        q (get channel :a)
+        r (get channel :b)
         s (+ 50 (rand-int 50))
-        ttl 10]
+        ttl (/  (get channel :d) 5)]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
@@ -85,3 +86,6 @@
   (dotimes [n (count @vizcount)]
     (reset! viz  (drop-nth (nth @vizcount n) @viz)))
   )
+
+(defn channel [channel]
+  (swap! channel assoc :vizsynth add :render render :update updateviz))

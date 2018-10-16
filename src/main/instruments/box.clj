@@ -59,7 +59,7 @@
   )
 
 
-(defn add []
+(defn add [channel]
   (let [ x 500
         y 400
         z 0

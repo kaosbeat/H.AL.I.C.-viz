@@ -1,35 +1,17 @@
 (ns main.instruments.boxes
-  (:require [quil.core :as q]))
-
+  (:require
+   [main.util :refer [drop-nth]]
+   [quil.core :as q]))
 
 (def viz (atom []))
 (def vizcount (atom 0))
-(def debug (atom false))
-(def rendering (atom false))
 
 
-(defn toggleDebug []
-  (if  (= @debug true) (reset! debug false) (reset! debug true))
-  )
 
-(defn toggleRender []
-  (if  (= @rendering true) (reset! rendering false) (reset! rendering true))
-  )
-
-
-;; template for visual instrument instance
-;;
-;;util
-
-
-(defn drop-nth [n coll]
-  (vec (keep-indexed #(if (not= %1 n) %2) coll))
-  )
-
-(defn draw [x y z t channel]
+(defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
 
-  (dotimes [n (mod (get channel :beatnumber ) 8 )]
+  (dotimes [n (mod beat 8 )]
 
                                         ; (q/with-translation [(* (get channel :freq) n) 100 -1000])
 
@@ -40,24 +22,24 @@
   (let [rx x
         ry y
         rz z
-        cubesize   (*  ( - (get channel :freq) 100) 10)
+        cubesize   (*  ( - freq 100) 10)
         cubespace 50]
 
 
    ; (q/with-translation [(* rx (+ cubesize cubespace)) (* ry (+ cubesize cubespace) )  (* rz (+ cubesize cubespace) )])
 
     (q/with-rotation [ (rand-int 360) 5 0 1]
-      (q/fill 25 (rand-int 255) 100 (* 10 t))
+      (q/fill 25 (rand-int 255) 100 (* 10 ttl))
                                         ; (q/box cubesize (get channel :freq) 100 )
       (q/stroke 25)
       (q/stroke-weight 10)
       (q/with-translation [(q/random ( q/width )) (q/random (q/height)) (q/random 100) ]
-        (q/box (/ (get channel :freq) 2 ))))
+        (q/box (/ freq 2 ))))
         )
   )
 
 
-(defn draw [x y z t channel]
+(defn draw [x y z q r s ttl a b c d freq peak beat id]
   (q/background 0)
   (q/with-rotation [y 0 0 1]
     (q/with-translation [(* x (/ (q/width) 127))  (* y (/ (q/height) 127))    (* 10 (- z 100 )) ]
@@ -67,66 +49,72 @@
 
 
 
-
 (defn render [channel]
   ;;; if channeldata
+  (if (get  channel :rendering)
+    (dotimes [n (count @viz)]
+;;      ( println n channel)
+      (let [x (get (nth @viz n) :x)
+            y (get (nth @viz n) :y)
+            z (get (nth @viz n) :z)
+            q (get (nth @viz n) :q)
+            r (get (nth @viz n) :r)
+            s (get (nth @viz n) :s)
+            ttl (get (nth @viz n) :ttl)
+            a (get channel :a)
+            b (get channel :b)
+            c (get channel :c)
+            d (get channel :d)
 
-  (dotimes [n (count @viz)]
-    (let [x (get (nth @viz n) :x)
-          y (get (nth @viz n) :y)
-          z (get (nth @viz n) :z)
-          w  100
-          t (get (nth @viz n) :ttl)
-          h (/  (get  channel :freq) 10)
-          hfr (get channel :peak)
-          vfr 1
-          ]
-
-      (q/with-translation [0 0 0]
-        (draw x y z t channel)
-        (q/stroke-weight (/ hfr 10))
-   ;    (q/line 0 1000 1000 0)
-        ))
-
-    )
-  (if @debug (do  (q/fill 255) (q/text "drawing boxes" 100 150)) )
+            freq (get channel :freq)
+            peak (get channel :peak)
+            beat (get channel :beatnumber)
+            id (get channel :id)
+            ]
+        (draw x y z q r s ttl a b c d freq peak beat id)
+        )
+      ))
+  (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
   )
 
 
-(defn add []
-  (let [x   0
-        y   1000
-        z   0
+(defn add [channel]
+  (let [ x 0
+        y 0
+        z 0
+        q 0
+        r 0
+        s (+ 50 (rand-int 50))
         ttl 10]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
-      (swap! viz conj {:x x :y y :z z :ttl ttl :sticky true })
-      ;;  (swap! viz conj {:x x :y y :z z :ttl ttl :sticky false })
-      (swap! viz conj {:x (rand-int x) :y (rand-int y) :z (rand-int z) :ttl ttl :sticky false })
-      ))
+      (swap! viz conj {:x x :y y :z z :q q :r r :s s :ttl ttl :sticky true })
+      (swap! viz conj {:x (rand-int x) :y (rand-int y) :z (rand-int z) :q q :r r :s s :ttl ttl :sticky false })))
   )
 
 
 
-(defn boxupdate []
-  ; for some reason not all pills are deleted
+(defn updateviz []
+  ;viz objects have properties:
+  ;x y z position arguments
+  ;q r s arbitrary atributes, set per particle
+  ;ttl  time-to-live >by default decreases per updaterun
+  ;sticky bit, can make it stay, be carefull what you whish for
   (reset! vizcount [])
   (dotimes [n (count @viz)]
     (if (false? (= 0 (get (get @viz n) :ttl)))
       ;decrease TTL in pill if ttl > 0
       (do
         (swap! viz update-in [n :ttl] dec)
-;        (swap! linesquares update-in [n :z] (fn [x] (rand-int -670)))
-        ;(swap! viz update-in [n :y] (fn [y] (- y 1)))
+        (swap! viz update-in [n :y] (fn [y] (- y (rand-int 10))))
         )
-      ;else mark pill for deletion
       (swap! vizcount conj n)
-      ;(reset! @pills [0 9 0])
       )
     )
   (dotimes [n (count @vizcount)]
-;    (println " really dropping stuff")
     (reset! viz  (drop-nth (nth @vizcount n) @viz)))
-
   )
+
+(defn channel [channel]
+  (swap! channel assoc :vizsynth add :render render :update updateviz))
