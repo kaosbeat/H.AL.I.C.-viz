@@ -5,6 +5,7 @@
 
 (def viz (atom []))
 (def vizcount (atom 0))
+(def rendering (atom false))
 
 
 
@@ -117,4 +118,6 @@
   )
 
 (defn channel [channel]
-  (swap! channel assoc :vizsynth add :render render :update updateviz))
+  (swap! channel assoc :vizsynth add :render render :update updateviz)
+;  (swap! rendering true)
+  )
