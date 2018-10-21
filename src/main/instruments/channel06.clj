@@ -1,39 +1,15 @@
-(ns main.instruments.channel06
-  (:require [quil.core :as q]))
-
-;; template for visual instrument instance
-;;
-;;util
-(defn drop-nth [n coll]
-  (vec (keep-indexed #(if (not= %1 n) %2) coll))
-  )
-
-(defn draw [x channel]
-  "main draw for this visual instrument"
+(ns main.instruments.tripletimes
+  (:require
+   [main.util :refer [drop-nth]]
+   [quil.core :as q]))
 
 
-                                        ; (dotimes [n (mod (get channel :beatnumber ) 8 )])
-
-  ;;(dotimes [n 10])
-    ;; (q/with-rotation [ (* n 10) 0 1 0])
-    ;(q/with-translation [(* (get channel :freq) n) 100 0])
-    ;;(q/fill ( * 5500 (get channel :peak)) 152  450 )
-
-
-  (q/fill 25 (rand-int 230) 234 25 )
-  (dotimes [n 40]
-    (q/with-translation [ (rand-int 1900) (rand-int 1400) (* n 3)]
-      (q/ellipse 0 0  200 200)))
-
-                                        ;
-;(q/line 100 300 299 100)
-      )
 
 (def viz (atom []))
 (def vizcount (atom 0))
+(def rendering (atom false))
 
-
-(defn draw [x channel]
+(defn draw [x y z q r s ttl a b c d freq peak beat id]
 
   (q/with-translation [ 1000 100 -500]
     (dotimes [x1 10]
@@ -49,40 +25,55 @@
   )
 
 
-
-
 (defn render [channel]
   ;;; if channeldata
-  (dotimes [n (count @viz)]
-    (let [x (get (nth @viz n) :x)
-          y (get (nth @viz n) :y)
-          z (get (nth @viz n) :z)
-          w  100
-          h (/  (get  channel :freq) 10)
-          hfr (get channel :peak)
-          vfr 1
-          ]
+  (if (get  channel :rendering)
+    (dotimes [n (count @viz)]
+;;      ( println n channel)
+      (let [x (get (nth @viz n) :x)
+            y (get (nth @viz n) :y)
+            z (get (nth @viz n) :z)
+            q (get (nth @viz n) :q)
+            r (get (nth @viz n) :r)
+            s (get (nth @viz n) :s)
+            ttl (get (nth @viz n) :ttl)
+            a (get channel :a)
+            b (get channel :b)
+            c (get channel :c)
+            d (get channel :d)
 
-      (q/with-translation [ 0 500 0]
-        (q/stroke-weight 2)
-        (draw w channel)))
+            freq (get channel :freq)
+            peak (get channel :peak)
+            beat (get channel :beatnumber)
+            id (get channel :id)
+            ]
+        (draw x y z q r s ttl a b c d freq peak beat id)
+        )
+      ))
+  (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
+  )
 
-    )
-
+(defn add [channel]
+  (let [ x 0
+        y 0
+        z 0
+        q 0
+        r 0
+        s (+ 50 (rand-int 50))
+        ttl 100]
+    (if (= 0 (count @viz))
+      (reset! viz []))
+    (if (= ttl 0)
+      (swap! viz conj {:x x :y y :z z :q q :r r :s s :ttl ttl :sticky true })
+      (swap! viz conj {:x (rand-int x) :y (rand-int y) :z (rand-int z) :q q :r r :s s :ttl ttl :sticky false })))
   )
 
 
-(defn add [x y z ttl]
-  (if (= 0 (count @viz))
-    (reset! viz []))
-  (if (= ttl 0)
-    (swap! viz conj {:x x :y y :z z :ttl ttl :sticky true })
-    (swap! viz conj {:x x :y y :z z :ttl ttl :sticky false }))
-  )
 
 
 
-(defn updatech6
+
+(defn updateviz
   []
   ; for some reason not all pills are deleted
   (reset! vizcount [])
@@ -105,5 +96,8 @@
   ;(println @pills)
   )
 
-(add 500 200 -500 120)
-(updatech6)
+
+(defn channel [channel]
+  (swap! channel assoc :vizsynth add :render render :update updateviz)
+;  (swap! rendering true)
+  )

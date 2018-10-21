@@ -1,30 +1,52 @@
-(ns main.instruments.measurebox
+(ns main.instruments.phaselines
   (:require
    [main.util :refer [drop-nth]]
    [quil.core :as q]))
-
 
 (def viz (atom []))
 (def vizcount (atom 0))
 (def rendering (atom false))
 
-
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
-  (let [ measure (mod beat 4)]
-    (q/fill 255 0 0)
-    (q/stroke 225 0 255)
-    (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
-      (case measure
-        0 (q/box 10 10 10 )
-        1 (q/box 1000 10 10)
-        2 (q/box 10 1000 10)
-        3 (q/box 10 10 1000)
-        ))
 
-    )
+  (q/fill 255 255 0)
+  ;; (q/with-translation [500 0 0]
+  ;;   (q/with-rotation [ (q/random 100) 0 0 1]
+  ;;     (q/rect 0 0 230 20 )
+  ;;     ))
 
-  )
+  (q/with-translation [(rand-int 0) (rand-int 0) (rand-int 0)])
+
+  (q/with-translation [0 -400 20]
+    (dotimes [x 10]
+      (dotimes [y 10]
+        (let [v  (* (* 10 freq) x)
+              w  (* 10 y)]
+;          (q/stroke 255)
+          (q/stroke-weight (rand-int 20))
+          (q/line v w -10 v w 100))
+
+        )))
+
+
+)
+
+(defn draw [x y z q r s ttl a b c d freq peak beat id]
+ ; (background 255)
+  (q/with-translation [100 400 100]
+    (dotimes [z 10]
+      (let [amp peak
+            phase peak
+            n 10
+            zz (* z -10)]
+
+        (dotimes [n 100]
+          (q/with-rotation [ (* n 0.2) 0 1 0]
+            (q/stroke-weight d)
+                                        ;          (q/line (* phase n) 0 zz (+ (* phase n) (/ phase 2)) amp zz)
+            (q/line (+ (* phase n) (/ phase 2)) (* 10 amp) zz (* phase (+ n 1)) -1000 zz)))))))
+
 
 
 (defn render [channel]
@@ -54,6 +76,8 @@
       ))
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
   )
+
+
 
 (defn add [channel]
   (let [ x 0
@@ -85,7 +109,7 @@
       ;decrease TTL in pill if ttl > 0
       (do
         (swap! viz update-in [n :ttl] dec)
-        (swap! viz update-in [n :y] (fn [y] (- y (rand-int 10))))
+        ;(swap! viz update-in [n :y] (fn [y] (- y (rand-int 10))))
         )
       (swap! vizcount conj n)
       )

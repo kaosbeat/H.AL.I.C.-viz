@@ -1,30 +1,54 @@
-(ns main.instruments.measurebox
+(ns main.instruments.tripletimes
   (:require
    [main.util :refer [drop-nth]]
    [quil.core :as q]))
-
 
 (def viz (atom []))
 (def vizcount (atom 0))
 (def rendering (atom false))
 
 
+
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
-  (let [ measure (mod beat 4)]
-    (q/fill 255 0 0)
-    (q/stroke 225 0 255)
-    (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
-      (case measure
-        0 (q/box 10 10 10 )
-        1 (q/box 1000 10 10)
-        2 (q/box 10 1000 10)
-        3 (q/box 10 10 1000)
-        ))
 
+  (dotimes [n (mod beat 8 )]
+
+                                        ; (q/with-translation [(* (get channel :freq) n) 100 -1000])
+
+   ; (q/with-rotation [(get channel :freq) 0 1 2])
+    ;;(q/stroke 134 0 34 120)
     )
 
+  (let [rx x
+        ry y
+        rz z
+        cubesize   (*  ( - freq 100) 10)
+        cubespace 50]
+
+
+   ; (q/with-translation [(* rx (+ cubesize cubespace)) (* ry (+ cubesize cubespace) )  (* rz (+ cubesize cubespace) )])
+
+    (q/with-rotation [ (rand-int 360) 5 0 1]
+      (q/fill 25 (rand-int 25) 10 (* 10 ttl))
+                                        ; (q/box cubesize (get channel :freq) 100 )
+      (q/stroke 25)
+      (q/stroke-weight 10)
+      (q/with-translation [(q/random ( q/width )) (q/random (q/height)) (q/random 100) ]
+        (q/box (/ freq 2 ))))
+        )
   )
+
+
+(defn draw [x y z q r s ttl a b c d freq peak beat id]
+
+  (q/with-rotation [y 0 0 1]
+    (q/with-translation [(* x (/ (q/width) 127))  (* y (/ (q/height) 127))    (* 10 (- z 100 )) ]
+      ;(println peak)
+      (q/fill (* 2 peak) (* 50 (- 80 peak)) 0)
+      (q/box 500 500 500)))
+  )
+
 
 
 (defn render [channel]
@@ -55,6 +79,7 @@
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
   )
 
+
 (defn add [channel]
   (let [ x 0
         y 0
@@ -62,14 +87,13 @@
         q 0
         r 0
         s (+ 50 (rand-int 50))
-        ttl 10]
+        ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
       (swap! viz conj {:x x :y y :z z :q q :r r :s s :ttl ttl :sticky true })
       (swap! viz conj {:x (rand-int x) :y (rand-int y) :z (rand-int z) :q q :r r :s s :ttl ttl :sticky false })))
   )
-
 
 
 

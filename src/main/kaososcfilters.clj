@@ -35,7 +35,7 @@
 
 
 (osc-handle OSCs "/ch1attack" (fn [msg] ((get @ch1 :vizsynth) @ch1)))
-(osc-handle OSCs "/ch2attack" (fn [msg] ((get @ch2 :vizsynth) @ch2 )))
+(osc-handle OSCs "/ch2attack" (fn [msg] ((get @ch2 :vizsynth) @ch2)))
 (osc-handle OSCs "/ch3attack" (fn [msg] ((get @ch3 :vizsynth) @ch3)))
 (osc-handle OSCs "/ch4attack" (fn [msg] ((get @ch4 :vizsynth) @ch4)))
 (osc-handle OSCs "/ch5attack" (fn [msg] ((get @ch5 :vizsynth) @ch5)))

@@ -1,35 +1,24 @@
 (ns main.instruments.box
-  (:require [quil.core :as q]))
+  (:require
+   [main.util :refer [drop-nth]]
+   [quil.core :as q]))
 
 (def viz (atom []))
 (def vizcount (atom 0))
-(def debug (atom false))
 (def rendering (atom false))
-(def audioChannel (atom {} ))
 
 
-(defn toggleDebug []
-  (if  (= @debug true) (reset! debug false) (reset! debug true))
-  )
-
-(defn toggleRender []
-  (if  (= @rendering true) (reset! rendering false) (reset! rendering true))
-  )
-
-;; template for visual instrument instance
-;;
-;;util
-(defn drop-nth [n coll]
-  (vec (keep-indexed #(if (not= %1 n) %2) coll))
-  )
 
 (defn draw [x y z a b c d freq peak beat id]
   "main draw for this visual instrument"
- ; (println "drawing " id  x y z freq beat)
-  (q/with-translation [(* id 500) y z]
-                       (q/fill 255)
-                       (q/stroke 255 freq 0)
-                       (q/box freq))
+                                        ; (println "drawing " id  x y z freq beat)
+  (dotimes [n 10]
+    (q/with-translation [(* (rand-int 100) 20) (rand-int  1200) z]
+      (q/with-rotation [ (* a (mod beat 8)) (mod beat 4) 1 0]
+        (q/fill (rand-int 255)  255 0 10)
+        (q/stroke-weight d)
+        (q/stroke 255 freq 0)
+        (q/box (+ 100 (* freq 0.9))))))
   )
 
 
@@ -60,8 +49,8 @@
 
 
 (defn add [channel]
-  (let [ x 500
-        y 400
+  (let [ x 50
+        y (rand-int 400)
         z 0
         ttl 10]
     (if (= 0 (count @viz))
@@ -93,4 +82,9 @@
 ;    (println " really dropping stuff")
     (reset! viz  (drop-nth (nth @vizcount n) @viz)))
 
+  )
+
+(defn channel [channel]
+  (swap! channel assoc :vizsynth add :render render :update updateviz)
+;  (swap! rendering true)
   )

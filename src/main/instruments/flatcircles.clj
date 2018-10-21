@@ -1,8 +1,7 @@
-(ns main.instruments.measurebox
+(ns main.instruments.flatcircles
   (:require
    [main.util :refer [drop-nth]]
    [quil.core :as q]))
-
 
 (def viz (atom []))
 (def vizcount (atom 0))
@@ -11,19 +10,19 @@
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
-  (let [ measure (mod beat 4)]
-    (q/fill 255 0 0)
-    (q/stroke 225 0 255)
-    (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
-      (case measure
-        0 (q/box 10 10 10 )
-        1 (q/box 1000 10 10)
-        2 (q/box 10 1000 10)
-        3 (q/box 10 10 1000)
-        ))
-
-    )
-
+;  (println freq "  " peak)
+  (q/with-rotation [ freq 0 (rand-int 2) 0]
+    (dotimes [n (/ peak 50)]
+      (q/with-translation [(* 10 peak) (* (mod beat 8 ) 100) -100]
+        (q/stroke 34 (/ freq 2) 244 233)
+        (q/stroke-weight (/ freq 200))
+        (q/fill 23 (q/random 255) 230 100)
+        (q/with-rotation [  freq  (mod beat 4) 0 1  ]
+          (q/box 1100 (* (q/noise n) 100) (* peak 200 ))
+          )
+                (q/ellipse 30 30 20 20)
+        )
+      ))
   )
 
 
@@ -62,7 +61,7 @@
         q 0
         r 0
         s (+ 50 (rand-int 50))
-        ttl 10]
+        ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
@@ -71,28 +70,30 @@
   )
 
 
-
-
 (defn updateviz []
-  ;viz objects have properties:
-  ;x y z position arguments
-  ;q r s arbitrary atributes, set per particle
-  ;ttl  time-to-live >by default decreases per updaterun
-  ;sticky bit, can make it stay, be carefull what you whish for
+  ; for some reason not all pills are deleted
   (reset! vizcount [])
   (dotimes [n (count @viz)]
     (if (false? (= 0 (get (get @viz n) :ttl)))
       ;decrease TTL in pill if ttl > 0
       (do
         (swap! viz update-in [n :ttl] dec)
-        (swap! viz update-in [n :y] (fn [y] (- y (rand-int 10))))
+;        (swap! linesquares update-in [n :z] (fn [x] (rand-int -670)))
+        (swap! viz update-in [n :y] (fn [y] (- y 10)))
         )
-      (swap! vizcount conj n)
+      ;else mark pill for deletion unless sticky
+      (if (false? (get (get @viz n):sticky ))
+        (swap! vizcount conj n)
+        )
+      ;(reset! @pills [0 9 0])
       )
     )
   (dotimes [n (count @vizcount)]
+;    (println " really dropping stuff")
     (reset! viz  (drop-nth (nth @vizcount n) @viz)))
+  ;(println @pills)
   )
+
 
 (defn channel [channel]
   (swap! channel assoc :vizsynth add :render render :update updateviz)

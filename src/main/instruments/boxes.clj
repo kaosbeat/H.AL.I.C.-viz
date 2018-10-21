@@ -41,11 +41,11 @@
 
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
-  (q/background 0)
-  (q/with-rotation [y 0 0 1]
-    (q/with-translation [(* x (/ (q/width) 127))  (* y (/ (q/height) 127))    (* 10 (- z 100 )) ]
-      (q/fill (* 2 y) 255 0)
-      (q/box 500 500 500)))
+  (dotimes [n 10]
+    (q/with-rotation [y 0 0 1]
+      (q/with-translation [(* n d)  (* y 17)    (* 10 (- z 100 )) ]
+        (q/fill (* 2 a) 25 0)
+        (q/box (* peak  50)  500 50))))
   )
 
 

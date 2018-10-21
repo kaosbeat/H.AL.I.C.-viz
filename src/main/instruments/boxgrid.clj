@@ -5,17 +5,21 @@
 
 (def viz (atom []))
 (def vizcount (atom 0))
-
+(def rendering (atom false))
 
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
-;  (println "drawing " id  x y z freq beat)
+; (println "drawing " id  x y z freq beat)
   (dotimes [u 10]
-    (q/with-translation [(* 50 u) (* u 100) z]
-      (q/fill 25 34 253)
-      (q/stroke 255 freq 0)
-      (q/box 40)))
+    (dotimes [v 10]
+      (q/with-translation [(* 150 u) 0 0]
+        (q/with-translation [0 ( * 150 v) 0]
+          (q/fill 25 93 53)
+          (q/with-rotation [ freq 1 1 0]
+            (q/stroke-weight 10)
+            (q/stroke 25 freq 0)
+            (q/box (* a peak)))))))
   )
 
 
@@ -56,7 +60,7 @@
         q (get channel :a)
         r (get channel :b)
         s (+ 50 (rand-int 50))
-        ttl (int (/  (get channel :d) 5))]
+        ttl (+ 10  (int (/  (get channel :d) 2)))]
 ;    (println ttl)
     (if (= 0 (count @viz))
       (reset! viz []))
