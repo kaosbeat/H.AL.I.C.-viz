@@ -1,4 +1,4 @@
-#N canvas 233 242 1687 777 10;
+#N canvas 233 401 1687 777 10;
 #X obj 674 176 inlet;
 #X obj 761 619 outlet;
 #X obj 735 330 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -38,6 +38,7 @@
 #X obj 922 459 f \$1;
 #X text 909 193 midibypass;
 #X obj 911 175 inlet;
+#X obj 424 175 inlet~;
 #X connect 0 0 20 0;
 #X connect 2 0 20 0;
 #X connect 4 0 3 0;
