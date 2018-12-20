@@ -16,6 +16,7 @@
            ; [main.instruments.channel03 :as ch3]
            ; [main.instruments.channel04 :as ch4]
             [main.instruments.measurebox :as measurebox]
+            [main.instruments.chainbox :as chainbox]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.macros]
@@ -64,8 +65,7 @@
 (defn renderstuff []
   (q/background 0)
   ((get @ch1 :render) @ch1)
-  ((get @
-    ch2 :render) @ch2)
+  ((get @ch2 :render) @ch2)
   ((get @ch3 :render) @ch3)
   ((get @ch4 :render) @ch4)
   ((get @ch5 :render) @ch5)
@@ -79,6 +79,7 @@
 (defn draw [state]
   (updatestuff)                                        ;updatestufff
   (renderstuff)
+  (q/camera (- 600 (* (tr) 200)) 500 1000 500 500 -5000 0 1 0 )
   (.sendScreen @server )
   )
 
