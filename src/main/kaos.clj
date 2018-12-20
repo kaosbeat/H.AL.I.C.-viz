@@ -3,6 +3,7 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             [quil.applet :as qa]
+            [main.earlymacros]
             [main.instruments.box :as box]
             [main.instruments.boxgrid :as boxgrid]
             [main.instruments.boxes :as boxes]
@@ -32,7 +33,7 @@
 
 
 (def server (atom nil))
-
+(println (. System getProperty "java.library.path"))
 
 
 (defn setup []

@@ -7,7 +7,20 @@
 (def viz (atom []))
 (def vizcount (atom 0))
 (def rendering (atom false))
+(def chain ( atom [[]]))
 
+(defn addLayer [size n]
+  (if (< (count (last @chain)) n)
+    (do    ;;(println "thisworks")
+           (swap! chain assoc (-  (count @chain) 1) (conj (last @chain) (rand-int size))))
+    (do
+      (swap! chain conj [] )
+      (swap! chain assoc (-  (count @chain) 1) (conj (last @chain) (rand-int size)))
+      )
+    )
+
+;;  ( )
+  )
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
@@ -27,21 +40,24 @@
     ;;     ))
     )
   (q/stroke-weight 1)
-
-  (dotimes [n (count @chain)]
-    (q/stroke (* 255 n) 0 0)
-      ;(println n)
+  (q/with-rotation [(main.kaos/camrot)  0 0 1]
+    (dotimes [n (count @chain)]
+      (q/stroke (* 255 n) 0 0)
+                                        ;(println n)
       (let [ylist (nth @chain n)]
-        (dotimes [m (count ylist)]
-          (let [y (nth ylist m)
-                xoffset 400]
-;            (q/line (+ xoffset (* 100 m)) (+ 500  y) (* n 100) (+ xoffset  (* 100 m)) 500 (* n 100))
-            (q/fill 255 0 0 (- 255 (* n 10)) )
-            (q/with-rotation [(* (main.kaos/tr) 90) 0 1 0]
-              (q/with-translation [(+ xoffset (* 100 m)) (+ 500  y) (* n 100)]
-                (q/box 50 ))))
-          ))
-      )
+        (q/with-translation [-200 -200 (* -100 (count @chain))]
+          (dotimes [m (count ylist)]
+            (let [y (nth ylist m)
+                  xoffset 0]
+                                        ;            (q/line (+ xoffset (* 100 m)) (+ 500  y) (* n 100) (+ xoffset  (* 100 m)) 500 (* n 100))
+             ; (case)
+              (q/fill 255 0 0 (- 255 (* n 5)) )
+;;              (q/no-fill)
+              (q/with-rotation [(* (main.kaos/tr) 0) 0 1 0]
+                (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
+                  (q/box 50 ))))
+            )))
+      ))
 
   )
 
@@ -50,42 +66,42 @@
   ;;; if channeldata
   (if (get  channel :rendering)
     (dotimes [n (count @viz)]
-;;      ( println n channel)
+      ;;      ( println n channel)
       (let [x (get (nth @viz n) :x)
-            y (get (nth @viz n) :y)
-            z (get (nth @viz n) :z)
-            q (get (nth @viz n) :q)
-            r (get (nth @viz n) :r)
-            s (get (nth @viz n) :s)
-            ttl (get (nth @viz n) :ttl)
-            a (get channel :a)
-            b (get channel :b)
-            c (get channel :c)
-            d (get channel :d)
-            freq (get channel :freq)
-            peak (get channel :peak)
-            beat (get channel :beatnumber)
-            id (get channel :id)
-            ]
-        (draw x y z q r s ttl a b c d freq peak beat id)
-        )
-      )
-
-
+        y (get (nth @viz n) :y)
+        z (get (nth @viz n) :z)
+        q (get (nth @viz n) :q)
+        r (get (nth @viz n) :r)
+        s (get (nth @viz n) :s)
+        ttl (get (nth @viz n) :ttl)
+        a (get channel :a)
+        b (get channel :b)
+        c (get channel :c)
+        d (get channel :d)
+        freq (get channel :freq)
+        peak (get channel :peak)
+        beat (get channel :beatnumber)
+        id (get channel :id)
+        ]
+    (draw x y z q r s ttl a b c d freq peak beat id)
     )
+  )
+
+
+)
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
   )
 
 (defn add [channel]
-  (println "adding")
-  (addLayer 100 4)
+  ;;(println "adding")
+  (addLayer 500 4)
   (let [ x 0
         y 0
         z 0
         q 0
         r 0
         s (+ 50 (rand-int 50))
-        ttl 10]
+        ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
@@ -123,20 +139,6 @@
   )
 
 
-(def chain ( atom [[]]))
+
 (defn resetchain []
   (reset! chain [[]]))
-
-
-(defn addLayer [size n]
-  (if (< (count (last @chain)) n)
-    (do    ;;(println "thisworks")
-           (swap! chain assoc (-  (count @chain) 1) (conj (last @chain) (rand-int 100))))
-    (do
-      (swap! chain conj [] )
-      (swap! chain assoc (-  (count @chain) 1) (conj (last @chain) (rand-int 100)))
-      )
-    )
-
-;;  ( )
-  )
