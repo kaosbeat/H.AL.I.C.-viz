@@ -15,7 +15,7 @@
   (dotimes [n 10]
     (q/with-translation [(* (rand-int 100) 20) (rand-int  1200) z]
       (q/with-rotation [ (* a (mod beat 8)) (mod beat 4) 1 0]
-        (q/fill (rand-int 255)  255 0 10)
+        (q/fill (rand-int 255)  255 0 100)
         (q/stroke-weight d)
         (q/stroke 255 freq 0)
         (q/box (+ 100 (* freq 0.9))))))
@@ -62,7 +62,7 @@
 
 
 
-(defn updateviz []
+(defn updateviz [ channel]
   ; for some reason not all pills are deleted
   (reset! vizcount [])
   (dotimes [n (count @viz)]

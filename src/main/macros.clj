@@ -49,7 +49,7 @@
     )
   )
 
-(def instrumentslist ["box" "boxes" "boxgrid" "modrotate" "flatcircles" "phaselines" "measurebox" "tripletimes" "backflow" "chainbox"])
+(def instrumentslist ["box" "boxes" "boxgrid" "modrotate" "flatcircles" "phaselines" "measurebox" "tripletimes" "backflow" "chainbox" "superstack" "spaceshape" "squaretunnel" ])
 
 (defn help []
   (println "helperfunctions")

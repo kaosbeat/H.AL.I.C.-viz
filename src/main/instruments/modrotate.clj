@@ -69,7 +69,7 @@
 
 
 
-(defn updateviz []
+(defn updateviz [channel]
   ; for some reason not all pills are deleted
   (reset! vizcount [])
   (dotimes [n (count @viz)]

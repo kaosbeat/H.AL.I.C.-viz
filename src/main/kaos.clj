@@ -12,12 +12,15 @@
             [main.instruments.phaselines :as phaselines]
             [main.instruments.backflow :as backflow]
             [main.instruments.tripletimes :as tripletimes]
-                                        ;            [main.instruments.particleslide :as ps]
+                                        ; [main.instruments.particleslide :as ps]
            ; [main.instruments.channel02 :as ch2]
            ; [main.instruments.channel03 :as ch3]
            ; [main.instruments.channel04 :as ch4]
             [main.instruments.measurebox :as measurebox]
             [main.instruments.chainbox :as chainbox]
+            [main.instruments.superstack :as superstack]
+            [main.instruments.spaceshape :as spaceshape]
+            [main.instruments.squaretunnel :as squaret]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.macros]
@@ -33,14 +36,15 @@
 
 
 (def server (atom nil))
-(println (. System getProperty "java.library.path"))
-
+;(println (. System getProperty "java.library.path"))
+;
 
 (defn setup []
   (q/frame-rate 30)
   (reset! server (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "Amsterdam Dance Event"))
-(def w (q/width))
-(def h (q/height))
+  (def w (q/width))
+  (def h (q/height))
+  (def cameraZ (/ (/ h 2) (q/tan (* 3.1415 (/ 60 360)  ) )  ))
 )
 
 
@@ -52,14 +56,14 @@
 
 
 (defn updatestuff []
-  ((get @ch1 :update))
-  ((get @ch2 :update))
-  ((get @ch3 :update))
-  ((get @ch4 :update))
-  ((get @ch5 :update))
-  ((get @ch6 :update))
-  ((get @ch7 :update))
-  ((get @ch8 :update))
+  ((get @ch1 :update) @ch1)
+  ((get @ch2 :update) @ch2)
+  ((get @ch3 :update) @ch3)
+  ((get @ch4 :update) @ch4)
+  ((get @ch5 :update) @ch5)
+  ((get @ch6 :update) @ch6)
+  ((get @ch7 :update) @ch7)
+  ((get @ch8 :update) @ch8)
 
   )
 
@@ -80,8 +84,12 @@
 (defn draw [state]
   (updatestuff)                                        ;updatestufff
   (renderstuff)
-  (q/camera (- 600 (* (tr) 200)) 500 1000 500 500 -5000 0 1 0 )
+  (q/perspective)
+  (q/perspective (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 100 ) )
+ ; (q/camera (- 50 (* (tr) 0)) 0 500 0 0 -150 0 1 0)
   (.sendScreen @server )
+
+  ;(q/camera)
   )
 
 (q/defsketch halic

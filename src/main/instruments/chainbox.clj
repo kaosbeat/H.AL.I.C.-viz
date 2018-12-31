@@ -5,9 +5,10 @@
 
 
 (def viz (atom []))
-(def vizcount (atom 0))
+(def vizcount (atom []))
 (def rendering (atom false))
 (def chain ( atom [[]]))
+
 
 (defn addLayer [size n]
   (if (< (count (last @chain)) n)
@@ -18,9 +19,17 @@
       (swap! chain assoc (-  (count @chain) 1) (conj (last @chain) (rand-int size)))
       )
     )
-
-;;  ( )
+  (if (> (count @chain) 20)
+;    (reset! chain (rest @chain))
+                                        ; (println "weewe")
+    (+ 1 1)
+    )
   )
+
+
+
+
+
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
@@ -40,24 +49,24 @@
     ;;     ))
     )
   (q/stroke-weight 1)
-  (q/with-rotation [(main.kaos/camrot)  0 0 1]
-    (dotimes [n (count @chain)]
-      (q/stroke (* 255 n) 0 0)
+  (q/with-rotation [(main.kaos/camrot)  0 0 1])
+  (dotimes [n (count @chain)]
+    (q/stroke (* 255 n) 0 0)
                                         ;(println n)
-      (let [ylist (nth @chain n)]
-        (q/with-translation [-200 -200 (* -100 (count @chain))]
-          (dotimes [m (count ylist)]
-            (let [y (nth ylist m)
-                  xoffset 0]
+    (let [ylist (nth @chain n)]
+      (q/with-translation [-200 -200 (* -100 (count @chain))]
+        (dotimes [m (count ylist)]
+          (let [y (nth ylist m)
+                xoffset 0]
                                         ;            (q/line (+ xoffset (* 100 m)) (+ 500  y) (* n 100) (+ xoffset  (* 100 m)) 500 (* n 100))
-             ; (case)
-              (q/fill 255 0 0 (- 255 (* n 5)) )
-;;              (q/no-fill)
-              (q/with-rotation [(* (main.kaos/tr) 0) 0 1 0]
-                (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
-                  (q/box 50 ))))
-            )))
-      ))
+                                        ; (case)
+            (q/fill 255 0 0 (- 255 (* n 5)) )
+            ;;              (q/no-fill)
+            (q/with-rotation [(* (main.kaos/tr) 0) 0 1 0])
+            (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
+              (q/box s )))
+          )))
+    )
 
   )
 
@@ -100,7 +109,7 @@
         z 0
         q 0
         r 0
-        s (+ 50 (rand-int 50))
+        s (get channel :peak)
         ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
@@ -112,7 +121,7 @@
 
 
 
-(defn updateviz []
+(defn updateviz [channel]
   ;viz objects have properties:
   ;x y z position arguments
   ;q r s arbitrary atributes, set per particle
@@ -129,9 +138,10 @@
       (swap! vizcount conj n)
       )
     )
+
   (dotimes [n (count @vizcount)]
-    (reset! viz  (drop-nth (nth @vizcount n) @viz)))
-  )
+    (reset! viz  (drop-nth (nth @vizcount n) @viz))))
+
 
 (defn channel [channel]
   (swap! channel assoc :vizsynth add :render render :update updateviz)

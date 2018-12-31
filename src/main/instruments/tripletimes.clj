@@ -97,7 +97,7 @@
 
 
 
-(defn updateviz []
+(defn updateviz [channel]
   ;viz objects have properties:
   ;x y z position arguments
   ;q r s arbitrary atributes, set per particle
