@@ -47,7 +47,7 @@
     ;;     ))
     (q/fill r peak 0)
     (q/with-translation [(+  500 x) y z]
-      (q/box r q peak ))
+      (q/box r 10 peak ))
     )
   )
 

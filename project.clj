@@ -1,4 +1,4 @@
-(defproject bossig "0.1.0-SNAPSHOT"
+(defproject halic-viz  "0.1.0-SNAPSHOT"
   :description "basetemplate livecoding"
   :url "http://halic.be"
   :license {:name "@lambda_sonic"
@@ -12,7 +12,7 @@
                    ]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [overtone "0.10.1"]
-                 [leipzig "0.10.0"]
+;                 [leipzig "0.10.0"]
                  [quil "2.2.0"]
 ;                 [glgraphics "1.0.0"]
                  ]

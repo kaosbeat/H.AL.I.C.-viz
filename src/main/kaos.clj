@@ -20,7 +20,7 @@
             [main.instruments.chainbox :as chainbox]
             [main.instruments.superstack :as superstack]
             [main.instruments.spaceshape :as spaceshape]
-            [main.instruments.squaretunnel :as squaret]
+            [main.instruments.squaretunnel :as squaretunnel]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.macros]
@@ -84,9 +84,11 @@
 (defn draw [state]
   (updatestuff)                                        ;updatestufff
   (renderstuff)
-  (q/perspective)
-  (q/perspective (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 100 ) )
- ; (q/camera (- 50 (* (tr) 0)) 0 500 0 0 -150 0 1 0)
+ ;; (q/perspective)
+  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
+  (q/camera)
+
+;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
   (.sendScreen @server )
 
   ;(q/camera)
