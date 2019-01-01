@@ -11,6 +11,44 @@
 (def tunneldepth (atom 30))
 
 
+
+
+(defn lineartunnel [x y z a b c d q r s]
+(dotimes [xpos @tunneldepth]
+      (if (= x xpos)
+        (q/fill 255)
+        (q/fill (nth r 0) 255) )
+      (dotimes [ypos 6]
+        (if (= y ypos)
+          (q/with-translation [(* xpos  250) (* ypos 250) 0]
+            (q/rect 0 0 200 200)))))
+  )
+
+(defn boxextruder [x y z a b c d q r s]
+  (dotimes [xpos @tunneldepth]
+        (dotimes [ypos 6]
+          (if (= x xpos)
+            (if (= y ypos)
+              (do
+                (q/fill (nth r 0) (nth r 1) (nth r 2))
+                (let [boxx (/ s 2)
+                      boxy (/ s 2)
+                      boxz (/ z 2)]
+                  (q/with-translation [(* xpos  250) (* ypos 250) 0]
+                                        ;(q/no-fill)
+                    (q/stroke-weight 2)
+                                        ;(q/rect 0 0 s s)
+                    (q/with-translation [boxx boxy boxz]
+                      (q/box s s z))
+                    ))))))))
+
+(defn noiseplane [x y z a b c d q r s]
+  (dotimes [xpos 6]
+        (dotimes [ypos @tunneldepth]
+          (q/with-translation [(* xpos  250) (* ypos 250) (rand-int 30)]
+            (q/rect 0 0 200 200)))))
+
+
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
   (comment  (let [ measure (mod beat 4)]
@@ -54,42 +92,6 @@
 
 
   )
-
-(defn lineartunnel [x y z a b c d q r s]
-(dotimes [xpos @tunneldepth]
-      (if (= x xpos)
-        (q/fill 255)
-        (q/fill (nth r 0) 255) )
-      (dotimes [ypos 6]
-        (if (= y ypos)
-          (q/with-translation [(* xpos  250) (* ypos 250) 0]
-            (q/rect 0 0 200 200)))))
-  )
-
-(defn boxextruder [x y z a b c d q r s]
-  (dotimes [xpos @tunneldepth]
-        (dotimes [ypos 6]
-          (if (= x xpos)
-            (if (= y ypos)
-              (do
-                (q/fill (nth r 0) (nth r 1) (nth r 2))
-                (let [boxx (/ s 2)
-                      boxy (/ s 2)
-                      boxz (/ z 2)]
-                  (q/with-translation [(* xpos  250) (* ypos 250) 0]
-                                        ;(q/no-fill)
-                    (q/stroke-weight 2)
-                                        ;(q/rect 0 0 s s)
-                    (q/with-translation [boxx boxy boxz]
-                      (q/box s s z))
-                    ))))))))
-
-(defn noiseplane [x y z a b c d q r s]
-  (dotimes [xpos 6]
-        (dotimes [ypos @tunneldepth]
-          (q/with-translation [(* xpos  250) (* ypos 250) (rand-int 30)]
-            (q/rect 0 0 200 200)))))
-
 
 (defn render [channel]
   ;;; if channeldata

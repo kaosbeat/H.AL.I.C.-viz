@@ -130,7 +130,7 @@
 
   (dotimes [n (count @vizcount)]
     (reset! viz  (drop-nth (nth @vizcount n) @viz))))
-  )
+
 
 (defn channel [channel]
   (swap! channel assoc :vizsynth add :render render :update updateviz)
