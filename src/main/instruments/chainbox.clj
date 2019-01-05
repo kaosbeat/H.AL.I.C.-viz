@@ -38,11 +38,11 @@
                                         ;  (println "drawing")
 ;  (println (addLayer 100 4))
   (q/with-translation [(/  (q/width) 2) (/ (q/height) 2) (* 500 1)]
-    (q/with-rotation  [(q/radians (zerorounddeg)) 0 0 1 ]
+    (q/with-rotation  [(q/radians (zerorounddeg)) 5 0 1 ]
       (let [ measure (mod beat 4)]
 
                                         ;(println peak)
-        (q/stroke-weight (/ peak 10))
+        (q/stroke-weight (/ peak 1))
         (q/stroke 225 255 255)
         ;; (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
         ;;   (case measure
@@ -52,7 +52,9 @@
         ;;     3 (q/box 10 10 1000)
         ;;     ))
         )
-      (q/stroke-weight 2)
+     ; (q/stroke-weight 2)
+
+
 
       (dotimes [n (count @chain)]
         (q/stroke (* 25 n) 255 255)
@@ -64,11 +66,11 @@
                     xoffset 0]
                                         ;            (q/line (+ xoffset (* 100 m)) (+ 500  y) (* n 100) (+ xoffset  (* 100 m)) 500 (* n 100))
                                         ; (case)
-                (q/fill 255 22 0 (- 255 (* n 5)) )
+                (q/fill 25 2 (* 3 peak) (- 255 (* n 5)) )
                 ;;              (q/no-fill)
                 (q/with-rotation [(* (main.kaos/tr) 2) 0 1 0])
                 (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
-                  (q/box (* 1 (* (tr) s)) )))
+                  (q/box (* 10 (* (tr) a)) )))
               )))
         )))
 
@@ -114,7 +116,7 @@
         q 0
         r 0
         s (get channel :peak)
-        ttl 100]
+        ttl 10]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

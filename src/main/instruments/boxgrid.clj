@@ -60,7 +60,7 @@
         q (get channel :a)
         r (get channel :b)
         s (+ 50 (rand-int 50))
-        ttl (+ 10  (int (/  (get channel :d) 2)))]
+        ttl (+ 100  (int (/  (get channel :d) 2)))]
 ;    (println ttl)
     (if (= 0 (count @viz))
       (reset! viz []))

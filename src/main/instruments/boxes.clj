@@ -23,19 +23,23 @@
   (let [rx x
         ry y
         rz z
-        cubesize   (*  ( - freq 100) 10)
+        cubesize   (*  ( - freq 100) 100)
         cubespace 50]
 
 
    ; (q/with-translation [(* rx (+ cubesize cubespace)) (* ry (+ cubesize cubespace) )  (* rz (+ cubesize cubespace) )])
 
-    (q/with-rotation [ (rand-int 360) 5 0 1]
-      (q/fill 25 (rand-int 255) 100 (* 10 ttl))
+    (q/with-rotation [ (mod  beat 8) 1  0 1]
+
                                         ; (q/box cubesize (get channel :freq) 100 )
       (q/stroke 25)
       (q/stroke-weight 10)
       (q/with-translation [(q/random ( q/width )) (q/random (q/height)) (q/random 100) ]
-        (q/box (/ freq 2 ))))
+        (dotimes [n 20]
+          (q/fill 25 (rand-int 255) (rand-int  255)  255)
+          (q/rect (* freq n) 0 (* (mod beat 4)  28) (* peak  25) ))
+    ;    (q/box 1000 (/ freq 20 ) 2000)
+        ))
         )
   )
 
