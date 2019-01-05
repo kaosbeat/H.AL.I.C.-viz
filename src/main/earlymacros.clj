@@ -8,9 +8,10 @@
 
 ;(def ch1 (atom {:id 1 :freq 0.0 :peak 0.0 :beatnumber 0 :x 0 :y 0 :z 0 :a 0 :b 0 :c 0 :d 0 :rendering true :vizsynth box/add :render box/render :update box/updateviz}))
 ;;helpers
-(def tr (seq->stream (cycle-between 0 0.5 0.01 0.01)))
+(def tr (seq->stream (cycle-between 0 1 0.01 1)))
 (def camrot (seq->stream (cycle-between 0 180 0.01)))
-
+(def pirad (seq->stream (cycle-between 0 6.2830 0.02)))
+(def zerorounddeg (seq->stream (cycle-between 0 360 0.1 360 )))
 (def binary01 (seq->stream (cycle-between 0 1 1)))
 
 

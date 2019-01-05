@@ -21,6 +21,7 @@
             [main.instruments.superstack :as superstack]
             [main.instruments.spaceshape :as spaceshape]
             [main.instruments.squaretunnel :as squaretunnel]
+            [main.instruments.boostbox :as boostbox]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.macros]
@@ -85,9 +86,10 @@
   (updatestuff)                                        ;updatestufff
   (renderstuff)
  ;; (q/perspective)
-  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
-  (q/camera)
 
+;(q/camera)
+;  (q/camera 1000 600 2000 1000 600 20 0 (tr) 0)
+  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
 ;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
   (.sendScreen @server )
 

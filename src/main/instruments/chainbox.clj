@@ -1,7 +1,9 @@
 (ns main.instruments.chainbox
   (:require
    [main.util :refer [drop-nth]]
-   [quil.core :as q]))
+   [main.kaos :refer [zerorounddeg tr]]
+   [quil.core :as q])
+  )
 
 
 (def viz (atom []))
@@ -35,38 +37,40 @@
   "main draw for this visual instrument"
                                         ;  (println "drawing")
 ;  (println (addLayer 100 4))
-  (let [ measure (mod beat 4)]
+  (q/with-translation [(/  (q/width) 2) (/ (q/height) 2) (* 500 1)]
+    (q/with-rotation  [(q/radians (zerorounddeg)) 0 0 1 ]
+      (let [ measure (mod beat 4)]
 
-    ;(println peak)
-    (q/stroke-weight (/ peak 10))
-    (q/stroke 225 255 255)
-    ;; (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
-    ;;   (case measure
-    ;;     0 (q/box 10 10 10 )
-    ;;     1 (q/box 1000 100 10)
-    ;;     2 (q/box 10 1000 10)
-    ;;     3 (q/box 10 10 1000)
-    ;;     ))
-    )
-  (q/stroke-weight 1)
-  (q/with-rotation [(main.kaos/camrot)  0 0 1])
-  (dotimes [n (count @chain)]
-    (q/stroke (* 255 n) 0 0)
+                                        ;(println peak)
+        (q/stroke-weight (/ peak 10))
+        (q/stroke 225 255 255)
+        ;; (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
+        ;;   (case measure
+        ;;     0 (q/box 10 10 10 )
+        ;;     1 (q/box 1000 100 10)
+        ;;     2 (q/box 10 1000 10)
+        ;;     3 (q/box 10 10 1000)
+        ;;     ))
+        )
+      (q/stroke-weight 2)
+
+      (dotimes [n (count @chain)]
+        (q/stroke (* 25 n) 255 255)
                                         ;(println n)
-    (let [ylist (nth @chain n)]
-      (q/with-translation [-200 -200 (* -100 (count @chain))]
-        (dotimes [m (count ylist)]
-          (let [y (nth ylist m)
-                xoffset 0]
+        (let [ylist (nth @chain n)]
+          (q/with-translation [-200 -200 (* -100 (count @chain))]
+            (dotimes [m (count ylist)]
+              (let [y (nth ylist m)
+                    xoffset 0]
                                         ;            (q/line (+ xoffset (* 100 m)) (+ 500  y) (* n 100) (+ xoffset  (* 100 m)) 500 (* n 100))
                                         ; (case)
-            (q/fill 255 0 0 (- 255 (* n 5)) )
-            ;;              (q/no-fill)
-            (q/with-rotation [(* (main.kaos/tr) 0) 0 1 0])
-            (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
-              (q/box s )))
-          )))
-    )
+                (q/fill 255 22 0 (- 255 (* n 5)) )
+                ;;              (q/no-fill)
+                (q/with-rotation [(* (main.kaos/tr) 2) 0 1 0])
+                (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
+                  (q/box (* 1 (* (tr) s)) )))
+              )))
+        )))
 
   )
 

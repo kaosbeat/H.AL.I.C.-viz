@@ -11,15 +11,15 @@
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
 ; (println "drawing " id  x y z freq beat)
-  (dotimes [u 10]
+  (dotimes [u 20]
     (dotimes [v 10]
-      (q/with-translation [(* 150 u) 0 0]
-        (q/with-translation [0 ( * 150 v) 0]
-          (q/fill 25 93 53)
-          (q/with-rotation [ freq 1 1 0]
-            (q/stroke-weight 10)
-            (q/stroke 25 freq 0)
-            (q/box (* a peak)))))))
+      (q/with-translation [(* 150 u) 0 0])
+      (q/with-translation [(* (+ 150 b) u ) ( * (+ 150 b ) v) 0]
+        (q/fill 25 93 53)
+        (q/with-rotation [ freq 0 0 0]
+          (q/stroke-weight 10)
+          (q/stroke 25 freq 0)
+          (q/box (* a peak))))))
   )
 
 

@@ -14,12 +14,13 @@
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   (dotimes [n (mod beat 8 )]
-    (q/with-translation [ (+ 400 (* freq n)) 100 -1000]
-      (q/with-rotation [freq 0 n 2]
-        (q/stroke-weight 10)
-        (q/stroke 134 0 234)
-        (q/fill 255 259 0 )
-        (q/box ( * freq n)))))
+    (q/with-translation [ (+ 400 (* a n)) 300 -1000]
+      (q/with-rotation [n 0 n 2]
+        (q/with-translation [peak 0 0]
+          (q/stroke-weight 10)
+          (q/stroke 134 0 234)
+          (q/fill 255 259 0 120 )
+          (q/box (* (/ a 50) ( * 50 n)))))))
 
   )
 
@@ -52,13 +53,13 @@
   )
 
 (defn add [channel]
-  (let [ x 0
-        y 0
-        z 0
-        q 0
-        r 0
-        s (+ 50 (rand-int 50))
-        ttl 10]
+  (let [ x  0
+        y   0
+        z   0
+        q   0
+        r   0
+        s   (+ 50 (rand-int 50))
+        ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

@@ -1,7 +1,7 @@
 (ns main.instruments.squaretunnel
   (:require
    [main.util :refer [drop-nth]]
-   [main.kaos :refer [pirad]]
+   [main.kaos :refer [pirad tr zerorounddeg]]
    [quil.core :as q]))
 
 
@@ -11,7 +11,7 @@
 
 (def tunneldepth (atom 60))
 (def tunnelsize (atom 2000))
-
+(def tunnelzdepth (atom 20000))
 
 
 (defn lineartunnel [tunnelwidth x y z a b c d q r s]
@@ -27,7 +27,7 @@
 
 (defn boxextruder [x y z a b c d q r s ttl ]
   (dotimes [xpos @tunneldepth]
-        (dotimes [ypos 6]
+        (dotimes [ypos 10]
           (if (= x xpos)
             (if (= y ypos)
               (do
@@ -56,61 +56,131 @@
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
-  (comment  (let [ measure (mod beat 4)]
-              (q/fill 255 0 0)
-              (q/stroke 225 0 255)
-              (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
-                (case measure
-                  0 (q/box 10 10 10 )
-                  1 (q/box 1000 10 10)
-                  2 (q/box 10 1000 10)
-                  3 (q/box 10 10 1000)
-                  )) ))
+
+
 
 
   ;;total rotation (to tweak)
+  (q/with-translation [(/ (q/width) 2) (/ (q/height) 2) ]
+    (q/with-rotation  [(q/radians (zerorounddeg)) 0 0 1 ]
+      (q/with-translation [(* -1 (/ @tunnelsize 2)) (* -1 (/ @tunnelsize 2)) 0]
+        (q/fill 255 0 0)
+                                        ; (q/rect 0 0 2000 2000)
 
-  (q/with-rotation  [(pirad) 0 0 0 ]
-    (q/with-translation [400 400 0]
+
 
   ;;;left plane
-      (q/with-rotation [1.57 0 1 0]
-                                        ;(boxextruder x y (* -1  z) a b c d q r s ttl)
-                                        ;    (q/rect 0 0 10000 @tunnelsize )
-                                        ; (noiseplane x y z a b c d q r s)
-        (lineartunnel 6 x y z a b c d q r s)
-        )
-
-
-      ;; right plane
-      (q/with-translation  [@tunnelsize 0 0]
         (q/with-rotation [1.57 0 1 0]
-                                        ;     (q/rect 0 0 10000 @tunnelsize )
-          (lineartunnel 6 x y z a b c d q r s)
+                                        ;(boxextruder x y (* -1  z) a b c d q r s ttl)
+          ;(q/rect 0 0 10000 @tunnelsize )
+          (dotimes [n 200]
+            (q/fill (rand-int 255) (rand-int 255) 255 )
+            (q/rect  (+ (* 1000 (tr) )  (* n 100)) 0 20 @tunnelsize  )
+            (q/fill 255 128)
+            )
                                         ; (noiseplane x y z a b c d q r s)
-          ))
+;          (lineartunnel 6 x y z a b c d q r s)
+          )
+
+
+        ;; right plane
+
+
+        (q/with-translation  [@tunnelsize 0 0]
+          (q/with-rotation [1.57 0 1 0]
+           ; (q/rect 0 0 @tunnelzdepth @tunnelsize )
+            (lineartunnel 8 x y z a b c d q r s)
+                                        ; (noiseplane x y z a b c d q r s)
+            (boxextruder x y (* 1  z) a b c d q r s ttl)
+            ))
 
   ;;;top plane
-      (q/with-translation  [@tunnelsize 0 0]
-        (q/with-rotation [-1.57 1 0 0 ]
-          (q/with-rotation [1.57  0 0 1]
-                                        ; (q/rect 0 0 10000 @tunnelsize )
+
+
+        (q/with-translation  [@tunnelsize 0 0]
+          (q/with-rotation [-1.57 1 0 0 ]
+            (q/with-rotation [1.57  0 0 1]
+           ;   (q/rect 0 0 @tunnelzdepth @tunnelsize )
                                         ;  (noiseplane x y z a b c d q r s)
-            (lineartunnel 6 x y z a b c d q r s)
-            )
-          ))
+              (lineartunnel 10 x y z a b c d q r s)
+              )
+            ))
 
 ;;; bottom plane
 
-      (q/with-translation  [@tunnelsize @tunnelsize 0]
-        (q/with-rotation [-1.57 1 0 0]
-          (q/with-rotation [1.57 0 0 1]
-                                        ;       (q/rect 0 0 10000 @tunnelsize)
-                                        ;        (lineartunnel 20 x y z a b c d q r s)
-            (noiseplane x y z a b c d q r s)
+
+
+        (q/with-translation  [@tunnelsize @tunnelsize 100]
+          (q/with-rotation [-1.57 1 0 0]
+            (q/with-rotation [1.57 0 0 1]
+              (lineartunnel 20 x y z a b c d q r s)
+              (noiseplane x y z a b c d q r s)
                                         ;(boxextruder x y (* 1  z) a b c d q r s ttl)
+              )
+            ))))))
+
+
+(defn channeldraw [a b c d freq peak beat id]
+  "main draw for this visual instrument"
+
+
+
+
+  ;;total rotation (to tweak)
+  (q/with-translation [(/ (q/width) 2) (/ (q/height) 2) ]
+    (q/with-rotation  [(q/radians (zerorounddeg)) 0 0 1 ]
+      (q/with-translation [(* -1 (/ @tunnelsize 2)) (* -1 (/ @tunnelsize 2)) 0]
+        ;(q/no-fill)
+                                        ; (q/rect 0 0 2000 2000)
+
+
+
+  ;;;left plane
+        (q/with-rotation [1.57 0 1 0]
+                                        ;(boxextruder x y (* -1  z) a b c d q r s ttl)
+          ;(q/rect 0 0 10000 @tunnelsize )
+          (dotimes [n 200]
+            (q/fill 255 0 0 50 )
+            (q/rect  (+ (* 100 (tr) )  (* n 100)) 0 20 @tunnelsize  )
+            ;(q/fill 255 128)
             )
-          )))))
+                                        ; (noiseplane x y z a b c d q r s)
+                                        ;          (lineartunnel 6 x y z a b c d q r s)
+
+          )
+
+  ;; right plane
+
+        (q/with-translation  [@tunnelsize 0 0]
+          (q/with-rotation [1.57 0 1 0]
+            (q/rect 0 0 @tunnelzdepth @tunnelsize )
+           ; (lineartunnel 6 x y z a b c d q r s)
+                                        ; (noiseplane x y z a b c d q r s)
+            ))
+
+  ;;;top plane
+        (q/with-translation  [@tunnelsize 0 0]
+          (q/with-rotation [-1.57 1 0 0 ]
+            (q/with-rotation [1.57  0 0 1]
+              (q/rect 0 0 @tunnelzdepth @tunnelsize )
+                                       ;  (noiseplane x y z a b c d q r s)
+            ;  (lineartunnel 6 x y z a b c d q r s)
+              )
+            ))
+
+;;; bottom plane
+
+
+
+        (q/with-translation  [@tunnelsize @tunnelsize 0]
+          (q/with-rotation [-1.57 1 0 0]
+            (q/with-rotation [1.57 0 0 1]
+              (q/rect 0 0 @tunnelzdepth @tunnelsize)
+                                        ;        (lineartunnel 20 x y z a b c d q r s)
+              ;(noiseplane x y z a b c d q r s)
+
+              )
+            ))))))
 
 
 
@@ -118,30 +188,37 @@
 
 (defn render [channel]
   ;;; if channeldata
-  (q/perspective)
+                                        ; (q/perspective)
+;  (q/rect 100 100 1000 1000)
   (if (get  channel :rendering)
-    (dotimes [n (count @viz)]
-;;      ( println n channel)
-      (let [x (get (nth @viz n) :x)
-            y (get (nth @viz n) :y)
-            z (get (nth @viz n) :z)
-            q (get (nth @viz n) :q)
-            r (get (nth @viz n) :r)
-            s (get (nth @viz n) :s)
-            ttl (get (nth @viz n) :ttl)
-            a (get channel :a)
-            b (get channel :b)
-            c (get channel :c)
-            d (get channel :d)
+    (do
+         (let [  a (get channel :a)
+                 b (get channel :b)
+                 c (get channel :c)
+                 d (get channel :d)
 
-            freq (get channel :freq)
-            peak (get channel :peak)
-            beat (get channel :beatnumber)
-            id (get channel :id)
-            ]
-        (draw x y z q r s ttl a b c d freq peak beat id)
-        )
-      ))
+                 freq (get channel :freq)
+                 peak (get channel :peak)
+                 beat (get channel :beatnumber)
+                 id (get channel :id)
+                 ]
+            (channeldraw a b c d freq peak beat id)
+             (dotimes [n (count @viz)]
+           ;;      ( println n channel)
+               (let [x (get (nth @viz n) :x)
+                 y (get (nth @viz n) :y)
+                 z (get (nth @viz n) :z)
+                 q (get (nth @viz n) :q)
+                 r (get (nth @viz n) :r)
+                 s (get (nth @viz n) :s)
+                 ttl (get (nth @viz n) :ttl)
+                ]
+                 (draw x y z q r s ttl a b c d freq peak beat id)
+                 )
+               )
+             )
+         )
+    )
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
   )
 
@@ -153,7 +230,7 @@
         r [
            (rand-int 255) (rand-int 255) (rand-int 255) ]
         s (+ 150 (rand-int 50))
-        ttl 100]
+        ttl 10]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
