@@ -9,7 +9,8 @@
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
-
+  (q/stroke 32 23 3)
+  (q/stroke-weight 1)
   (q/fill 255 255 0)
   ;; (q/with-translation [500 0 0]
   ;;   (q/with-rotation [ (q/random 100) 0 0 1]

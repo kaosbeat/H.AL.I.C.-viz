@@ -24,7 +24,7 @@
         ry y
         rz z
         cubesize   (*  ( - freq 100) 100)
-        cubespace 50]
+        cubespace 250]
 
 
    ; (q/with-translation [(* rx (+ cubesize cubespace)) (* ry (+ cubesize cubespace) )  (* rz (+ cubesize cubespace) )])

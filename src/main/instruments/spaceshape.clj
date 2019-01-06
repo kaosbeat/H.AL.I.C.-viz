@@ -13,7 +13,7 @@
   "main draw for this visual instrument"
                                         ; (println "drawing " id  x y z freq beat)
   (dotimes [n 0]
-    (q/with-translation [(* (rand-int 100) 20) (rand-int  1200) z]
+    (q/with-translation [(* (rand-int 100) 200) (rand-int  1200) z]
       (q/with-rotation [ (* a (mod beat 8)) (mod beat 4) 1 0]
         (q/fill (rand-int 255)  255 0 100)
         (q/stroke-weight d)
@@ -24,19 +24,20 @@
 
 (q/fill b 3 232 20)
   (q/stroke 255 0 0)
-  (q/stroke-weight 2)
-
-  (q/with-translation [(+ 800 (rand-int 200)) 400 0]
-    (q/begin-shape)
+  (q/stroke-weight 20)
+  (q/with-rotation [(q/radians z) 0 0 0]
+    (dotimes [p 2]
+      (q/with-translation [(+  ( * p  20) (rand-int 100)) 600 0]
+        (q/begin-shape)
                                         ;top
-    (let [divs 8
-          div (/ 360 divs)
-          r (* 5 peak)]
-      (dotimes [n divs]
-        (let [xp (* r (q/cos (q/radians  (* n div))))
-              yp (* r (q/sin (q/radians  (* n div))))
-              zp z]
-          (q/vertex xp yp zp ))))
+        (let [divs ( + 3 (mod beat 8))
+              div (/ 360 divs)
+              r (* 2 freq)]
+          (dotimes [n divs]
+            (let [xp (* r (q/cos (q/radians  (* n div))))
+                  yp (* r (q/sin (q/radians  (* n div))))
+                  zp z]
+              (q/vertex xp yp zp ))))
 
 
                                         ;(q/vertex 50 400 z)
@@ -45,7 +46,7 @@
                                         ;(q/vertex 300 200 z)
                                         ;(q/vertex 250 380 z)
                                         ;(q/end-contour)
-    (q/end-shape :close))
+        (q/end-shape :close))))
   )
 
 
@@ -80,8 +81,8 @@
   (let [beat (mod (get channel :beatnumber) 4)
         x 50
         y 100
-        z 20
-        ttl 100]
+        z (rand-int 360)
+        ttl 10]
     (case beat
       0 (do  (* x -1) (* y -1))
       1 (* x -1)

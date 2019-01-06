@@ -11,58 +11,57 @@
 (def rendering (atom false))
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
-;  (q/camera 500 500 0 0 1000 0 1 0)
-  (q/camera)
-  (dotimes [n (mod beat 40 )]
+
+  (dotimes [n (mod beat 4 )]
 
     (q/with-translation [(+ 65 (* 10 (+ ttl (* (tr) b)))) (+ 400  (* n 100)) 0]
       (q/with-rotation [beat 1 n 5 ]
         (q/with-rotation [(* 4 a) 0 (* 0.4  q) 0]
-          (q/fill 25 233 23 (/ ttl 1) )
+          (q/fill q r 23  )
           (q/stroke-weight 3)
-          (q/stroke 1 (q/random  123) 290 100)
-          (dotimes [y 3]
-            (q/with-translation [200 (* n 200) 0]
-              (q/box 40 (* y 120) 100 )))))))
+;          (q/stroke 1 (q/random  123) 290 100)
+          (dotimes [y 30]
+            (q/with-translation [200 (* y 200) 0]
+              (q/box 40 (* y 12) 100 )))))))
+  )
 
 
-
-  (defn render [channel]
+(defn render [channel]
   ;;; if channeldata
-    (if (get  channel :rendering)
-      (dotimes [n (count @viz)]
-        ;;      ( println n channel)
-        (let [x (get (nth @viz n) :x)
-              y (get (nth @viz n) :y)
-              z (get (nth @viz n) :z)
-              q (get (nth @viz n) :q)
-              r (get (nth @viz n) :r)
-              s (get (nth @viz n) :s)
-              ttl (get (nth @viz n) :ttl)
-              a (get channel :a)
-              b (get channel :b)
-              c (get channel :c)
-              d (get channel :d)
+  (if (get  channel :rendering)
+    (dotimes [n (count @viz)]
+;;      ( println n channel)
+      (let [x (get (nth @viz n) :x)
+            y (get (nth @viz n) :y)
+            z (get (nth @viz n) :z)
+            q (get (nth @viz n) :q)
+            r (get (nth @viz n) :r)
+            s (get (nth @viz n) :s)
+            ttl (get (nth @viz n) :ttl)
+            a (get channel :a)
+            b (get channel :b)
+            c (get channel :c)
+            d (get channel :d)
 
-              freq (get channel :freq)
-              peak (get channel :peak)
-              beat (get channel :beatnumber)
-              id (get channel :id)
-              ]
-          (draw x y z q r s ttl a b c d freq peak beat id)
-          )
-        ))
-    (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
-    ))
+            freq (get channel :freq)
+            peak (get channel :peak)
+            beat (get channel :beatnumber)
+            id (get channel :id)
+            ]
+        (draw x y z q r s ttl a b c d freq peak beat id)
+        )
+      ))
+  (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing boxgrid" (get  channel :id) ) 50 (* (get  channel :id) 100))))
+  )
 
 (defn add [channel]
   (let [ x 0
         y 0
         z 0
-        q 0
-        r 0
+        q (rand-int 255)
+        r (rand-int 255)
         s (+ 50 (rand-int 50))
-        ttl 100]
+        ttl 10]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

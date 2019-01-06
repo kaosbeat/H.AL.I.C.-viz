@@ -46,8 +46,11 @@
     ;;     3 (q/box 10 10 1000)
     ;;     ))
     (q/fill r peak 0)
-    (q/with-translation [(+  500 x)  (+ 300 y) -1200]
-      (q/box (* r 3) (/ freq 10) (* 20 peak) ))
+
+    (q/with-translation [(-  1900  (* 3 x))  (+ 300 y) -1200]
+
+      (q/with-rotation [x 0 0 1]
+        (q/box (* r 1) (/ freq 10) (* 20 peak) )))
     )
   )
 
@@ -117,7 +120,7 @@
                                         ; mod teh beat to the vizbeat!!!
         (if (= (mod (get channel :beatnumber) 4) (mod  (get (get @viz n) :beat) 4))
            ; (= (mod (get channel :beatnumber) 4) (mod  (get viz :beat) 4))
-         (swap! viz update-in [n :y] (fn [y] (- y (rand-int 10)))  )
+         (swap! viz update-in [n :y] (fn [y] (- y (rand-int 100)))  )
 ;
         ; (+ 1 1)
          ))

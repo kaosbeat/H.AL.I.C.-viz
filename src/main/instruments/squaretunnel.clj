@@ -18,7 +18,7 @@
 (dotimes [xpos @tunneldepth]
       (if (= x xpos)
         (q/fill 255)
-        (q/fill (nth r 0) 255) )
+        (q/fill (rand-int 255 ) 234 (nth r 0) 255) )
       (dotimes [ypos tunnelwidth]
         (if (= y ypos)
           (q/with-translation [(* xpos  250) (* ypos 250) 0]
@@ -32,6 +32,7 @@
             (if (= y ypos)
               (do
                 (q/fill (nth r 0) (nth r 1) (nth r 2) (* 2 ttl) )
+                (q/fill 34 (rand-int  255) (rand-int 255) 255)
                 (let [offset  (/ (- 250 s) 4)
                       boxx (+ offset  (/ s 2))
                       boxy (+ offset  (/ s 2))
@@ -43,7 +44,7 @@
                     (q/stroke-weight 2)
                                         ;(q/rect 0 0 s s)
                     (q/with-translation [boxx boxy boxz]
-                      (q/box s s z))
+                      (q/box (* 3 ttl ) (* 5 ttl)  z))
                     ))))))))
 
 (defn noiseplane [x y z a b c d q r s]
@@ -75,10 +76,10 @@
           ;(q/rect 0 0 10000 @tunnelsize )
           (dotimes [n 200]
             (q/fill (rand-int 255) (rand-int 255) 255 )
-            (q/rect  (+ (* 1000 (tr) )  (* n 100)) 0 20 @tunnelsize  )
+;            (q/rect  (+ (* 1000 (tr) )  (* n 100)) 0 20 @tunnelsize  )
             (q/fill 255 128)
             )
-                                        ; (noiseplane x y z a b c d q r s)
+                                         (noiseplane x y z a b c d q r s)
 ;          (lineartunnel 6 x y z a b c d q r s)
           )
 
@@ -91,6 +92,7 @@
            ; (q/rect 0 0 @tunnelzdepth @tunnelsize )
             (lineartunnel 8 x y z a b c d q r s)
                                         ; (noiseplane x y z a b c d q r s)
+            (q/fill 255 255 0)
             (boxextruder x y (* 1  z) a b c d q r s ttl)
             ))
 
@@ -101,7 +103,7 @@
           (q/with-rotation [-1.57 1 0 0 ]
             (q/with-rotation [1.57  0 0 1]
            ;   (q/rect 0 0 @tunnelzdepth @tunnelsize )
-                                        ;  (noiseplane x y z a b c d q r s)
+                 (boxextruder x y (* -1  z) a b c d q r s ttl)                       ;  (noiseplane x y z a b c d q r s)
               (lineartunnel 10 x y z a b c d q r s)
               )
             ))
@@ -113,9 +115,9 @@
         (q/with-translation  [@tunnelsize @tunnelsize 100]
           (q/with-rotation [-1.57 1 0 0]
             (q/with-rotation [1.57 0 0 1]
-              (lineartunnel 20 x y z a b c d q r s)
-              (noiseplane x y z a b c d q r s)
-                                        ;(boxextruder x y (* 1  z) a b c d q r s ttl)
+              (lineartunnel 10 x y z a b c d q r s)
+              ;(noiseplane x y z a b c d q r s)
+              (boxextruder x y (* 1  z) a b c d q r s ttl)
               )
             ))))))
 
@@ -141,7 +143,7 @@
           ;(q/rect 0 0 10000 @tunnelsize )
           (dotimes [n 200]
             (q/fill 255 0 0 50 )
-            (q/rect  (+ (* 100 (tr) )  (* n 100)) 0 20 @tunnelsize  )
+;            (q/rect  (+ (* 100 (tr) )  (* n 100)) 0 20 @tunnelsize  )
             ;(q/fill 255 128)
             )
                                         ; (noiseplane x y z a b c d q r s)
@@ -153,16 +155,16 @@
 
         (q/with-translation  [@tunnelsize 0 0]
           (q/with-rotation [1.57 0 1 0]
-            (q/rect 0 0 @tunnelzdepth @tunnelsize )
+ ;           (q/rect 0 0 @tunnelzdepth @tunnelsize )
            ; (lineartunnel 6 x y z a b c d q r s)
-                                        ; (noiseplane x y z a b c d q r s)
+            ;(noiseplane x y z a b c d q r s)
             ))
 
   ;;;top plane
         (q/with-translation  [@tunnelsize 0 0]
           (q/with-rotation [-1.57 1 0 0 ]
             (q/with-rotation [1.57  0 0 1]
-              (q/rect 0 0 @tunnelzdepth @tunnelsize )
+ ;             (q/rect 0 0 @tunnelzdepth @tunnelsize )
                                        ;  (noiseplane x y z a b c d q r s)
             ;  (lineartunnel 6 x y z a b c d q r s)
               )
@@ -175,7 +177,7 @@
         (q/with-translation  [@tunnelsize @tunnelsize 0]
           (q/with-rotation [-1.57 1 0 0]
             (q/with-rotation [1.57 0 0 1]
-              (q/rect 0 0 @tunnelzdepth @tunnelsize)
+;              (q/rect 0 0 @tunnelzdepth @tunnelsize)
                                         ;        (lineartunnel 20 x y z a b c d q r s)
               ;(noiseplane x y z a b c d q r s)
 
@@ -230,7 +232,7 @@
         r [
            (rand-int 255) (rand-int 255) (rand-int 255) ]
         s (+ 150 (rand-int 50))
-        ttl 10]
+        ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

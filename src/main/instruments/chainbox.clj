@@ -42,7 +42,7 @@
       (let [ measure (mod beat 4)]
 
                                         ;(println peak)
-        (q/stroke-weight (/ peak 1))
+        (q/stroke-weight (/ peak 10))
         (q/stroke 225 255 255)
         ;; (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
         ;;   (case measure
@@ -68,7 +68,7 @@
                                         ; (case)
                 (q/fill 25 2 (* 3 peak) (- 255 (* n 5)) )
                 ;;              (q/no-fill)
-                (q/with-rotation [(* (main.kaos/tr) 2) 0 1 0])
+                (q/with-rotation [(* (main.kaos/tr) 2) 0 0 0])
                 (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
                   (q/box (* 10 (* (tr) a)) )))
               )))
