@@ -42,15 +42,16 @@
 
 (defn setup []
   (q/frame-rate 30)
-  (reset! server (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "Amsterdam Dance Event"))
+  (reset! server (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "H.AL.I.C. viz"))
   (def w (q/width))
   (def h (q/height))
   (def cameraZ (/ (/ h 2) (q/tan (* 3.1415 (/ 60 360)  ) )  ))
 )
 
 
-(defn updatestate [state]
-)
+(defn updatestate [state])
+
+
 
 
 
