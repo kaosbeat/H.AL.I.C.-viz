@@ -23,6 +23,7 @@
             [main.instruments.squaretunnel :as squaretunnel]
             [main.instruments.boostbox :as boostbox]
             [main.instruments.piracetambd :as piracetambd]
+            [main.instruments.piracetamsd :as piracetamsd]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.kaosmidifilters]

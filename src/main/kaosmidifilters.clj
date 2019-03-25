@@ -63,7 +63,9 @@
                        0 (do
                            (piracetambd/add ch1)
                            (swap! midibd assoc :velocity vel :beat (inc (get @midibd :beat))))
-                       1 (swap! midisd assoc :velocity vel)
+                       1 (do
+                           (piracetamsd/add ch2)
+                           (swap! midisd assoc :velocity vel))
                        2 (swap! midich assoc :velocity vel)
                        3 (swap! midioh assoc :velocity vel)
 
@@ -133,10 +135,13 @@
                     14 (do (swap! midisd assoc :pitch data2) (swap! ch2 assoc :a data2))
                     30 (do (swap! midisd assoc :decay data2) (swap! ch2 assoc :b data2))
                     50 (do (swap! midisd assoc :noise data2) (swap! ch2 assoc :c data2) )
-                    78 (do (swap! midisd assoc :gain data2) (swap! ch2 assoc :d data2)))
+                    78 (do (swap! midisd assoc :gain data2) (swap! ch2 assoc :d data2))
+                    (println "unchanneled midi CC data")
+                    )
 
 
-                (+ 1 1))
+
+                (do (println "unchanneled CC midi Channel")  (+ 1 1)))
 
 
               )

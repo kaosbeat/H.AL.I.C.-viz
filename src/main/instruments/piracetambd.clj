@@ -18,9 +18,9 @@
           spready   (+ y (rand-int (* (* c 5) (/ b 127))))]
       (q/with-translation [ spreadx spready  0]
         (q/with-rotation [beat beat 1 beat]
-          (q/fill (nth color 0)(nth color 1)(nth color 2) (+ 62 ttl))
+          (q/fill (nth color 0)(nth color 1)(nth color 2) (* (+ 62 ttl)  (/ d 127)))
           (q/stroke-weight 3)
-          (q/stroke 255)
+          (q/stroke 255 (* 2 d))
           (q/box (/ 10000 (* (+ 20 b) 1)))))))
   )
 
