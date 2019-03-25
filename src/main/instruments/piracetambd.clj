@@ -9,16 +9,19 @@
 
 
 
-(defn draw [x y z a b c d freq peak beat id ttl]
+(defn draw [x y z a b c d freq peak beat id ttl color]
   "main draw for this visual instrument"
                                         ; (println "drawing " id  x y z freq beat)
-  (dotimes [n (- 20 ttl)]
-    (q/with-translation [(+ x (rand-int  (* 10 n))) (+ x (rand-int  (* 10 )))  0 ]
-      (q/with-rotation [ 5 (mod beat 4) 1 0]
-        (q/fill a 255 0 (* 3 y))
-        (q/stroke-weight 10)
-        (q/stroke 25 freq 0)
-        (q/box (+ 1 (* 5 ttl))))))
+  (dotimes [n (int 6)]
+    (let [size (* (/ b 10) 1)
+          spreadx (+ x (rand-int (* (* c 5) (/ b 127))))
+          spready   (+ y (rand-int (* (* c 5) (/ b 127))))]
+      (q/with-translation [ spreadx spready  0]
+        (q/with-rotation [beat beat 1 beat]
+          (q/fill (nth color 0)(nth color 1)(nth color 2) (+ 62 ttl))
+          (q/stroke-weight 3)
+          (q/stroke 255)
+          (q/box (/ 10000 (* (+ 20 b) 1)))))))
   )
 
 
@@ -31,19 +34,19 @@
             y (get (nth @viz n) :y)
             z (get (nth @viz n) :z)
             ttl (get (nth @viz n) :ttl)
+            color (get (nth @viz n) :color)
 
             a (get (nth @viz n) :a)
-            ;a (get channel :a)
-            b (get channel :b)
-            c (get channel :c)
-            d (get channel :d)
+            b (get (nth @viz n) :b)
+            c (get (nth @viz n) :c)
+            d (get (nth @viz n) :d)
 
             freq (get channel :freq)
             peak (get channel :peak)
-            beat (get @main.kaos/midibd :beat)
+            beat (get (nth @viz n) :beat)
             id (get channel :id)
             ]
-        (draw x y z a b c d freq peak beat id ttl)
+        (draw x y z a b c d freq peak beat id ttl color)
         )
       ))
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing box" (get  channel :id) ) 50 (* (get  channel :id) 100))))
@@ -51,16 +54,23 @@
 
 
 (defn add [channel]
+;  (println channel)
   (let [ x (rand-int 1920)
-        y (rand-int 1080)
+        y  (rand-int 1080)
         z 0
-        a (rand-int 255)
-        ttl 40]
+        a (get @channel :a)
+        b (get @channel :b)
+        c (get @channel :c)
+
+        d (get @channel :d)
+        beat (mod  (get @main.kaos/midibd :beat) 4)
+        color [(rand-int 255) (rand-int 255) (rand-int 255)]
+        ttl (+ 4 (int (/ b 4)))]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
-      (swap! viz conj {:x x :y y :z z :a a :ttl ttl :sticky true })
-      (swap! viz conj {:x x :y y :z z :a a :ttl ttl :sticky false })))
+      (swap! viz conj {:x x :y y :z z :a a :b b :c c :d d :ttl ttl :color color :beat beat :sticky true })
+      (swap! viz conj {:x x :y y :z z :a a :b b :c c :d d :ttl ttl :color color :beat beat :sticky false })))
   )
 
 
@@ -74,7 +84,7 @@
       (do
         (swap! viz update-in [n :ttl] dec)
 ;        (swap! linesquares update-in [n :z] (fn [x] (rand-int -670)))
-        (swap! viz update-in [n :y] (fn [y] (- y 1)))
+        (swap! viz update-in [n :z] (fn [z] (- z 10)))
         )
       ;else mark pill for deletion
       (swap! vizcount conj n)

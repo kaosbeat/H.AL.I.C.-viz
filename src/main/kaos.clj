@@ -108,7 +108,7 @@
   (updatestuff)                                        ;updatestufff
   (renderstuff)
  ;; (q/perspective)
-  (mididebugger state)
+;;  (mididebugger state)
 ;(q/camera)
 ;  (q/camera 1000 600 2000 1000 600 20 0 (tr) 0)
   (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
