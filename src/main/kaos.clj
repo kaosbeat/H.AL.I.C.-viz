@@ -40,12 +40,16 @@
 
 
 (def server (atom nil))
+(def serverch1 (atom nil))
+(def serverch2 (atom nil))
 ;(println (. System getProperty "java.library.path"))
 ;
 
 (defn setup []
   (q/frame-rate 30)
   (reset! server (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "H.AL.I.C. viz"))
+  (reset! serverch1 (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "ch1"))
+  (reset! serverch2 (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "ch2"))
   (def w (q/width))
   (def h (q/height))
   (def cameraZ (/ (/ h 2) (q/tan (* 3.1415 (/ 60 360)  ) ) ))
@@ -93,7 +97,12 @@
 (defn renderstuff []
   (q/background 0)
   ((get @ch1 :render) @ch1)
+
+  ;(q/background 0)
+  (q/fill 255)
+;  (q/rect 0 0 1000 1000)
   ((get @ch2 :render) @ch2)
+ ; (.sendScreen @serverch2)
   ((get @ch3 :render) @ch3)
   ((get @ch4 :render) @ch4)
   ((get @ch5 :render) @ch5)
@@ -107,14 +116,26 @@
 (defn draw [state]
 
   (updatestuff)                                        ;updatestufff
-  (renderstuff)
- ;; (q/perspective)
+                                        ;  (renderstuff)
+
+  (do
+    (q/background 0)
+    ((get @ch1 :render) @ch1)
+    (.sendScreen @serverch1))
+
+  (do
+    (q/backgr [<0;168;49M
+               ] ound 0)
+    ((get @ch2 :render) @ch2)
+    (.sendScreen @serverch2))
+
+;; (q/perspective)
 ;;  (mididebugger state)
 ;(q/camera)
 ;  (q/camera 1000 600 2000 1000 600 20 0 (tr) 0)
   (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
 ;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
-  (.sendScreen @server )
+ (.sendScreen @server )
 
   ;(q/camera)
   )
