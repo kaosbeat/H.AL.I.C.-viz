@@ -13,15 +13,17 @@
   "main draw for this visual instrument"
                                         ; (println "drawing " id  x y z freq beat)
   (dotimes [n (int 6)]
-    (let [size (* (/ b 10) 1)
+    (let [size    (* (* ttl 3.5) 1)
           spreadx (+ x (rand-int (* (* c 5) (/ b 127))))
-          spready   (+ y (rand-int (* (* c 5) (/ b 127))))]
-      (q/with-translation [ spreadx spready  0]
-        (q/with-rotation [0 0 0 0]
-          (q/fill 255 0 0 (* 2 d))
-          (q/line 0 0 1000 1000 )
-          (q/rect 0 0 500 500)
-          ))))
+          spready (+ y (rand-int (* (* c 5) (/ b 127))))]
+
+      (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 0]
+        (q/fill 255 0 0 (- (* 2 d) c) )
+        (q/with-rotation [(q/radians  a) 3 0 0]
+          (q/box (+ (* size (/ a 8)) (rand-int c))  200 200))
+                                        ;          (q/line 0 0 1000 1000 )
+                                        ;         (q/rect 0 0 500 500)
+        )))
   )
 
 
@@ -84,7 +86,7 @@
       (do
         (swap! viz update-in [n :ttl] dec)
 ;        (swap! linesquares update-in [n :z] (fn [x] (rand-int -670)))
-        (swap! viz update-in [n :z] (fn [z] (- z 10)))
+        ;(swap! viz update-in [n :z] (fn [z] (- z 10)))
         )
       ;else mark pill for deletion
       (swap! vizcount conj n)
