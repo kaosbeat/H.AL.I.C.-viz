@@ -27,3 +27,18 @@
   (println "")
  ; (map println instrumentslist)
     )
+
+
+
+
+(def midibd (atom {:velocity 0 :beat 0 :noise 0 :gain 0}))
+(def midisd (atom {:velocity 0}))
+(def midioh (atom {:velocity 0}))
+(def midich (atom {:velocity 0}))
+(def midipc1 (atom {:velocity 0}))
+(def midipc2 (atom {:velocity 0}))
+(def midild1 (atom {:velocity 0}))
+(def midild2 (atom {:velocity 0}))
+(def midichords (atom {:velocity 0}))
+(def midibass (atom {:velocity 0}))
+(def midikeyz (atom {:velocity 0}))

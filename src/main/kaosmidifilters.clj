@@ -34,9 +34,6 @@
 ;;midimaps
 (def midimap0 (atom []))(def midimap1 (atom []))(def midimap2 (atom []))(def midimap3 (atom []))(def midimap4 (atom []))(def midimap5 (atom []))(def midimap6 (atom []))(def midimap7 (atom []))(def midimap8 (atom []))(def midimap9 (atom []) )(def midimap10 (atom []) )
 (def midimap0map (atom []))(def midimap1map (atom []))(def midimap2map (atom []))(def midimap3map (atom []))(def midimap4map (atom []))(def midimap5map (atom []))(def midimap6map (atom []))(def midimap7map (atom []))(def midimap8map (atom []))(def midimap9map (atom []))(def midimap10map (atom []))
-(def midibd (atom []))(def midisd (atom []))(def midioh (atom []))(def midich (atom []))(def midipc1 (atom []))(def midipc2 (atom []))(def midild1 (atom []))(def midild2 (atom []))(def midichords (atom [])) (def midibass (atom []))(def midikeyz (atom []))
-
-
 
 (defn midiparse [midimap midimapatom midimapmap midimapmapatom channelmap channelname channelnamekey note vel ]
   (do
@@ -44,7 +41,7 @@
       (do ;(println midimap8)
         (swap! midimap conj note)
         (reset! midimap (vec (sort @midimap)))
-        (swap! midimapmap conj {:x (rand-int width) :y (rand-int height) :z (rand-int 500) })
+        (swap! midimapmap conj {:x (rand-int (q/width)) :y (rand-int (q/height)) :z (rand-int 500) })
         (reset! channelmap [{:channel channelnamekey} @midimap @midimapmap])
         ) )
 
@@ -57,22 +54,24 @@
               (let [note (:note e)
                     vel  (:velocity e)
                     channel (:channel e)]
+;                (println note vel channel)
 ;                (println channel note vel)
                 (case channel
-                  0 (midiparse midimap0 @midimap0 midimap0map @midimap0map midibd bd :bd note vel )
-                  1 (midiparse midimap1 @midimap1 midimap1map @midimap1map midisd sd :sd note vel )
-                  2 (midiparse midimap2 @midimap2 midimap2map @midimap2map midich ch :ch note vel )
-                  3 (midiparse midimap3 @midimap3 midimap3map @midimap3map midioh oh :oh note vel )
-                  4 (midiparse midimap4 @midimap4 midimap4map @midimap4map midipc1 pc1 :pc1 note vel )
-                  5 (midiparse midimap5 @midimap5 midimap5map @midimap5map midipc2 pc2 :pc2 note vel )
-                  6 (midiparse midimap6 @midimap6 midimap6map @midimap6map midild1 ld1 :ld1 note vel )
-                  7 (midiparse midimap7 @midimap7 midimap7map @midimap7map midild2 ld2 :ld2 note vel )
-                  8 (midiparse midimap8 @midimap8 midimap8map @midimap8map midichords chords :chords note vel )
-                  9 (midiparse midimap9 @midimap9 midimap9map @midimap9map midibass bass :bass note vel )
-                  10 (midiparse midimap10 @midimap10 midimap10map @midimap10map midikeyz keyz :keyz note vel )
-                  15 (if (= note 60) (swap! bbeat inc) (println "ch15 unbeat"))
-                  (+ 1 1)
-                 ; (println "unchannelled midi")
+;;                  10 (midiparse midimap10 @midimap10 midimap10map @midimap10map midikeyz keyz :keyz note vel )
+  ;;                15 (if (= note 60) (swap! bbeat inc) (println "ch15 unbeat"))
+                  14 (case note
+                       0 (do
+                           (piracetambd/add ch1)
+                           (swap! midibd assoc :velocity vel :beat (inc (get @midibd :beat))))
+                       1 (swap! midisd assoc :velocity vel)
+                       2 (swap! midich assoc :velocity vel)
+                       3 (swap! midioh assoc :velocity vel)
+
+                       (+ 1 1)
+                       ;(println "no match")
+                       )
+                 (+ 1 1)
+;                 (println "unchannelled midi")
                   )
 
                 )
@@ -87,17 +86,28 @@
 
              ; (println  note channel)
               (case channel
-                  0 (midiparse midimap0 @midimap0 midimap0map @midimap0map midibd bd :bd note vel )
-                  1 (midiparse midimap1 @midimap1 midimap1map @midimap1map midisd sd :sd note vel )
-                  2 (midiparse midimap2 @midimap2 midimap2map @midimap2map midich ch :ch note vel )
-                  3 (midiparse midimap3 @midimap3 midimap3map @midimap3map midioh oh :oh note vel )
-                  4 (midiparse midimap4 @midimap4 midimap4map @midimap4map midipc1 pc1 :pc1 note vel )
-                  5 (midiparse midimap5 @midimap5 midimap5map @midimap5map midipc2 pc2 :pc2 note vel )
-                  6 (midiparse midimap6 @midimap6 midimap6map @midimap6map midild1 ld1 :ld1 note vel )
-                  7 (midiparse midimap7 @midimap7 midimap7map @midimap7map midild2 ld2 :ld2 note vel )
-                  8 (midiparse midimap8 @midimap8 midimap8map @midimap8map midichords chords :chords note vel )
-                  9 (midiparse midimap9 @midimap9 midimap9map @midimap9map midibass bass :bass note vel )
-                  10 (midiparse midimap10 @midimap10 midimap10map @midimap10map midikeyz keyz :keyz note vel )
+
+                14 (case note
+                       0 (swap! midibd assoc :velocity vel)
+                       1 (swap! midisd assoc :velocity vel)
+                       2 (swap! midich assoc :velocity vel)
+                       3 (swap! midioh assoc :velocity vel)
+
+                       (+ 1 1)
+                       ;(println "no match")
+                       )
+
+                 ; 0 (midiparse midimap0 @midimap0 midimap0map @midimap0map midibd bd :bd note vel )
+                 ; 1 (midiparse midimap1 @midimap1 midimap1map @midimap1map midisd sd :sd note vel )
+                 ; 2 (midiparse midimap2 @midimap2 midimap2map @midimap2map midich ch :ch note vel )
+                 ; 3 (midiparse midimap3 @midimap3 midimap3map @midimap3map midioh oh :oh note vel )
+                 ; 4 (midiparse midimap4 @midimap4 midimap4map @midimap4map midipc1 pc1 :pc1 note vel )
+                 ; 5 (midiparse midimap5 @midimap5 midimap5map @midimap5map midipc2 pc2 :pc2 note vel )
+                 ; 6 (midiparse midimap6 @midimap6 midimap6map @midimap6map midild1 ld1 :ld1 note vel )
+                 ; 7 (midiparse midimap7 @midimap7 midimap7map @midimap7map midild2 ld2 :ld2 note vel )
+                 ; 8 (midiparse midimap8 @midimap8 midimap8map @midimap8map midichords chords :chords note vel )
+                 ; 9 (midiparse midimap9 @midimap9 midimap9map @midimap9map midibass bass :bass note vel )
+                 ; 10 (midiparse midimap10 @midimap10 midimap10map @midimap10map midikeyz keyz :keyz note vel )
 ;                  15 (if (= note 60) (swap! bbeat inc) (println "ch15 unbeat"))
                   (+ 1 1)
                  ; (println "unchannelled midi")
@@ -114,12 +124,17 @@
             (let [data1 (:data1 e)
                   data2 (:data2 e)
                   channel (:channel e)]
-              (if (and  (= channel 2) (= data1 10))
-                (swap! ch assoc :pan data2)
-                )
-              (if (and (= channel 0) (= data1 29))
-                (swap! roadpan assoc :pan data2 )
-                )
+              (case channel
+                0 (case data1
+                    77 (do  (swap! midibd assoc :gain data2) (swap! ch1 assoc :a data2))
+                    13 (do  (swap! midibd assoc :pitch data2)(swap! ch1 assoc :b data2))
+                    29 (do  (swap! midibd assoc :decay data2)(swap! ch1 assoc :c data2))
+                    49 (do (swap! midibd assoc :noise data2)(swap! ch1 assoc :d data2) )
+                    )
+
+                (+ 1 1))
+
+
               )
             )
           ::control-handler
@@ -129,7 +144,7 @@
 
 (defn mididebugger [state]
 
-  (let [w (/ width 16)
+  (let [w (/ (q/width) 16)
         h 100
         s 40
         ts 20]
@@ -137,7 +152,7 @@
 
     (if-not (= (get (:bd state) :velocity) 0)
       (do
-        (q/fill (* 2 (get (:bd state) :velocity)) 0 0 120)
+        (q/fill (* 2 (get (:bd state) :gain)) 0 0 255)
         (q/rect w h s s)
         (q/fill 255)
         (q/text "bd" (+ w 8) (+ h 26) ))
