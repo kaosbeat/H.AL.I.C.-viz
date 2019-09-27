@@ -1,4 +1,4 @@
-(ns main.instruments.piracetambd
+(ns main.instruments.piracetamch
   (:require
    [main.util :refer [drop-nth]]
    [quil.core :as q]))
@@ -11,18 +11,19 @@
 
 (defn draw [x y z a b c d freq peak beat id ttl color]
   "main draw for this visual instrument"
-  (if (> d 0)
                                         ; (println "drawing " id  x y z freq beat)
-    (dotimes [n (int 6)]
-      (let [size (* (/ b 10) 1)
-            spreadx (+ x (rand-int (* (* c 5) (/ b 127))))
-            spready   (+ y (rand-int (* (* c 5) (/ b 127))))]
-        (q/with-translation [ spreadx spready  0]
-          (q/with-rotation [beat beat 1 beat]
-            (q/fill (nth color 0)(nth color 1)(nth color 2) (* (+ 62 ttl)  (/ d 127)))
-            (q/stroke-weight 3)
-            (q/stroke 255 (* 2 d))
-            (q/box (/ 10000 (* (+ 20 b) 1))))))))
+  (dotimes [n (int 6)]
+    (let [size    (* (* ttl 3.5) 1)
+          spreadx (+ x (rand-int (* (* c 5) (/ b 127))))
+          spready (+ y (rand-int (* (* c 5) (/ b 127))))]
+
+      (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 0]
+        (q/fill 255 0 0 (- (* 2 d) c) )
+        (q/with-rotation [(q/radians  a) 3 0 0]
+          (q/box (+ (* size (/ a 8)) (rand-int c))  200 200))
+                                        ;          (q/line 0 0 1000 1000 )
+                                        ;         (q/rect 0 0 500 500)
+        )))
   )
 
 
@@ -48,11 +49,9 @@
             id (get channel :id)
             ]
         (draw x y z a b c d freq peak beat id ttl color)
-
         )
       ))
   (if (get channel :debug) (do  (q/fill 255) (q/text (str "drawing box" (get  channel :id) ) 50 (* (get  channel :id) 100))))
-
   )
 
 
@@ -64,8 +63,9 @@
         a (get @channel :a)
         b (get @channel :b)
         c (get @channel :c)
+
         d (get @channel :d)
-        beat (mod  (get @main.kaos/midibd :beat) 4)
+        beat 3
         color [(rand-int 255) (rand-int 255) (rand-int 255)]
         ttl (+ 4 (int (/ b 4)))]
     (if (= 0 (count @viz))
@@ -86,7 +86,7 @@
       (do
         (swap! viz update-in [n :ttl] dec)
 ;        (swap! linesquares update-in [n :z] (fn [x] (rand-int -670)))
-        (swap! viz update-in [n :z] (fn [z] (- z 10)))
+        ;(swap! viz update-in [n :z] (fn [z] (- z 10)))
         )
       ;else mark pill for deletion
       (swap! vizcount conj n)

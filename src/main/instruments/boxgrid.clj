@@ -7,7 +7,6 @@
 (def vizcount (atom 0))
 (def rendering (atom false))
 
-
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
 ; (println "drawing " id  x y z freq beat)

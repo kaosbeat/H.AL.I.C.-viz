@@ -61,6 +61,7 @@
   ;;                15 (if (= note 60) (swap! bbeat inc) (println "ch15 unbeat"))
                   14 (case note
                        0 (do
+                         ;  (println vel)
                            (piracetambd/add ch1)
                            (swap! midibd assoc :velocity vel :beat (inc (get @midibd :beat))))
                        1 (do
@@ -95,8 +96,8 @@
                        2 (swap! midich assoc :velocity vel)
                        3 (swap! midioh assoc :velocity vel)
 
-                       (+ 1 1)
-                       ;(println "no match")
+                      (+ 1 1)
+                   ;    (println "no match")
                        )
 
                  ; 0 (midiparse midimap0 @midimap0 midimap0map @midimap0map midibd bd :bd note vel )
@@ -122,7 +123,7 @@
 
 (on-event [:midi :control-change]
           (fn [e]
-            (println e)
+           ; (println e)
             (let [data1 (:data1 e)
                   data2 (:data2 e)
                   channel (:channel e)]
@@ -136,12 +137,13 @@
                     30 (do (swap! midisd assoc :decay data2) (swap! ch2 assoc :b data2))
                     50 (do (swap! midisd assoc :noise data2) (swap! ch2 assoc :c data2) )
                     78 (do (swap! midisd assoc :gain data2) (swap! ch2 assoc :d data2))
-                    (println "unchanneled midi CC data")
+                    ;(println "unchanneled midi CC data")
                     )
 
 
 
-                (do (println "unchanneled CC midi Channel")  (+ 1 1)))
+                (do ;(println "unchanneled CC midi Channel")  (+ 1 1)
+                  ))
 
 
               )

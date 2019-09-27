@@ -19,7 +19,7 @@
             [main.instruments.measurebox :as measurebox]
             [main.instruments.chainbox :as chainbox]
             [main.instruments.superstack :as superstack]
-            [main.instruments.spaceshape :as spaceshape]
+            [main.instruments.spaceshape :as spaceshape ]
             [main.instruments.squaretunnel :as squaretunnel]
             [main.instruments.boostbox :as boostbox]
             [main.instruments.piracetambd :as piracetambd]
