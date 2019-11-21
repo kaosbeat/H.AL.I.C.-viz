@@ -18,7 +18,7 @@
           spready (+ y (rand-int (* (* c 5) (/ b 127))))]
 
       (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 0]
-        (q/fill 255 0 0 (- (* 2 d) c) )
+        (q/fill 25 234 0 (- (* 2 d) c) )
         (q/with-rotation [(q/radians  a) 3 0 0]
           (q/box (+ (* size (/ a 8)) (rand-int c))  200 200))
                                         ;          (q/line 0 0 1000 1000 )
@@ -60,11 +60,10 @@
   (let [ x (rand-int 1920)
         y  (rand-int 1080)
         z 0
-        a (get @channel :a)
-        b (get @channel :b)
-        c (get @channel :c)
-
-        d (get @channel :d)
+        a (get channel :a)
+        b (get channel :b)
+        c (get channel :c)
+        d (get channel :d)
         beat 3
         color [(rand-int 255) (rand-int 255) (rand-int 255)]
         ttl (+ 4 (int (/ b 4)))]

@@ -27,7 +27,7 @@
 
 (defn render [channel]
   ;;; if channeldata
-  (println "rendering")
+;;  (println "rendering")
   (dotimes [n (count @viz)]
     (let [x (get (nth @viz n) :x)
             y (get (nth @viz n) :y)

@@ -4,6 +4,7 @@
             [quil.middleware :as m]
             [quil.applet :as qa]
             [main.earlymacros]
+            [main.debug]
             [main.instruments.box :as box]
             [main.instruments.boxgrid :as boxgrid]
             [main.instruments.boxes :as boxes]
@@ -25,6 +26,8 @@
             [main.instruments.piracetambd :as piracetambd]
             [main.instruments.piracetamsd :as piracetamsd]
             [main.instruments.piracetamch :as piracetamch]
+            [main.instruments.carpetcross :as carpetcross]
+            [main.instruments.carpet :as carpet]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.kaosmidifilters]
@@ -39,7 +42,6 @@
 
 
 
-
 (def server (atom nil))
 ;(println (. System getProperty "java.library.path"))
 ;
@@ -50,8 +52,6 @@
   (def w (q/width))
   (def h (q/height))
   (def cameraZ (/ (/ h 2) (q/tan (* 3.1415 (/ 60 360)  ) ) ))
-
-
 
   )
 
@@ -105,21 +105,27 @@
   )
 
 
-(defn draw [state]
 
+
+
+(defn draw [state]
   (updatestuff)                                        ;updatestufff
+  (q/camera)
   (renderstuff)
+
  (.sendScreen @server )
 ;; (q/perspective)
-  (mididebugger state)
-;(q/camera)
+ ; (mididebugger state)
+
 ;  (q/camera 1000 600 2000 1000 600 20 0 (tr) 0)
-  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
+;  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
 ;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
+(drawDebug ch1)
+;(q/background 255)
 
-
-  ;(q/camera)
   )
+
+
 
 (q/defsketch halic
   :title "halic"

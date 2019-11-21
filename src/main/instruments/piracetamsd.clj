@@ -60,11 +60,10 @@
   (let [ x (rand-int 1920)
         y  (rand-int 1080)
         z 0
-        a (get @channel :a)
-        b (get @channel :b)
-        c (get @channel :c)
-
-        d (get @channel :d)
+        a (get channel :a)
+        b (get channel :b)
+        c (get channel :c)
+        d (get channel :d)
         beat 3
         color [(rand-int 255) (rand-int 255) (rand-int 255)]
         ttl (+ 4 (int (/ b 4)))]

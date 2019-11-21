@@ -54,18 +54,18 @@
               (let [note (:note e)
                     vel  (:velocity e)
                     channel (:channel e)]
-;                (println note vel channel)
-;                (println channel note vel)
+                                        ;(println note vel channel)
+                                        ;                (println channel note vel)
                 (case channel
 ;;                  10 (midiparse midimap10 @midimap10 midimap10map @midimap10map midikeyz keyz :keyz note vel )
   ;;                15 (if (= note 60) (swap! bbeat inc) (println "ch15 unbeat"))
                   14 (case note
                        0 (do
                          ;  (println vel)
-                           (piracetambd/add ch1)
+                           (piracetambd/add @ch1)
                            (swap! midibd assoc :velocity vel :beat (inc (get @midibd :beat))))
                        1 (do
-                           (piracetamsd/add ch2)
+                           (piracetamsd/add @ch2)
                            (swap! midisd assoc :velocity vel))
                        2 (swap! midich assoc :velocity vel)
                        3 (swap! midioh assoc :velocity vel)
@@ -123,7 +123,7 @@
 
 (on-event [:midi :control-change]
           (fn [e]
-           ; (println e)
+;            (println e)
             (let [data1 (:data1 e)
                   data2 (:data2 e)
                   channel (:channel e)]

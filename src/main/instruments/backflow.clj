@@ -18,9 +18,9 @@
       (q/with-rotation [beat 1 n 5 ]
         (q/with-rotation [(* 4 a) 0 (* 0.4  q) 0]
           (q/fill q r 23  )
-          (q/stroke-weight 3)
-;          (q/stroke 1 (q/random  123) 290 100)
-          (dotimes [y 30]
+          (q/stroke-weight b)
+          (q/stroke 1 (q/random  123) 290 100)
+          (dotimes [y 3]
             (q/with-translation [200 (* y 200) 0]
               (q/box 40 (* y 12) 100 )))))))
   )
@@ -61,7 +61,7 @@
         q (rand-int 255)
         r (rand-int 255)
         s (+ 50 (rand-int 50))
-        ttl 10]
+        ttl 100]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

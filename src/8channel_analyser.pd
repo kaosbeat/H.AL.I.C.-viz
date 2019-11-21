@@ -1,0 +1,21 @@
+#N canvas 1031 222 792 542 10;
+#X msg 298 316 disconnect;
+#X obj 172 379 tgl 30 0 empty empty 1=connected 34 15 0 12 -4034 -258113
+-1 0 1;
+#X obj 172 350 mrpeach/udpsend;
+#X obj 184 283 mrpeach/packOSC;
+#X msg 311 283 connect 127.0.0.1 4243;
+#X floatatom 499 370 5 0 0 0 - - -;
+#X obj 487 267 channelAnalyser;
+#X obj 515 410 pack f f f f;
+#X msg 528 457 sendtyped /ch\$4 ffi \$1 \$2 \$3;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 4 0 2 0;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 6 1 7 0;
+#X connect 6 2 7 1;
+#X connect 6 3 7 2;
+#X connect 7 0 8 0;

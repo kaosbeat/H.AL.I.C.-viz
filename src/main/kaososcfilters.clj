@@ -1,6 +1,5 @@
 (ns main.kaos )
 
-
 ; start a server and create a client to talk with it
 (def PORT 4243)
 ;(def spacePORT 9243)
@@ -12,7 +11,7 @@
 ;//keyboard-handler
 
 
-;;(osc-handle OSCs "/ch1" (fn [msg] (println (first (get msg :args)))))
+(osc-handle OSCs "/ch1attack" (fn [msg] (println (first (get msg :args)))))
 
 
 
@@ -56,3 +55,89 @@
 (osc-handle OSCs "/ch8att" (fn [msg] (swap! ch8 assoc :a (nth (get msg :args) 0) :b (nth (get msg :args) 1) :c (nth (get msg :args) 2) :d (nth (get msg :args) 3))))
 (osc-handle OSCs "/ch9att" (fn [msg] (swap! ch9 assoc :a (nth (get msg :args) 0) :b (nth (get msg :args) 1) :c (nth (get msg :args) 2) :d (nth (get msg :args) 3))))
 (osc-handle OSCs "/ch10att" (fn [msg] (swap! ch10 assoc :a (nth (get msg :args) 0) :b (nth (get msg :args) 1) :c (nth (get msg :args) 2) :d (nth (get msg :args) 3))))
+
+
+
+
+(osc-handle OSCs "/ch1debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch1 assoc :debug false )
+                                            (swap! ch1 assoc :debug true )))) ))
+(osc-handle OSCs "/ch2debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch2 assoc :debug false )
+                                            (swap! ch2 assoc :debug true )))) ))
+(osc-handle OSCs "/ch3debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch3 assoc :debug false )
+                                            (swap! ch3 assoc :debug true )))) ))
+(osc-handle OSCs "/ch4debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch4 assoc :debug false )
+                                            (swap! ch4 assoc :debug true )))) ))
+(osc-handle OSCs "/ch5debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch5 assoc :debug false )
+                                            (swap! ch5 assoc :debug true )))) ))
+(osc-handle OSCs "/ch6debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch6 assoc :debug false )
+                                            (swap! ch6 assoc :debug true )))) ))
+(osc-handle OSCs "/ch7debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch7 assoc :debug false )
+                                            (swap! ch7 assoc :debug true )))) ))
+(osc-handle OSCs "/ch8debug" (fn [msg] (do
+                                        (let [debug (nth  (get msg :args) 0)]
+                                          (if (== debug 1)
+                                            (swap! ch8 assoc :debug false )
+                                            (swap! ch8 assoc :debug true )))) ))
+
+
+(osc-handle OSCs "/ch1render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch1 assoc :rendering false)
+                                             (swap! ch1 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch2render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch2 assoc :rendering false)
+                                             (swap! ch2 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch3render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch3 assoc :rendering false)
+                                             (swap! ch3 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch4render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch4 assoc :rendering false)
+                                             (swap! ch4 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch5render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch5 assoc :rendering false)
+                                             (swap! ch5 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch6render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch6 assoc :rendering false)
+                                             (swap! ch6 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch7render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch7 assoc :rendering false)
+                                             (swap! ch7 assoc :rendering true )))) ))
+(osc-handle OSCs "/ch8render" (fn [msg] (do
+                                         (let [render (nth  (get msg :args) 0)]
+                                           (if (== render 1)
+                                             (swap! ch8 assoc :rendering false)
+                                             (swap! ch8 assoc :rendering true )))) ))
