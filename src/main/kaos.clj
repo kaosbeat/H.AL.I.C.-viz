@@ -28,6 +28,7 @@
             [main.instruments.piracetamch :as piracetamch]
             [main.instruments.carpetcross :as carpetcross]
             [main.instruments.carpet :as carpet]
+            [main.instruments.droodle :as droodle]
             [main.channelmapping]
             [main.kaososcfilters]
             [main.kaosmidifilters]

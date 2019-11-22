@@ -23,7 +23,7 @@
   (let [rx x
         ry y
         rz z
-        cubesize   (*  ( - freq 100) 100)
+        cubesize   (*  ( - freq 10) 100)
         cubespace 250]
 
 
@@ -97,6 +97,10 @@
       (swap! viz conj {:x x :y y :z z :q q :r r :s s :ttl ttl :sticky true })
       (swap! viz conj {:x (rand-int x) :y (rand-int y) :z (rand-int z) :q q :r r :s s :ttl ttl :sticky false })))
   )
+
+
+
+
 
 
 

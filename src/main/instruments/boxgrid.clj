@@ -14,11 +14,11 @@
     (dotimes [v 10]
       (q/with-translation [(* 150 u) 0 0])
       (q/with-translation [(* (+ 150 b) u ) ( * (+ 150 b ) v) 0]
-        (q/fill 255 93 53 120)
+        (q/fill 255 93 53 peak)
         (q/with-rotation [ freq 1 1 0]
-          (q/stroke-weight 1)
+          (q/stroke-weight (* 40 (mod beat 4)))
           (q/stroke 25 freq 0)
-          (q/box (* a peak))))))
+          (q/box ( / (* a peak) 10) b c )))))
   )
 
 
