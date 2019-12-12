@@ -27,7 +27,7 @@
   (q/stroke-weight 20)
   (q/with-rotation [(q/radians z) 0 0 0]
     (dotimes [p 2]
-      (q/with-translation [(+  ( * p  20) (rand-int 100)) 600 0]
+      (q/with-translation [(+  ( * p  20) (rand-int 1900)) 600 0]
         (q/begin-shape)
                                         ;top
         (let [divs ( + 3 (mod beat 8))
@@ -37,7 +37,7 @@
             (let [xp (* r (q/cos (q/radians  (* n div))))
                   yp (* r (q/sin (q/radians  (* n div))))
                   zp z]
-              (q/vertex xp yp zp ))))
+              (q/vertex  xp yp zp ))))
 
 
                                         ;(q/vertex 50 400 z)

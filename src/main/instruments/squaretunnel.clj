@@ -93,7 +93,7 @@
             (lineartunnel 8 x y z a b c d q r s)
                                         ; (noiseplane x y z a b c d q r s)
             (q/fill 255 255 0)
-            (boxextruder x y (* 1  z) a b c d q r s ttl)
+            ;(boxextruder x y (* 1  z) a b c d q r s ttl)
             ))
 
   ;;;top plane
@@ -103,7 +103,7 @@
           (q/with-rotation [-1.57 1 0 0 ]
             (q/with-rotation [1.57  0 0 1]
            ;   (q/rect 0 0 @tunnelzdepth @tunnelsize )
-                 (boxextruder x y (* -1  z) a b c d q r s ttl)                       ;  (noiseplane x y z a b c d q r s)
+                 ;(boxextruder x y (* -1  z) a b c d q r s ttl)                       ;  (noiseplane x y z a b c d q r s)
               (lineartunnel 10 x y z a b c d q r s)
               )
             ))

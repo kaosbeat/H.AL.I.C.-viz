@@ -43,7 +43,7 @@
 
                                         ;(println peak)
         (q/stroke-weight (/ peak 10))
-        (q/stroke 225 255 255)
+        (q/stroke 0 255 255)
         ;; (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
         ;;   (case measure
         ;;     0 (q/box 10 10 10 )
@@ -70,7 +70,7 @@
                 ;;              (q/no-fill)
                 (q/with-rotation [(* (main.kaos/tr) 2) 0 0 0])
                 (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
-                  (q/box (* 10 (* (tr) a)) )))
+                  (q/box (* 100 (* (tr) a)) )))
               )))
         )))
 

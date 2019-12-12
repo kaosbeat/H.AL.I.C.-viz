@@ -43,6 +43,18 @@
 
 
 
+;;;
+;; CH1/2 stereo mix
+;; CH3 BassDrum
+;; CH4 Snare
+;; CH5 hi-hat
+;; CH6 percussie
+;; CH7 loops L
+;; CH8 loops R
+
+
+
+
 (def server (atom nil))
 ;(println (. System getProperty "java.library.path"))
 ;
@@ -121,7 +133,7 @@
 ;  (q/camera 1000 600 2000 1000 600 20 0 (tr) 0)
 ;  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
 ;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
-(drawDebug ch1)
+;(drawDebug ch5)
 ;(q/background 255)
 
   )

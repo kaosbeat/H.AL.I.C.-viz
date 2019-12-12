@@ -16,14 +16,14 @@
     (let [size    (* (* ttl 3.5) 1)
           spreadx (+ x (rand-int (* (* c 5) (/ b 127))))
           spready (+ y (rand-int (* (* c 5) (/ b 127))))]
-
-      (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 0]
-        (q/fill 255 0 0 (- (* 2 d) c) )
-        (q/with-rotation [(q/radians  a) 3 0 0]
-          (q/box (+ (* size (/ a 8)) (rand-int c))  200 200))
+      (q/with-rotation [(q/random 100) 1 0 0 ]
+        (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 0]
+          (q/fill 255 0 0 (- (* 2 d) c) )
+          (q/with-rotation [(q/radians  a) 3 0 0]
+            (q/box (+ (* size (/ a 8)) (rand-int c))  120 200))
                                         ;          (q/line 0 0 1000 1000 )
                                         ;         (q/rect 0 0 500 500)
-        )))
+          ))))
   )
 
 

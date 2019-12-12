@@ -22,7 +22,7 @@
           (q/stroke 1 (q/random  123) 290 100)
           (dotimes [y 3]
             (q/with-translation [200 (* y 200) 0]
-              (q/box 40 (* y 12) 100 )))))))
+              (q/box 140 (* y peak) 100 )))))))
   )
 
 

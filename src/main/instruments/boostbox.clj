@@ -14,9 +14,12 @@
   ;(q/with-translation [(/  (q/width) 2) (/ (q/height) 2) -1000])
   (q/with-rotation [(mod beat 4) 1 1 0 ]
     (q/with-translation [x y z]
-      (q/fill 203 freq 123  ttl)
-                                        ;(q/box (+ s q))
-      (q/box (+ q (rand-int 50)) 30  (/ freq 20) )
+      (q/stroke (* 2 a))
+      (q/stroke-weight (* b (* 5 (mod beat 4))))
+      (q/fill 255 freq 3  ttl)
+      (q/box (+ s q))
+      (q/fill 255 0 0 120)
+      (q/box (+ q (rand-int a)) (* 1  peak)  (/ freq 2) )
       ))
 
   )

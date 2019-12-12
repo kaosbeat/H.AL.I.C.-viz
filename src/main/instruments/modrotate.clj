@@ -17,10 +17,10 @@
     (q/with-translation [ (+ 400 (* a n)) 300 -1000]
       (q/with-rotation [n 0 n 2]
         (q/with-translation [peak 0 0]
-          (q/stroke-weight 10)
-          (q/stroke 134 0 234)
-          (q/fill 255 259 0 120 )
-          (q/box (* (/ a 50) ( * 50 n)))))))
+          (q/stroke-weight freq)
+          (q/stroke 134 0 234 12)
+          (q/fill 255 259 0 10 )
+          (q/box (* (/ a 10) ( * 50 n)))))))
 
   )
 

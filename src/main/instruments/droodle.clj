@@ -68,7 +68,7 @@
            c (nth coords (+ 2 (* n 4)))
            d (nth coords (+ 3 (* n 4)))]
                                         ;(println a b c d)
-       (q/stroke 255)
+
        (if (> (- bounds @x) a)
          (do  (q/line @x @y a @y) (reset! x a) )
          (do  (q/line @x @y (- 0 a) @y) (reset! x (- 0 a)) ))
@@ -117,10 +117,10 @@
   (q/stroke (nth s 0) (nth s 1) (nth s 2) 230)
   ;(drawRandomLine 1000 q)
 ;  (droodle1 (take 5 (create-random 1000 5)) 1000)
-  (q/with-translation [500 500 0 ]
+  (q/with-translation [x y 0 ]
                                         ;(drawRandomParallel 1500 (+ a 10) q)
-
-    (drawOrthoStruct 500 (int (/ a 5)) q))
+    (q/stroke 255 255 (q/random 100) (* 20 ttl))
+    (drawOrthoStruct 150 (int (/ 50 5)) q))
   )
 
 (defn render [channel]
@@ -163,7 +163,7 @@
         q (rand-int 200)
         r (rand-int 50)
         s [(rand-int 255) (rand-int 255) (rand-int 255)]
-        ttl 15]
+        ttl 25]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
@@ -185,7 +185,7 @@
       (do
         (swap! viz update-in [n :ttl] dec)
         (swap! viz update-in [n :y] (fn [y] (- y (rand-int 10))))
-        (if (< 8 (get (get @viz n) :ttl))
+        (if (< 18 (get (get @viz n) :ttl))
           (swap! viz update-in [n :q] (fn [q] (rand-int 200))))
         )
       (swap! vizcount conj n)

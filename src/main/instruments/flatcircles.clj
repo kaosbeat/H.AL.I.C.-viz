@@ -16,9 +16,9 @@
       (q/with-translation [(* 10 peak) (* (mod beat 8 ) 100) -100]
         (q/stroke 34 (/ freq 2) 244 233)
         (q/stroke-weight (/ freq 20))
-        (q/fill 23 (q/random 255) 230 100)
-        (q/with-rotation [  freq  (mod beat 4) 0 1  ]
-          (q/box 110  20  (* peak 200 ))
+        (q/fill 23 (q/random 255) 30 100)
+        (q/with-rotation [freq  (mod beat 4) 0 1  ]
+          (q/box 10  200  (* peak 20 ))
           )
 
         )

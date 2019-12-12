@@ -1,10 +1,10 @@
-#N canvas 1253 361 667 591 10;
+#N canvas 409 305 667 541 10;
 #X obj 72 115 env~ 512;
 #X obj 107 152 dbtorms;
-#X floatatom 108 177 11 0 0 0 - - -, f 11;
+#X floatatom 108 177 11 0 0 0 - - -;
 #X obj 209 173 f 0, f 4;
 #X obj 247 172 + 1;
-#X floatatom 227 311 5 0 54000 0 - - -, f 5;
+#X floatatom 227 311 5 0 54000 0 - - -;
 #X msg 220 116 0;
 #X obj 58 337 outlet;
 #X obj 48 20 inlet~;
@@ -17,8 +17,8 @@
 #X text 115 293 attack;
 #X text 168 297 amp (dB);
 #X text 187 284 attack count;
-#X floatatom 60 312 5 0 54000 0 - - -, f 5;
-#X floatatom 173 313 5 0 54000 0 - - -, f 5;
+#X floatatom 60 312 5 0 54000 0 - - -;
+#X floatatom 173 313 5 0 54000 0 - - -;
 #X obj 305 295 unpack;
 #X floatatom 305 345 0 0 0 0 - - -;
 #X floatatom 319 322 0 0 0 0 - - -;

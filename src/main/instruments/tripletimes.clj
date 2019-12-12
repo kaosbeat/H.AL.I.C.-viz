@@ -32,7 +32,7 @@
     (q/with-rotation [ (rand-int 360) 5 0 1]
       (q/fill 25 (rand-int 25) 10 (* 10 ttl))
                                         ; (q/box cubesize (get channel :freq) 100 )
-      (q/stroke 25)
+      (q/stroke 200)
       (q/stroke-weight 10)
       (q/with-translation [(q/random ( q/width )) (q/random (q/height)) (q/random 100) ]
         (q/box (/ freq 2 ))))
@@ -46,7 +46,8 @@
     (q/with-translation [(* x (/ (q/width) 127))  (* y (/ (q/height) 127))    (* 10 (- z 100 )) ]
       ;(println peak)
       (q/fill (* 2 peak) (* 50 (- 80 peak)) 0)
-      (q/box 500 500 500)))
+      (q/stroke-weight (* b 1))
+      (q/box (* a peak))))
   )
 
 
