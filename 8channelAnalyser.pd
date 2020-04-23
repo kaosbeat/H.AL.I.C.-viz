@@ -1,7 +1,7 @@
 #N canvas 509 188 1114 684 10;
 #X msg 298 316 disconnect;
 #X obj 172 379 tgl 30 0 empty empty 1=connected 34 15 0 12 -4034 -258113
--1 0 1;
+-1 1 1;
 #X obj 172 350 mrpeach/udpsend;
 #X obj 184 283 mrpeach/packOSC;
 #X msg 311 283 connect 127.0.0.1 4243;
@@ -13,7 +13,7 @@
 #X msg 251 141 sendtyped /ch1attack i 1;
 #X msg 893 315 sendtyped /ch2 ffi \$1 \$2 \$3;
 #X obj 805 119 metro 500;
-#X obj 820 85 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 820 85 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 867 237 random 127;
 #X obj 894 287 pack i i i;

@@ -8,11 +8,12 @@
 (def vizcount (atom 0))
 (def rendering (atom false))
 
-(def series [1 1 1 3 5 11 5 3 1 1 1])
+(def series [1 1 1 3 5 11 5 3 1 1 10])
+
 (defn drawCross [ser size rectsize cmod]
   (q/with-translation [(- (/  (* size (count ser)) 2 ) (/ size 2))  (- 0 (/  (* size (count ser)) 2 ))  0]
     (q/with-rotation [(q/radians 45) 0 0 1]
-      (q/fill 123 123 0)
+      (q/fill 123 123 120)
       (q/rect 0 0 (* 0.707 (* size (count ser))) (* 0.707 (* size (count ser))))))
   (dotimes [n (count ser)]
     (q/with-translation [(* n size) 0 0]
@@ -47,7 +48,7 @@
     (drawCross series 60 30 3)
     )
   (q/with-translation [1200 600 0 ]
-    (drawCross series 50 45 4)
+    (drawCross series 5 45 4)
     )
   )
 

@@ -1,3 +1,5 @@
+;;start using C-c M-j
+
 (ns main.kaos
   (:use [overtone.live])
   (:require [quil.core :as q]
@@ -35,7 +37,7 @@
             [main.macros]
 
             )
-    (:import ( 'codeanticode.syphon.SyphonServer))
+  (:import ( 'codeanticode.syphon.SyphonServer))
     (:import ('jsyphon.JSyphonServer))
 
     )

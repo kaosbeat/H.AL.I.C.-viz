@@ -119,7 +119,7 @@
 ;  (droodle1 (take 5 (create-random 1000 5)) 1000)
   (q/with-translation [x y 0 ]
                                         ;(drawRandomParallel 1500 (+ a 10) q)
-    (q/stroke 255 255 (q/random 100) (* 20 ttl))
+    (q/stroke 25 255 (q/random 10) (* 2 ttl))
     (drawOrthoStruct 150 (int (/ 50 5)) q))
   )
 
@@ -163,7 +163,7 @@
         q (rand-int 200)
         r (rand-int 50)
         s [(rand-int 255) (rand-int 255) (rand-int 255)]
-        ttl 25]
+        ttl  25]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

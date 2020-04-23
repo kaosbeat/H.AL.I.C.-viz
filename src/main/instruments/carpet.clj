@@ -64,6 +64,47 @@
                 )1
 
               ))))))
+
+
+
+  )
+
+(defn stepRow [x y z offsetY rows colorRow blockWidth blockHeight]
+  (q/with-translation [x y z]
+    (let [blocks (/ (q/width) (* 2 blockWidth))]
+      (dotimes [b blocks]
+        (q/with-translation [(* b (* blockWidth rows)) 0 0]
+          (dotimes [r rows]
+            (q/with-translation [0 (* r blockHeight)]
+              (dotimes [c (- rows r)]
+                (q/with-translation [(* c blockWidth) 0 0]
+                                        ;            (q/fill (nth (cycle colorRow) (+ 2 c)))
+
+                  (q/fill 255 0 0)
+                  (q/box blockWidth)))
+              (dotimes [c r]
+                (q/with-translation [(* (+ c (- rows r)) blockWidth) 0 0 ]
+                                        ; (q/fill (nth (cycle colorRow) (+ 1 c)))
+                  (q/fill 0 25 255)
+                  (q/box blockWidth)))
+
+              )
+            ))))
+    )
+  )
+
+(defn stepRow2 [x y z offsetY rows colorRow blockWidth blockHeight]
+  (q/with-translation [x y z]
+    (let [blocks  150]
+      (dotimes [r rows]
+        (dotimes [b blocks]
+          (q/with-translation [(* blockWidth b) (* blockHeight r) 0 ]
+
+            (q/fill 255 0 0)
+            (q/box 10)
+            )
+          ))))
+
   )
 
 (defn draw [data]
@@ -82,14 +123,16 @@
   (blockRow2 0 165 0 250 5 [(q/color 194 128 96) (q/color 247 200 153) (q/color 226 140 95) (q/color 143 106 72)] (+ 1 (get data :size)) 20)
 (alternatingBlocks 0 280 0 50 (q/color 165 152 106) (q/color 215 167 131))
   (fullRow 0 315 0 20 (q/color 248 212 120))
-  (blockRow2 0 365 0 250 15 [(q/color 194 128 96) (q/color 247 (+ 100 (get data :rot)) 153) (q/color 226 140 95)] (+ 1 (get data :size)) 60)
+ ; (blockRow2 0 365 0 250 15 [(q/color 194 128 96) (q/color 247 (+ 100 (get data :rot)) 153) (q/color 226 140 95)] (+ 1 (get data :size)) 60)
+(stepRow2 0 365 0 250 15 [(q/color 194 128 96) (q/color 247 (+ 100 (get data :rot)) 153) (q/color 226 140 95)] (+ 1 (get data :size)) 15)
+
   )
 
 (defn render [channel]
   (if (get channel :rendering)
     (let [a (get channel :a)
           b (get channel :b)]
-         (draw {:rot a :size b}))
+         (draw {:rot 100 :size 10}))
     )
   )
 
