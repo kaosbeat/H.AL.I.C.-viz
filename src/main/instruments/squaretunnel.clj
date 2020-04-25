@@ -44,7 +44,8 @@
                     (q/stroke-weight 2)
                                         ;(q/rect 0 0 s s)
                     (q/with-translation [boxx boxy boxz]
-                      (q/box (* 3 ttl ) (* 5 ttl)  z))
+                      (q/box (* 3 ttl ) (* 5 ttl)  z)
+                      )
                     ))))))))
 
 (defn noiseplane [x y z a b c d q r s]
@@ -74,7 +75,7 @@
         (q/with-rotation [1.57 0 1 0]
                                         ;(boxextruder x y (* -1  z) a b c d q r s ttl)
           ;(q/rect 0 0 10000 @tunnelsize )
-          (dotimes [n 200]
+          (dotimes [n 20]
             (q/fill (rand-int 255) (rand-int 255) 255 )
 ;            (q/rect  (+ (* 1000 (tr) )  (* n 100)) 0 20 @tunnelsize  )
             (q/fill 255 128)
@@ -90,10 +91,10 @@
         (q/with-translation  [@tunnelsize 0 0]
           (q/with-rotation [1.57 0 1 0]
            ; (q/rect 0 0 @tunnelzdepth @tunnelsize )
-            (lineartunnel 8 x y z a b c d q r s)
+            ;(lineartunnel 8 x y z a b c d q r s)
                                         ; (noiseplane x y z a b c d q r s)
             (q/fill 255 255 0)
-            ;(boxextruder x y (* 1  z) a b c d q r s ttl)
+            (boxextruder x y (* 1  z) a b c d q r s ttl)
             ))
 
   ;;;top plane
@@ -102,7 +103,7 @@
         (q/with-translation  [@tunnelsize 0 0]
           (q/with-rotation [-1.57 1 0 0 ]
             (q/with-rotation [1.57  0 0 1]
-           ;   (q/rect 0 0 @tunnelzdepth @tunnelsize )
+              (q/rect 0 0 @tunnelzdepth @tunnelsize )
                  ;(boxextruder x y (* -1  z) a b c d q r s ttl)                       ;  (noiseplane x y z a b c d q r s)
               (lineartunnel 10 x y z a b c d q r s)
               )
@@ -166,7 +167,7 @@
             (q/with-rotation [1.57  0 0 1]
  ;             (q/rect 0 0 @tunnelzdepth @tunnelsize )
                                        ;  (noiseplane x y z a b c d q r s)
-            ;  (lineartunnel 6 x y z a b c d q r s)
+        ;;      (lineartunnel  x y z a b c d q r s)
               )
             ))
 

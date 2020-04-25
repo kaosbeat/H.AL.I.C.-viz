@@ -12,7 +12,7 @@
 (defn draw [x y z a b c d freq peak beat id]
   "main draw for this visual instrument"
                                         ; (println "drawing " id  x y z freq beat)
-  (dotimes [n 0]
+  (dotimes [n 2]
     (q/with-translation [(* (rand-int 100) 200) (rand-int  1200) z]
       (q/with-rotation [ (* a (mod beat 8)) (mod beat 4) 1 0]
         (q/fill (rand-int 255)  255 0 100)
@@ -22,15 +22,15 @@
 
 
 
-(q/fill b 3 232 20)
-  (q/stroke 255 0 0)
+(q/fill b 203 22 20)
+  (q/stroke 25 225 50)
   (q/stroke-weight 20)
   (q/with-rotation [(q/radians z) 0 0 0]
-    (dotimes [p 2]
+    (dotimes [p 1]
       (q/with-translation [(+  ( * p  20) (rand-int 1900)) 600 0]
         (q/begin-shape)
                                         ;top
-        (let [divs ( + 3 (mod beat 8))
+        (let [divs ( + 9 (mod beat 8))
               div (/ 360 divs)
               r (* 2 freq)]
           (dotimes [n divs]

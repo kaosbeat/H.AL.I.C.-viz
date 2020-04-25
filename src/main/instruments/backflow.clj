@@ -2,8 +2,7 @@
   (:require
    [main.util :refer [drop-nth]]
    [quil.core :as q]
-   [main.kaos :refer [tr]
-    ]))
+   [main.kaos :refer [tr]]))
 
 
 (def viz (atom []))
@@ -16,13 +15,13 @@
 
     (q/with-translation [(+ 65 (* 10 (+ ttl (* (tr) b)))) (+ 400  (* n 100)) 0]
       (q/with-rotation [beat 1 n 5 ]
-        (q/with-rotation [(* 4 a) 0 (* 0.4  q) 0]
-          (q/fill q r 23  )
+        (q/with-rotation [(* 40 a) 0 (* 0.4  q) 0]
+          (q/fill 255 r 20  )
           (q/stroke-weight b)
-          (q/stroke 1 (q/random  123) 290 100)
-          (dotimes [y 3]
-            (q/with-translation [200 (* y 200) 0]
-              (q/box 140 (* y peak) 100 )))))))
+          (q/stroke 10 (q/random  123) 20 100)
+          (dotimes [y ttl]
+            (q/with-translation [20 (* y 200) 0]
+              (q/box 1400 (* y peak) 10 )))))))
   )
 
 
@@ -61,7 +60,7 @@
         q (rand-int 255)
         r (rand-int 255)
         s (+ 50 (rand-int 50))
-        ttl 100]
+        ttl 10]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

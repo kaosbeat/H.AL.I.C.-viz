@@ -13,14 +13,21 @@
   "main draw for this visual instrument"
                                         ; (println "drawing " id  x y z freq beat)
   (dotimes [n (int 6)]
-    (let [size    (* (* ttl 3.5) 1)
+    (let [size    (+ 3  (* (* ttl 3.5) 1))
           spreadx (+ x (rand-int (* (* c 5) (/ b 127))))
           spready (+ y (rand-int (* (* c 5) (/ b 127))))]
-      (q/with-rotation [(q/random 100) 1 0 0 ]
-        (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 0]
+      (q/with-rotation [z 1 0  0  ]
+        (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 600]
           (q/fill 255 0 0 (- (* 2 d) c) )
+          (q/fill 255 30 25)
           (q/with-rotation [(q/radians  a) 3 0 0]
-            (q/box (+ (* size (/ a 8)) (rand-int c))  120 200))
+            (dotimes [xx (/  freq 100)]
+              (q/with-rotation [z 0 1 0]
+                (q/with-translation [(* xx 100) 0 0]
+                  (q/fill (rand-int 255) 0 50 )
+                  (q/box 50))))
+;            (q/box (+ (* size (/ 50 2)) (rand-int c))  122 200)
+            )
                                         ;          (q/line 0 0 1000 1000 )
                                         ;         (q/rect 0 0 500 500)
           ))))
@@ -59,14 +66,14 @@
 ;  (println channel)
   (let [ x (rand-int 1920)
         y  (rand-int 1080)
-        z 0
+        z (rand-int 360)
         a (get channel :a)
         b (get channel :b)
         c (get channel :c)
         d (get channel :d)
         beat 3
         color [(rand-int 255) (rand-int 255) (rand-int 255)]
-        ttl (+ 4 (int (/ b 4)))]
+        ttl (+ 40 (int (/ b 4)))]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

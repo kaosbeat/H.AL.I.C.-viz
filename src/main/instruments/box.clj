@@ -16,10 +16,15 @@
   (dotimes [n (+ 1 b)]
     (q/with-translation [(* (rand-int 100) 20) (rand-int  1200) z]
       (q/with-rotation [ (* a (mod beat 8)) (mod beat 4) 1 0]
-        (q/fill (rand-int 255)  255 0 100)
-        (q/stroke-weight d)
+        (q/fill (rand-int 255)  a 0 100)
+        (q/stroke-weight a)
         (q/stroke 255 freq 0)
-        (q/box (+ 100 (* freq 0.9))))))
+        (dotimes [f 10]
+          (dotimes [e 10]
+
+            (q/with-translation [(* d f) (* 10 e ) 0]
+              (q/with-rotation [(rand-int 100) 0 1 1]
+                (q/box (+ 100(* freq 0.9)) 500 (rand-int 250) ))))))))
   )
 
 (defn render [channel]

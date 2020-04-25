@@ -68,7 +68,7 @@
                                         ; (case)
                 (q/fill 25 2 (* 3 peak) (- 255 (* n 5)) )
                 ;;              (q/no-fill)
-                (q/with-rotation [(* (main.kaos/tr) 2) 0 0 0])
+                (q/with-rotation [(* (main.kaos/tr) 1) 1 0 0])
                 (q/with-translation [(+ xoffset (* 200 m)) (+ -200 (* 3  y)) (* n 100)]
                   (q/box (* 100 (* (tr) a)) )))
               )))

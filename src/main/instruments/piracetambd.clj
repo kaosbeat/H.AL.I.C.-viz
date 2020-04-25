@@ -7,9 +7,34 @@
 (def vizcount (atom 0))
 (def rendering (atom false))
 
+(def data (atom {:x 0 :y 0 :z 0 :ttl 10 :a 0 :b 0 :c 0 :d 0 :freq 10 :peak 10 :beat 1 :id 1}) )
+
+(defn datadebug [x y ts data]
+                                        ;(q/text-font font)
+  (q/text-size ts)
+  (q/with-translation [x y 0]
+
+    (dotimes [n (count @data)]
+      (q/fill 255)
+      (q/stroke 255 0 255)
+      ;(q/text (str (mm/pirad)) 0 20)
+                                        ;(q/text "bklad" 200 300)
+      (q/text (name (nth (map first @data) n))  0 (* 1.2 (* n ts)) )
+      (q/text (str (float (nth (map second @data) n))) (* ts 6)  (* 1.2 (* n ts)) )
+      ;(q/text (str @inputdata) 0 0 )
+      )
+    (q/text "piracetam" 10 -10)
+
+                                        ;    (println "blah")
 
 
-(defn draw [x y z a b c d freq peak beat id ttl color]
+                                        ;      (with-open [fd (clojure.java.io/writer "foo.txt")] (binding [*out* fd] (println (str "data " (get @data :size))) (println (str (mm/pirad)))))
+    )
+
+  )
+
+
+(defn draw [x y z a b c d freq peak beat id ttl color ]
   "main draw for this visual instrument"
 ;  (println d)
   (if (> d 0)
@@ -24,6 +49,10 @@
             (q/stroke-weight 3)
             (q/stroke 255 (* 2 d))
             (q/box (/ 10000 (* (+ 20 b) 1))))))))
+
+
+
+
   )
 
 
@@ -49,28 +78,36 @@
                  peak (get channel :peak)
                  beat (get (nth @viz n) :beat)
                  id (get channel :id)
+
+
                  ]
+            ; (swap! data assoc :x x :y y :z z :ttl ttl :a a :b b :c c :d d :freq freq :peak peak :beat beat :id id)
              (draw x y z a b c d freq peak beat id ttl color)
 
              )
-           ))
-    (if (get channel :debug) (do
-                               (q/fill 255)
-                               (q/text (str "drawing piracetambd " (get  channel :id))  50 (* (get  channel :id) 100))
-                               (q/text (str "beat " (get channel :beatnumber)) 350 (* (get  channel :id) 100)  ))))
+           ) ))
+
+
+  (if (get channel :debug) (do
+                             (q/fill 255)
+                             (q/text-size 20)
+                             (q/text (str "drawing piracetambd " (get  channel :id))  50 (* (get  channel :id) 100))
+                             (q/text (str "beat " (get channel :beatnumber)) 350 (* (get  channel :id) 100) )
+                             (datadebug 1700 100 20 data )))
+
 
   )
 
 
 (defn add [channel]
 ;  (println channel)
-2  (let [ x (rand-int 1920)
+  (let [ x (rand-int 1920)
         y  (rand-int 1080)
         z 0
-        a (get channel :a)
-        b (get channel :b)
-        c (get channel :c)
-        d (get channel :d)
+         a (get channel :a)
+         b (get channel :b)
+         c (get channel :c)
+         d (get channel :d)
 ;        beat (mod  (get @main.kaos/midibd :beat) 4)
         beat (mod  (get channel :beatnumber) 4)
         color [(rand-int 255) (rand-int 255) (rand-int 255)]

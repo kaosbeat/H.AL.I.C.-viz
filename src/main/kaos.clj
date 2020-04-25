@@ -25,12 +25,12 @@
             [main.instruments.spaceshape :as spaceshape ]
             [main.instruments.squaretunnel :as squaretunnel]
             [main.instruments.boostbox :as boostbox]
-            [main.instruments.piracetambd :as piracetambd]
+            [main.instruments.piracetambd :as piracetambd] ;; needs midi abcd
             [main.instruments.piracetamsd :as piracetamsd]
             [main.instruments.piracetamch :as piracetamch]
             [main.instruments.carpetcross :as carpetcross]
             [main.instruments.carpet :as carpet]
-            [main.instruments.droodle :as droodle]
+            [main.instruments.droodle :as droodle]  ;;checked OK
             [main.channelmapping]
             [main.kaososcfilters]
             [main.kaosmidifilters]
@@ -64,6 +64,7 @@
 (defn setup []
   (q/frame-rate 30)
   (reset! server (codeanticode.syphon.SyphonServer. (quil.applet/current-applet) "H.AL.I.C. viz"))
+   (defonce debugfont (q/load-font (.getPath (clojure.java.io/resource "AndaleMono-48.vlw"))))
   (def w (q/width))
   (def h (q/height))
   (def cameraZ (/ (/ h 2) (q/tan (* 3.1415 (/ 60 360)  ) ) ))
@@ -145,9 +146,10 @@
 (q/defsketch halic
   :title "halic"
   :size :fullscreen
-;  :size [(/  width 2) (/ height 2)]
+  ;:size [960 540]
+  ;:size [(/  (q/width) 2) (/ (q/height) 2)]
   ;:size [(/  width 1) (/ height 1)]
-  :features [:present]
+ :features [:present]
   :setup setup
   :update updatestate
   :draw draw

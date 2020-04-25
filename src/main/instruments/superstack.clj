@@ -36,8 +36,8 @@
 ;  (println (addLayer 100 4))
   (let [ measure (mod beat 4)]
     ;(println peak)
-    (q/stroke-weight (/ peak 10))
-    (q/stroke 225 255 255)
+    (q/stroke-weight (/ a 10))
+    (q/stroke 22 255 25 90)
     ;; (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
     ;;   (case measure
     ;;     0 (q/box 10 10 10 )
@@ -45,12 +45,12 @@
     ;;     2 (q/box 10 1000 10)
     ;;     3 (q/box 10 10 1000)
     ;;     ))
-    (q/fill r peak 0)
+    (q/fill r peak 255 120)
 
     (q/with-translation [(-  1900  (* 3 x))  (+ 300 y) -1200]
 
-      (q/with-rotation [x 0 0 1]
-        (q/box (* r 1) (/ freq 10) (* 20 peak) )))
+      (q/with-rotation [b 1 0 1]
+        (q/box (* r 5) (/ freq 1) (* 200 peak) )))
     )
   )
 
