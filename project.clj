@@ -14,6 +14,7 @@
                  [overtone "0.10.1"]
 ;                 [leipzig "0.10.0"]
                  [quil "2.2.0"]
+;                 [clj-sockets "0.1.0"]
 ;                 [glgraphics "1.0.0"]
                  ]
   :jvm-opts ^:replace []
