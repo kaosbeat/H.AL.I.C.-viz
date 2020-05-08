@@ -1,7 +1,7 @@
 #N canvas 175 65 1707 1060 10;
 #X obj 674 176 inlet;
-#X obj 799 704 outlet;
-#X obj 735 330 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 805 815 outlet;
+#X obj 766 316 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 1032 819 outlet;
 #X obj 1029 392 select \$6;
@@ -17,7 +17,7 @@
 #X obj 515 410 pack f f f f;
 #X msg 528 457 sendtyped /ch\$4 ffi \$1 \$2 \$3;
 #X obj 760 372 pack f f f f f;
-#X msg 689 499 sendtyped /ch\$5att iiii \$1 \$2 \$3 \$4;
+#X msg 765 418 sendtyped /ch\$5att iiii \$1 \$2 \$3 \$4;
 #X obj 578 180 loadbang;
 #X obj 758 260 ctlin \$2 \$8;
 #X obj 783 284 ctlin \$3 \$8;
@@ -67,7 +67,7 @@
 #X text 805 15 \$6;
 #X text 877 13 \$7;
 #X text 943 14 \$8;
-#X msg 747 548 sendtyped /ch\$1attack i 1;
+#X msg 597 530 sendtyped /ch\$1attack i 1;
 #X floatatom 1442 397 5 0 0 0 - - -;
 #X obj 1030 522 f 1;
 #X obj 1031 547 + 1;
@@ -117,7 +117,7 @@
 #X obj 209 570 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 511 205 adc~ \$1;
-#X obj 1606 870 outlet debugprint;
+#X obj 1095 1024 outlet debugprint;
 #X connect 0 0 16 0;
 #X connect 2 0 16 0;
 #X connect 4 0 3 0;
