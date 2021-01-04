@@ -13,14 +13,14 @@
 
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
-  (dotimes [n (mod beat 8 )]
-    (q/with-translation [ (+ 400 (* a n)) 300 -1000]
+  (dotimes [n (mod beat 10 )]
+    (q/with-translation [ (+ 400 (* a n)) (q/random 3000) -5000]
       (q/with-rotation [n 0 n 2]
-        (q/with-translation [peak 0 0]
-          (q/stroke-weight freq)
-          (q/stroke 134 0 234 12)
+        (q/with-translation [(* a 20) (* n -100) 10]
+          (q/stroke-weight 5)
+          (q/stroke 134 0 234 120)
           (q/fill 255 259 0 10 )
-          (q/box (* (/ a 10) ( * 50 n)))))))
+          (q/box (* (/ a 10) ( * 5 n)) (* 50 n) 200  )))))
 
   )
 

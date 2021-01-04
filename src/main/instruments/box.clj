@@ -15,16 +15,19 @@
                                         ; (println "drawing " id  x y z freq beat)
   (dotimes [n (+ 1 b)]
     (q/with-translation [(* (rand-int 100) 20) (rand-int  1200) z]
-      (q/with-rotation [ (* a (mod beat 8)) (mod beat 4) 1 0]
-        (q/fill (rand-int 255)  a 0 100)
-        (q/stroke-weight a)
-        (q/stroke 255 freq 0)
-        (dotimes [f 10]
-          (dotimes [e 10]
+      (q/with-rotation [ (* 1 (mod beat 64)) (mod beat 1) 0 0]
+        (q/fill (rand-int 25)  a 150 225)
+        (q/stroke-weight 2)
+        (q/random-seed x)
+        (q/stroke 2 20 (q/random 25))
+        (dotimes [f 1]
+          (dotimes [e 1]
 
-            (q/with-translation [(* d f) (* 10 e ) 0]
-              (q/with-rotation [(rand-int 100) 0 1 1]
-                (q/box (+ 100(* freq 0.9)) 500 (rand-int 250) ))))))))
+            (q/with-translation [(* 100 f) (* 100 e ) (q/random 1000)]
+              (q/random-seed e)
+              (q/with-rotation [(q/random  (mod beat 4)) 1 e 0]
+                (q/box (+ 120 100) 500 (rand-int 200) ))
+              ))))))
   )
 
 (defn render [channel]
@@ -60,7 +63,7 @@
   (let [ x 50
         y (rand-int 400)
         z 0
-        ttl (+ 10 (* 5 (get channel  :a)))]
+        ttl (+ 1000 (* 5 (get channel  :a)))]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)
@@ -96,3 +99,23 @@
   (swap! channel assoc :vizsynth add :render render :update updateviz)
 ;  (swap! rendering true)
   )
+
+
+
+
+
+
+   _____ ________________           ___    ____
+  / ___// ____/_  __/  _/  _  __   /   |  /  _/
+  \__ \/ __/   / /  / /   | |/_/  / /| |  / /
+ ___/ / /___  / / _/ /   _>  <   / ___ |_/ /
+/____/_____/ /_/ /___/  /_/|_|  /_/  |_/___/
+
+
+
+
+    __  __   ___    __      ____  ______
+   / / / /  /   |  / /     /  _/ / ____/
+  / /_/ /  / /| | / /      / /  / /
+ / __  /_ / ___ |/ /____ _/ / _/ /___ _
+/_/ /_/(_)_/  |_/_____(_)___/(_)____/(_)

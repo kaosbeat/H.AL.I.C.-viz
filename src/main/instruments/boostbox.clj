@@ -12,15 +12,16 @@
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
   ;(q/with-translation [(/  (q/width) 2) (/ (q/height) 2) -1000])
-  (q/with-rotation [(mod beat 4) 0 0 0 ]
-    (q/with-translation [x y z]
-      (q/stroke (* 2 a) 120)
-      (q/stroke-weight (* b (* 5 (mod beat 4))))
+
+  (q/with-translation [x y z]
+    (q/with-rotation [(q/random 1) 0 0 0 ]
+      (q/stroke (* 64 (mod beat 4)))
+      (q/stroke-weight (* b (* 1 (mod beat 4))))
       (q/fill 255 freq 3  ttl)
       (q/box (+ s q) 20 500 )
       (q/fill 255  (* 2 b) 0 120)
-      (q/box (+ q (rand-int a)) (* 1  peak)  (/ freq 2) )
-      ))
+      (q/box (+ q (rand-int a)) (* 1  peak)  (/ freq 20) ))
+    )
 
   )
 
@@ -60,7 +61,7 @@
         q (* 3  (get channel :peak))
         r 0
         s (+ 50 (rand-int 50))
-        ttl 100]
+        ttl 15]
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

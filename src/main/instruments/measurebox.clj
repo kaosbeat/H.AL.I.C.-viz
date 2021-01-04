@@ -12,15 +12,17 @@
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
   "main draw for this visual instrument"
   (let [ measure (mod beat 4)]
-    (q/fill 255 0 0)
+    (q/fill 55 a (rand-int 251))
     (q/stroke 225 0 255)
-    (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ]
-      (case measure
-        0 (q/box 10 10 10 )
-        1 (q/box 1000 10 10)
-        2 (q/box 10 1000 10)
-        3 (q/box 10 10 1000)
-        ))
+    (q/with-rotation [a 0 1 0 ]
+      (q/with-translation [(q/random 1000) (q/random 1000) (q/random 100) ])
+      (q/with-translation [900  (q/random 500) (q/random 100) ]
+        (case measure
+          0 (do (q/fill 255 255 0 120) (q/box 100 100 100 ))
+          1 (do (q/fill 255 0 0) (q/box 1000 10 10))
+          2 (do (q/with-rotation [a 1 1 0 ]   (q/box 2500 1000 250)))
+          3 (q/box 10 100 100)
+          )))
 
     )
 

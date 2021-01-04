@@ -111,7 +111,7 @@
 ;        beat (mod  (get @main.kaos/midibd :beat) 4)
         beat (mod  (get channel :beatnumber) 4)
         color [(rand-int 255) (rand-int 255) (rand-int 255)]
-        ttl (+ 400 (int (/ b 4)))]
+        ttl (+ 400 (int (/ b 4)))]\
     (if (= 0 (count @viz))
       (reset! viz []))
     (if (= ttl 0)

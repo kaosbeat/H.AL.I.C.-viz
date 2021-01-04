@@ -152,6 +152,11 @@
           )
 
 
+(remove-event-handler ::clock-handler)
+(remove-event-handler ::control-handler)
+(remove-event-handler ::keyboard-off-handler)
+(remove-event-handler ::keyboard-handler)
+
 
 (defn mididebugger [state]
 

@@ -35,18 +35,22 @@
 
 (defn draw [x y z q r s ttl a b c d freq peak beat id]
  ; (background 255)
-  (q/with-translation [100 400 100]
+  (q/with-translation [400 400 100]
     (dotimes [z 10]
       (let [amp peak
             phase peak
             n 10
             zz (* z -10)]
 
-        (dotimes [n 100]
+        (dotimes [n a]
           (q/with-rotation [ (* n 0.2) 0 1 0]
+            (q/stroke 255)
             (q/stroke-weight d)
                                         ;          (q/line (* phase n) 0 zz (+ (* phase n) (/ phase 2)) amp zz)
-            (q/line (+ (* phase n) (/ phase 2)) (* 10 amp) zz (* phase (+ n 1)) -1000 zz)))))))
+            (q/with-rotation [(mod beat 50) 0 0 1]
+              (q/line (+ (* phase n) (/ phase 20)) (* 10 amp) zz (* phase (+ n 1)) -1000 zz))
+
+            ))))))
 
 
 

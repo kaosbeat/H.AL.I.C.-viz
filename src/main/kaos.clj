@@ -31,6 +31,14 @@
             [main.instruments.carpetcross :as carpetcross]
             [main.instruments.carpet :as carpet]
             [main.instruments.droodle :as droodle]  ;;checked OK
+
+
+
+            [main.instruments.nl1 :as nl1]
+            [main.instruments.nl2 :as nl2]
+
+
+
             [main.channelmapping]
             [main.kaososcfilters]
             [main.kaosmidifilters]
@@ -54,6 +62,8 @@
 ;; CH7 loops L
 ;; CH8 loops R
 
+
+(reset! nl1/viz {})
 
 
 

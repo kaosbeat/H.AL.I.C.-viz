@@ -19,13 +19,13 @@
       (q/with-rotation [z 1 0  0  ]
         (q/with-translation [(+ (* (/ size 2) ttl) 200) (+ (rand-int c) 500) 600]
           (q/fill 255 0 0 (- (* 2 d) c) )
-          (q/fill 255 30 25)
+          ;(q/fill 255 30 25)
           (q/with-rotation [(q/radians  a) 3 0 0]
-            (dotimes [xx (/  freq 100)]
+            (dotimes [x (/  freq 100)]
               (q/with-rotation [z 0 1 0]
-                (q/with-translation [(* xx 100) 0 0]
-                  (q/fill (rand-int 255) 0 50 )
-                  (q/box 50))))
+                (q/with-translation [(* x 100) 0 0]
+           ;       (q/fill (rand-int 255) 0 50 )
+                  (q/box (* 3 50)))))
 ;            (q/box (+ (* size (/ 50 2)) (rand-int c))  122 200)
             )
                                         ;          (q/line 0 0 1000 1000 )
