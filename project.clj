@@ -19,4 +19,4 @@
                  ]
   :jvm-opts ^:replace []
 
-  :main main.kaos)
+  :main main.botpop)

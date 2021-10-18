@@ -1,4 +1,4 @@
-;;start using C-c M-j
+ ;;start using C-c M-j
 
 (ns main.botpop
   (:use [overtone.live])

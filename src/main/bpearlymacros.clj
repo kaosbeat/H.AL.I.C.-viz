@@ -42,3 +42,6 @@
 (def midichords (atom {:velocity 0}))
 (def midibass (atom {:velocity 0}))
 (def midikeyz (atom {:velocity 0}))
+
+
+(def measure (atom {:measure 0}))

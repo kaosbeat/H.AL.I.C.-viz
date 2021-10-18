@@ -129,14 +129,14 @@
                   channel (:channel e)]
               (case channel
                 0 (case data1
-                    13 (do (swap! midibd assoc :pitch data2) (swap! ch1 assoc :a data2))
-                    29 (do (swap! midibd assoc :decay data2) (swap! ch1 assoc :b data2))
-                    49 (do (swap! midibd assoc :noise data2) (swap! ch1 assoc :c data2) )
-                    77 (do (swap! midibd assoc :gain data2) (swap! ch1 assoc :d data2))
-                    14 (do (swap! midisd assoc :pitch data2) (swap! ch2 assoc :a data2))
-                    30 (do (swap! midisd assoc :decay data2) (swap! ch2 assoc :b data2))
-                    50 (do (swap! midisd assoc :noise data2) (swap! ch2 assoc :c data2) )
-                    78 (do (swap! midisd assoc :gain data2) (swap! ch2 assoc :d data2))
+                    14 (do (swap! midibd assoc :pitch data2) (swap! ch1 assoc :a data2))
+                    15 (do (swap! midibd assoc :decay data2) (swap! ch1 assoc :b data2))
+                    16 (do (swap! midibd assoc :noise data2) (swap! ch1 assoc :c data2) )
+                    17 (do (swap! midibd assoc :gain data2) (swap! ch1 assoc :d data2))
+                    18 (do (swap! midisd assoc :pitch data2) (swap! ch2 assoc :a data2))
+                    19 (do (swap! midisd assoc :decay data2) (swap! ch2 assoc :b data2))
+                    20 (do (swap! midisd assoc :noise data2) (swap! ch2 assoc :c data2) )
+                    21 (do (swap! midisd assoc :gain data2) (swap! ch2 assoc :d data2))
                     ;(println "unchanneled midi CC data")
                     )
 

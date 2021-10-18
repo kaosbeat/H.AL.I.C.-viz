@@ -147,3 +147,8 @@
                                            (if (== render 1)
                                              (swap! ch8 assoc :rendering false)
                                              (swap! ch8 assoc :rendering true )))) ))
+
+
+(osc-handle OSCs "/measure" (fn [msg] (do
+                                       (swap! measure assoc :measure (nth (get msg :args) 0))
+                                       )))

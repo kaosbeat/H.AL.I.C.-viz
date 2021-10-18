@@ -7,3 +7,7 @@
   )
 
 
+(defn update-each
+  "updates each keyword in keys {:a 1 :c 3}  on assoc struct map {:a 0 :b 1 :c 2}"
+  [map keys]
+  (swap! map (fn [old new] (merge old new)) keys))
