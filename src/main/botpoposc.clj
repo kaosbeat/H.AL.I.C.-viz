@@ -16,7 +16,6 @@
 
 
 
-
 ;(osc-handle OSCs "/ch1attack" (fn [msg] (println (first (get msg :args)))))
 
 
@@ -49,6 +48,8 @@
 (osc-handle OSCs "/ch8attack" (fn [msg] ((get @ch8 :vizsynth) @ch8)))
 (osc-handle OSCs "/ch9attack" (fn [msg] ((get @ch9 :vizsynth) @ch9)))
 (osc-handle OSCs "/ch10attack" (fn [msg] ((get @ch10 :vizsynth) @ch10)))
+
+
 
 
 (osc-handle OSCs "/ch1att" (fn [msg] (swap! ch1 assoc :a (nth (get msg :args) 0) :b (nth (get msg :args) 1) :c (nth (get msg :args) 2) :d (nth (get msg :args) 3))))

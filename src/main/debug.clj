@@ -1,4 +1,4 @@
-(ns main.kaos
+(ns main.botpop
   (:require [quil.core :as q]))
 
 
@@ -70,3 +70,5 @@
 
 
   )
+
+
