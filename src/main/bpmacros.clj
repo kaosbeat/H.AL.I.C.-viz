@@ -91,3 +91,20 @@
 (defn loadsoffakedata []
   (map fakedata channels)
   )
+
+
+(defn phaseswitch [phase]
+  (case phase
+    0 (do
+        (println "going into phase 0")
+        )
+    1 (do
+        (println "going into phase 1")
+        )))
+
+
+(def bp (atom {0 {:phase "off"
+                  :init [bps/fillvizbiz [4]]
+                  :debug {:violin1 false :violin2 false :alto false :cello false :notes false :cube :true}
+                  }
+               1 {:phase "ouverture" }}))

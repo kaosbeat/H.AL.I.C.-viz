@@ -1,4 +1,4 @@
- ;;start using C-c M-j
+;;start using C-c M-j
 
 (ns main.botpop
   (:use [overtone.live])
@@ -52,7 +52,7 @@
 ;;  ((get @ch5 :update) @ch5)
 ;;  ((get @ch6 :update) @ch6)
 ;;  ((get @ch7 :update) @ch7)
-;;  ((get @ch8 :update) @ch8)
+  ;;  ((get @ch8 :update) @ch8)
   (bps/updateviz)
 ;;  (bpp/updateviz)
   )
@@ -81,6 +81,15 @@
 ;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
   (drawDebug ch1)
 ;(q/background 255)
+;;  (debugmidistrings :ch4 @ch1 1600 30 "violin1")
+  ;;   (debugmidistrings :ch5 @ch2 1600 260 "violin2")
+;;  (debugmidistrings :ch6 @ch1 1600 490 "alto")
+;;  (debugmidistrings :ch7 @ch1 1600 720 "cello")
+  ;; (debugstringtype 1600 950) "ds" ;;; problem in boot sequence
+  ;;
+  ;;
+
+  ;; (debugnotestatistics "ch5" 100 1000 115 50)
 
   )
 

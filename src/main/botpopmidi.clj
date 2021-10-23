@@ -33,7 +33,10 @@
               (let [note (:note e)
                     vel  (:velocity e)
                     channel (:channel e)]
-  ;;              (println note vel channel)
+                                        ;(println "note " note)
+                (swap! notestatistics update-in [(str "ch" (+ 1 channel)) note] inc)
+                (if @midiREPL
+                  (println note vel channel))
                 (case channel
                   0 (do
                       (swap! midid1 assoc :velocity vel :note note :beat (inc (get @midid1 :beat)))
@@ -48,27 +51,56 @@
                       (swap! midid4 assoc :velocity vel :note note :beat (inc (get @midid4 :beat)))
                       )
                   4 (do
-                     ; (println "stuff added")
-                      (bps/add 1) ;; type 1 = violin
+                      (swap! lastnote assoc :ch4 note)
+                      (bps/add 1 note) ;; type 1 = violin
+
                       )
                   5 (do
-                      (bps/add 2) ;; type 2 = violin
-                      (swap! midid4 assoc :velocity vel :note note :beat (inc (get @midid4 :beat)))
+                      (swap! lastnote assoc :ch5 note)
+                      (bps/add 2 note) ;; type 2 = violin
+
 
                       )
                   6 (do
-                      (bps/add 3) ;; type 3 = alto
-                      (swap! midid4 assoc :velocity vel :note note :beat (inc (get @midid4 :beat)))
+                      (swap! lastnote assoc :ch6 note)
+                      (bps/add 3 note) ;; type 3 = alto
+
                       )
                   7 (do
-                      (bps/add 4) ;; type 1 = cello
-                      (swap! midid4 assoc :velocity vel :note note :beat (inc (get @midid4 :beat)))
+                      (swap! lastnote assoc :ch7 note)
+                      (bps/add 4 note) ;; type 1 = cello
+
                       )
 
+                  13 (do  ;;bpstrings variables
+                       (if (= note 41)
+                         (swap! bps/params assoc :b1 (not (get @bps/params :b1))))
+                       (if (= note 42)
+                         (swap! bps/params assoc :b2 (not (get @bps/params :b2))))
+                       (if (= note 43)
+                         (swap! bps/params assoc :b3 (not (get @bps/params :b3))))
+                       (if (= note 44)
+                         (swap! bps/params assoc :b4 (not (get @bps/params :b4))))
+                       (if (= note 57)
+                         (swap! bps/params assoc :b5 (not (get @bps/params :b5))))
+                       (if (= note 58)
+                         (swap! bps/params assoc :b6 (not (get @bps/params :b6))))
+                       (if (= note 59)
+                         (swap! bps/params assoc :b7 (not (get @bps/params :b7))))
+                       (if (= note 60)
+                         (swap! bps/params assoc :b8 (not (get @bps/params :b8))))
+                       (if (= note 105)
+                         (reset! midiREPL (not @midiREPL) ))
+                       (if (= note 106)
+                         (reset! ctrlREPL (not @ctrlREPL)))
 
-                 (+ 1 1)
-;                 (println "unchannelled midi")
+
+
+                       )
+               ;;  (+ 1 1)
+                  (do  (println "unchannelled midi" ) (println e) )
                   )
+                (swap! notestatistics update-in [(str "ch" channel) note] inc)
 
                 )
               )
@@ -83,7 +115,8 @@
                   vel 0]
              ; (println  note channel)
               (case channel
-                  0 (do
+                0 (do
+
                       (swap! midid1 assoc :velocity vel :note note :beat (inc (get @midid1 :beat)))
                     )
                   1 (do
@@ -112,13 +145,20 @@
             (let [data1 (:data1 e)
                   data2 (:data2 e)
                   channel (:channel e)]
+              (if @ctrlREPL
+                (println "CC data received on channel " channel "data " data1 data2))
               (case channel
                 13 (case data1    ;;; bottom row sliders on launch control XL 77 > 84
                      13 (swap! bps/params assoc :p1 data2 )
                      14 (swap! bps/params assoc :p2 data2 )
                      15 (swap! bps/params assoc :p3 data2 )
                      16 (swap! bps/params assoc :p4 data2 )
-                       78 (println data2)
+                     29 (swap! bps/params assoc :p5 data2 )
+                     30 (swap! bps/params assoc :p6 data2 )
+                     31 (swap! bps/params assoc :p7 data2 )
+                     32 (swap! bps/params assoc :p8 data2 )
+
+                     78 (println data2)
                        79 (println data2)
                        80 (println data2)
                        81 (println data2)
