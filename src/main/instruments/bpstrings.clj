@@ -44,8 +44,7 @@
 
 (fillvizbiz 4)
 
-(defn radrot []
-;  (seq->stream (cycle-between 0 6.2830 0.1 6.2830))
+(def radrot (seq->stream (cycle-between 0 6.2830 0.1 6.2830))
   )
 
 (defn module [x y z seed  p1 ]
@@ -123,7 +122,7 @@
 
   ;;; render datafeedercube
   (q/with-translation [800 1748 -1800]
-    (q/with-rotation [(* 2 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
+    (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
       (q/with-translation [-240 -240 0]
         (dotimes [n (count @vizbiz)]
           (let [x (get (nth @vizbiz n) :x)

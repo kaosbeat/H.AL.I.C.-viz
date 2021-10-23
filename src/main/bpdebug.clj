@@ -25,24 +25,28 @@
   (if (< (get @channel :freq) @minfreq)
     (reset! minfreq (get @channel :freq)))
 
-  (let [a    (get @channel :a)
-        b    (get @channel :b)
-        c    (get @channel :c)
-        d    (get @channel :d)
-        x    (get @channel :x)
-        y    (get @channel :y)
-        z    (get @channel :z)
-        peak (- (get @channel :peak ) 50 )
+  (let [a       (get @channel :a)
+        b       (get @channel :b)
+        c       (get @channel :c)
+        d       (get @channel :d)
+        x       (get @channel :x)
+        y       (get @channel :y)
+        z       (get @channel :z)
+        peak    (get @channel :peak )
         modbeat (mod (get @channel :beatnumber) 8)
-        freq (q/map-range (get @channel :freq ) @minfreq @maxfreq 0 100)
+        ;;freq (q/map-range (get @channel :freq ) @minfreq @maxfreq 0 100)
+        freq    (* 100 (get @channel :freq))
         ]
 
 
 
 
     (q/with-translation [1000 200 0]
+      (if (> peak 0.3)
+        (q/fill 255 0 0)
+        (q/fill 0 255 0))
       (annotate 100 90 0 0 0 0 (str "peak " peak))
-      (q/rect 100 100 peak 20 )
+      (q/rect 100 100 (* 50 peak) 20 )
 
       (annotate -150 200 0 0 0 0 (str "beat " ( + 1 modbeat)))
       (dotimes [n ( + 1 modbeat)]
@@ -58,7 +62,7 @@
       (q/with-rotation [(zerorounddeg) (tr) 1 0]
         (q/fill 255 525 20 110)
         (q/shininess 250)
-        (q/box freq)
+        (q/box (* 20 freq))
         (q/random-seed 52)
         (dotimes [n ( / (* a peak) 30)]
           (q/stroke-weight 0.3)
@@ -164,4 +168,113 @@
 
 
     (q/perspective))
+  )
+
+(def audioREPL (atom true))
+(defn audiodebugger [x y channels]
+  (q/ortho)
+  (let [a1 (get (get channels :ch1) :peak)
+        a2 (get (get channels :ch2) :peak)
+        a3 (get (get channels :ch3) :peak)
+        a4 (get (get channels :ch4) :peak)
+        a5 (get (get channels :ch5) :peak)
+        a6 (get (get channels :ch6) :peak)
+        a7 (get (get channels :ch7) :peak)
+        a8 (get (get channels :ch8) :peak)
+        f1 (get (get channels :ch1) :freq)
+        f2 (get (get channels :ch2) :freq)
+        f3 (get (get channels :ch3) :freq)
+        f4 (get (get channels :ch4) :freq)
+        f5 (get (get channels :ch5) :freq)
+        f6 (get (get channels :ch6) :freq)
+        f7 (get (get channels :ch7) :freq)
+        f8 (get (get channels :ch8) :freq)
+        b1 (mod (get (get channels :ch1) :beatnumber) 8)
+        b2 (mod (get (get channels :ch2) :beatnumber) 8)
+        b3 (mod (get (get channels :ch3) :beatnumber) 8)
+        b4 (mod (get (get channels :ch4) :beatnumber) 8)
+        b5 (mod (get (get channels :ch5) :beatnumber) 8)
+        b6 (mod (get (get channels :ch6) :beatnumber) 8)
+        b7 (mod (get (get channels :ch7) :beatnumber) 8)
+        b8 (mod (get (get channels :ch8) :beatnumber) 8)
+        a [a1 a2 a3 a4 a5 a6 a7 a8]
+        b [b1 b2 b3 b4 b5 b6 b7 b8]
+        f [f1 f2 f3 f4 f5 f6 f7 f8]]
+    (if @audioREPL
+      (println "debugging audio" "ch" a f b))
+    (q/with-translation [x y 0]
+      (dotimes [n (count a)]
+        (q/fill 0 (* (get f n) 255) 0)
+        (q/rect 0 (* n 20) (* 120 (get  a n)) 15 ))
+      (q/fill 255)
+      (q/with-translation [0 0 0]
+        (dotimes [n (count b)]
+          (dotimes [o (+ 1 (get b n))]
+            (if (> o 5)
+              (q/fill 255 0 0)
+              (q/fill 255))
+            (q/rect (* o -10) (* n 20) 6 15 ))))
+      )
+
+
+
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   )

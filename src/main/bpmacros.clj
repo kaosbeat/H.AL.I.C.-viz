@@ -1,7 +1,6 @@
 (ns main.botpop
 
   (:require
-
    [clojure.string :refer [replace split]]
    )
 )
@@ -56,15 +55,9 @@
   (println "try 'instrumentnamespace/channel ch1' ")
   (println "don't forget to '(toggleRender channel)' to enable rendering ")
   (println "fakedata channel can be used for testing")
-  (println "
-
-
-")
+  (println "")
   (listVizChannels)
-  (println "
-
-
-")
+  (println "")
   (map println instrumentslist)
 
     )
@@ -93,18 +86,27 @@
   )
 
 
+
+
+
+(def bp (atom {0 {:active true
+                  :phase "off"
+                  :init [bps/fillvizbiz [4]]
+                  :debug {:violin1 false :violin2 false :alto false :cello false :notes false :cube :true}
+                  }
+               1 {:active false
+                  :phase "ouverture" }}))
+;;
+;;(((get (get @bp 0) :init) 0 ) ((get (get @bp 0) :init) 1 ))
+
+
+
 (defn phaseswitch [phase]
   (case phase
     0 (do
         (println "going into phase 0")
+        (get @bp 0 )
         )
     1 (do
         (println "going into phase 1")
         )))
-
-
-(def bp (atom {0 {:phase "off"
-                  :init [bps/fillvizbiz [4]]
-                  :debug {:violin1 false :violin2 false :alto false :cello false :notes false :cube :true}
-                  }
-               1 {:phase "ouverture" }}))
