@@ -151,5 +151,7 @@
 
 
 (osc-handle OSCs "/measure" (fn [msg] (do
+
                                        (reset! measure (nth (get msg :args) 0))
+                                       (swap! absolutemeasure inc)
                                        )))

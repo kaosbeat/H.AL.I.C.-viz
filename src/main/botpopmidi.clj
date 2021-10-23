@@ -100,7 +100,7 @@
                ;;  (+ 1 1)
                   (do  (println "unchannelled midi" ) (println e) )
                   )
-                (swap! notestatistics update-in [(str "ch" channel) note] inc)
+
 
                 )
               )

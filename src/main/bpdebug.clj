@@ -2,10 +2,6 @@
   (:require [quil.core :as q]
             [main.instruments.bpstrings :as bps]))
 
-
-
-
-
 (defn annotate [x1 y1 z1 x2 y2 z2 text]
   (q/stroke 255)
   (q/fill 255 0 0)
@@ -13,7 +9,6 @@
   (q/line x1 y1 z1 x2 y2 z2)
   (q/text text x1 y1 z1)
   )
-
 
 
 (def minfreq (atom 20000))
@@ -37,9 +32,6 @@
         ;;freq (q/map-range (get @channel :freq ) @minfreq @maxfreq 0 100)
         freq    (* 100 (get @channel :freq))
         ]
-
-
-
 
     (q/with-translation [1000 200 0]
       (if (> peak 0.3)
@@ -162,41 +154,37 @@
           (q/text (str m) (* x 50) size  )
           )
         )
-
-
       )
-
-
     (q/perspective))
   )
 
-(def audioREPL (atom true))
+(def audioREPL (atom false))
 (defn audiodebugger [x y channels]
   (q/ortho)
-  (let [a1 (get (get channels :ch1) :peak)
-        a2 (get (get channels :ch2) :peak)
-        a3 (get (get channels :ch3) :peak)
-        a4 (get (get channels :ch4) :peak)
-        a5 (get (get channels :ch5) :peak)
-        a6 (get (get channels :ch6) :peak)
-        a7 (get (get channels :ch7) :peak)
-        a8 (get (get channels :ch8) :peak)
-        f1 (get (get channels :ch1) :freq)
-        f2 (get (get channels :ch2) :freq)
-        f3 (get (get channels :ch3) :freq)
-        f4 (get (get channels :ch4) :freq)
-        f5 (get (get channels :ch5) :freq)
-        f6 (get (get channels :ch6) :freq)
-        f7 (get (get channels :ch7) :freq)
-        f8 (get (get channels :ch8) :freq)
-        b1 (mod (get (get channels :ch1) :beatnumber) 8)
-        b2 (mod (get (get channels :ch2) :beatnumber) 8)
-        b3 (mod (get (get channels :ch3) :beatnumber) 8)
-        b4 (mod (get (get channels :ch4) :beatnumber) 8)
-        b5 (mod (get (get channels :ch5) :beatnumber) 8)
-        b6 (mod (get (get channels :ch6) :beatnumber) 8)
-        b7 (mod (get (get channels :ch7) :beatnumber) 8)
-        b8 (mod (get (get channels :ch8) :beatnumber) 8)
+  (let [a1 (get @(get channels 1) :peak)
+        a2 (get @(get channels 2) :peak)
+        a3 (get @(get channels 3) :peak)
+        a4 (get @(get channels 4) :peak)
+        a5 (get @(get channels 5) :peak)
+        a6 (get @(get channels 6) :peak)
+        a7 (get @(get channels 7) :peak)
+        a8 (get @(get channels 8) :peak)
+        f1 (get @(get channels 1) :freq)
+        f2 (get @(get channels 2) :freq)
+        f3 (get @(get channels 3) :freq)
+        f4 (get @(get channels 4) :freq)
+        f5 (get @(get channels 5) :freq)
+        f6 (get @(get channels 6) :freq)
+        f7 (get @(get channels 7) :freq)
+        f8 (get @(get channels 8) :freq)
+        b1 (mod (get @(get channels 1) :beatnumber) 8)
+        b2 (mod (get @(get channels 2) :beatnumber) 8)
+        b3 (mod (get @(get channels 3) :beatnumber) 8)
+        b4 (mod (get @(get channels 4) :beatnumber) 8)
+        b5 (mod (get @(get channels 5) :beatnumber) 8)
+        b6 (mod (get @(get channels 6) :beatnumber) 8)
+        b7 (mod (get @(get channels 7) :beatnumber) 8)
+        b8 (mod (get @(get channels 8) :beatnumber) 8)
         a [a1 a2 a3 a4 a5 a6 a7 a8]
         b [b1 b2 b3 b4 b5 b6 b7 b8]
         f [f1 f2 f3 f4 f5 f6 f7 f8]]
@@ -215,66 +203,37 @@
               (q/fill 255))
             (q/rect (* o -10) (* n 20) 6 15 ))))
       )
+    )
+ )
+(defn emptydebug [x y z w h]
+    (q/no-fill)
+    (q/with-translation [x y z]
+      (q/rect 0 0 w h)))
 
+(def bootprocess [
+    "initializing RNN"
+    "enabling model"
+    "loading preseed variables"
+    "starting midi clock"
+    "establishing link"
+    "sending notes"
+    "booting string mode"
+    "getting errors from database"
+    "learning from previous mistakes"
+    "be more human"
+    "be more robot"
+    ])
 
-
+(defn bootingdebug [x y z]
+  (q/no-fill)
+  (q/with-translation [x y z]
+    (q/rect 0 0 300 200)
+    (q/fill 255 0 0)
+    (let [n (mod @absolutemeasure (* 1 (count bootprocess)))]
+     ;; (println n (nth bootprocess n))
+      (q/text (nth bootprocess n) 0 10 )
+      )
 
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   )

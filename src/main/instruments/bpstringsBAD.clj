@@ -22,7 +22,8 @@
     "learning from previous mistakes"
     "be more human"
     "be more robot"
-    ])
+                  ])
+
 (def status (atom {:debug true :violin1 true}))
 (def params (atom {:p1 64 :p2 64 :p3 64} ))
 (def dynamics (atom {:bootphase 0 :hfreq1 1200 :hfreq2 600 :hfreq3 300 :hfreq4 200 :nfreq1 0 :nfreq2 0 :nfreq3 0 :nfreq4 0 :amp1 0 :amp2 0 :amp3 0 :amp4 0} ))
@@ -97,14 +98,7 @@
       (draw x y z ttl seed)
       )
     )
-  ;; (if (get status :debug)
-  (dotimes [n (count @viz)]
-    (do
-      (q/fill 255 )
-      (q/text (str "booting BOTPOP" (get status :violin1) ) 50 100)
-    )
   )
-)
 
 
 (defn add []

@@ -2,8 +2,10 @@
 
   (:require
    [clojure.string :refer [replace split]]
-   )
-)
+
+   [main.instruments.bpstrings :as bps]
+   [quil.core :as q])
+  )
 
 ;(def ch1 (atom {:id 1 :freq 0.0 :peak 0.0 :beatnumber 0 :x 0 :y 0 :z 0 :a 0 :b 0 :c 0 :d 0 :rendering true :vizsynth box/add :render box/render :update box/updateviz}))
 ;;helpers
@@ -88,25 +90,48 @@
 
 
 
-
-(def bp (atom {0 {:active true
+;; in init omnly functions with a single argument allowed (for now)
+(def bp (atom {:active 0
+               0 {:active true
                   :phase "off"
-                  :init [bps/fillvizbiz [4]]
-                  :debug {:violin1 false :violin2 false :alto false :cello false :notes false :cube :true}
+                  :init [println ["init phase 0" "yeah"] bps/fillvizbiz [2]]
+                  :debug [audiodebugger [100 100 channels]  ]
+                  :render [bps/renderStringNotes []]
+                  :preset {}
                   }
                1 {:active false
-                  :phase "ouverture" }}))
-;;
-;;(((get (get @bp 0) :init) 0 ) ((get (get @bp 0) :init) 1 ))
+                  :phase "ouverture"
+                  :init [println ["init phase 1"] bps/fillvizbiz [2]]
+                  :debug [debugmidistrings [:ch4 @ch1 1600 30 "violin1"]
+                          debugmidistrings [:ch5 @ch2 1600 260 "violin2"]
+                          debugmidistrings [:ch6 @ch1 1600 490 "alto"]
+                          debugmidistrings [:ch7 @ch1 1600 720 "cello"]
+                          audiodebugger [100 100 channels]
+                          debugstringtype [1600 950 "debugstrings"]
+                          debugnotestatistics ["ch5" 100 1000 115 50]
+                          emptydebug [1270 950 0 300 200]
+                          bps/renderCube [2200 2000 -1800]
+;;                          bootingdebug [ 500 500 500]
+                          ]
+                  :render [bps/renderStringNotes []
 
+                           ]
+                  }
 
+               }))
 
 (defn phaseswitch [phase]
-  (case phase
-    0 (do
-        (println "going into phase 0")
-        (get @bp 0 )
-        )
-    1 (do
-        (println "going into phase 1")
-        )))
+  ;; switch to active
+  (dotimes [n (count @bp)] (if (get (get @bp n) :active) (swap! bp assoc-in [n :active] false)))
+  (println phase)
+  (swap! bp assoc-in [phase :active] true)
+  (swap! bp assoc :active phase)
+  (let [init (get (get @bp phase) :init)]
+    (dotimes [n (/ (count  init) 2)]
+      ;; ((nth init (* 2 n)) (nth init (+ (* 2 n) 1)))
+      ;; ((nth init (* 2 n))  (nth (nth init (+ (* 2 n) 1) ) 0) )
+      (apply (nth init (* 2 n)) (nth init (+ (* 2 n) 1)))
+      ))
+  ;; enables debuggers
+  ;; debuggers are enabled in botpop main
+  )

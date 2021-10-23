@@ -12,19 +12,7 @@
 (def rendering (atom false))
 ;; (def lasttype (atom 0))
 
-(def bootprocess [
-    "initializing RNN"
-    "enabling model"
-    "loading preseed variables"
-    "starting midi clock"
-    "establishing link"
-    "sending notes"
-    "booting string mode"
-    "getting errors from database"
-    "learning from previous mistakes"
-    "be more human"
-    "be more robot"
-    ])
+
 (def status (atom {:debug true :violin1 true :size3D :5}))
 (def params (atom {:p1 64 :p2 64 :p3 64 :p4 64 :p5 64 :p6 64 :p7 64 :p8 64
                    :b1 false :b2 false :b3 false :b4 false :b5 false :b6 false :b7 false :b8 false} ))
@@ -101,27 +89,9 @@
     )
   )
 
-
-
-
-
-(defn render []
-  ;;; render stringnotes
-  (dotimes [n (count @viz)]
-      (let [x (get (nth @viz n) :x)
-            y (get (nth @viz n) :y)
-            z (get (nth @viz n) :z)
-            ttl (get (nth @viz n) :ttl)
-            type (get (nth @viz n) :type)
-            seed (get (nth @viz n) :seed )]
-        (draw x y z ttl type seed)
-        )
-
-      )
-
-
-  ;;; render datafeedercube
-  (q/with-translation [800 1748 -1800]
+;;; render datafeedercube
+(defn renderCube [x y z]
+(q/with-translation [x y z]
     (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
       (q/with-translation [-240 -240 0]
         (dotimes [n (count @vizbiz)]
@@ -134,9 +104,24 @@
                 ]
             (drawbiz (* space  x) (* space  y) (* space z) ttl type)
             )))))
+  )
 
 
-)
+(defn renderStringNotes []
+  ;;; render stringnotes
+  (dotimes [n (count @viz)]
+    (let [x    (get (nth @viz n) :x)
+          y    (get (nth @viz n) :y)
+          z    (get (nth @viz n) :z)
+          ttl  (get (nth @viz n) :ttl)
+          type (get (nth @viz n) :type)
+          seed (get (nth @viz n) :seed )]
+        (draw x y z ttl type seed)
+        )
+    )
+  )
+
+
 
 (defn add [type note]
   (let [x -200
@@ -200,6 +185,6 @@
   )
 
 (defn channel [channel]
-  (swap! channel assoc :vizsynth add :render render :update updateviz)
+  (swap! channel assoc :vizsynth add :render renderStringNotes :update updateviz)
 ;  (swap! rendering true)
   )

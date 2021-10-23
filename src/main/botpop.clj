@@ -59,43 +59,28 @@
 
 (defn renderstuff []
   (q/background 0)
-   (bps/render)
- ;; (bpp/render)
+  (let [render (get (get @bp (get @bp :active)):render)]
+    (dotimes [n (/ (count render) 2)]
+       (apply (nth render (* 2 n)) (nth render (+ (* 2 n) 1)))
+      )
+    )
   )
 
-
-
+(defn renderdebug []
+  (let [debug (get (get @bp (get @bp :active)):debug)]
+    (dotimes [n (/ (count debug) 2)]
+       (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
+      )
+    ))
 
 
 (defn draw [state]
-  (updatestuff)                                        ;updatestufff
+  (updatestuff)
   (q/camera)
   (renderstuff)
-
- (.sendScreen @server )
-;; (q/perspective)
- ; (mididebugger state)
-
-;  (q/camera 1000 600 2000 1000 600 20 0 (tr) 0)
-;  (q/perspective  (/ 3.14 3.0) (/  (q/width) (q/height)) (/ cameraZ 10) (* cameraZ 10000 ) )
-;;  (q/camera (- 500 (* (tr) 100)) 600 500 0 0 -150 0 1 0)
-;;  (drawDebug ch1)
-
-
-                                        ;(q/background 255)
-
-  ;; drawing debug tools
-
-;;  (debugmidistrings :ch4 @ch1 1600 30 "violin1")
- ;; (debugmidistrings :ch5 @ch2 1600 260 "violin2")
-;;  (debugmidistrings :ch6 @ch1 1600 490 "alto")
-;;  (debugmidistrings :ch7 @ch1 1600 720 "cello")
-  ;; (debugstringtype 1600 950) "ds" ;;; problem in boot sequence
-  ;;
-  ;;
-
-  ;; (debugnotestatistics "ch5" 100 1000 115 50)
-;;  (audiodebugger 100 100 [@ch1 @ch2 @ch3 @ch4 @ch5 @ch6 @ch7 @ch8])
+  (renderdebug)
+  (.sendScreen @server )
+  ;; (mididebugger state)
   )
 
 
@@ -104,9 +89,9 @@
   :title "halic"
   :size :fullscreen
   ;;size [960 540]
-  ;:size [(/  (q/width) 2) (/ (q/height) 2)]
-  ;:size [(/  width 1) (/ height 1)]
- :features [:present]
+                                        ;:size [(/  (q/width) 2) (/ (q/height) 2)]
+                                        ;:size [(/  width 1) (/ height 1)]
+  :features [:present]
   :setup setup
   :update updatestate
   :draw draw

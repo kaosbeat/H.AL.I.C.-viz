@@ -38,6 +38,7 @@
 
 
 (def measure (atom 0))
+(def absolutemeasure (atom 0))
 (def lastnote (atom {:ch1 0 :ch2 0 :ch3 0 :ch4 0 :ch5 0 :ch6 0 :ch7 0 :ch8 0}))
 (def lasttype (atom 0))
 
@@ -45,6 +46,7 @@
 
 (def midiREPL (atom false)) ;; print midi notes to REPL
 (def ctrlREPL (atom false))
+(def audioREPL (atom false))
 ;; print midi controller events to repl
 
 
