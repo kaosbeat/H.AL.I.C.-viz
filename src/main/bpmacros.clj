@@ -1,4 +1,4 @@
-(ns main.botpop
+,(ns main.botpop
 
   (:require
    [clojure.string :refer [replace split]]
@@ -89,7 +89,6 @@
 
 
 
-
 ;; in init omnly functions with a single argument allowed (for now)
 (def bp (atom {:active 0
                0 {:active true
@@ -110,12 +109,33 @@
                           debugstringtype [1600 950 "debugstrings"]
                           debugnotestatistics ["ch5" 100 1000 115 50]
                           emptydebug [1270 950 0 300 200]
-                          bps/renderCube [2200 2000 -1800]
+                          setcubetween [2200 2000 -1800]
+                          bps/renderCube []
 ;;                          bootingdebug [ 500 500 500]
                           ]
                   :render [bps/renderStringNotes []
 
                            ]
+                  }
+               2 {:active false
+                  :phase "prepulsar"
+                  :init [println ["init phase 1"] bps/fillvizbiz [2] resettweeners []]
+                  :debug [debugmidistrings [:ch4 @ch1 1600 30 "violin1"]
+                          debugmidistrings [:ch5 @ch2 1600 260 "violin2"]
+                          debugmidistrings [:ch6 @ch1 1600 490 "alto"]
+                          debugmidistrings [:ch7 @ch1 1600 720 "cello"]
+                          audiodebugger [100 100 channels]
+                          debugstringtype [1600 950 "debugstrings"]
+                          ;debugnotestatistics ["ch5" 100 1000 115 50]
+                          emptydebug [1270 950 0 300 200]
+
+                          updatecubetween []
+                          bps/renderCube []
+;;                          bootingdebug [ 500 500 500]
+                          ]
+                  :render [bps/renderStringNotes []
+
+                            ]
                   }
 
                }))

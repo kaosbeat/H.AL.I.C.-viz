@@ -17,6 +17,6 @@
 ;                 [clj-sockets "0.1.0"]
 ;                 [glgraphics "1.0.0"]
                  ]
-  :jvm-opts ^:replace []
+  ;; :jvm-opts ^:replace []
 
   :main main.botpop)

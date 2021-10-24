@@ -58,17 +58,7 @@
 )
 
 
-(defn decordraw []
-  (q/with-translation [150 150 0]
-    (q/with-rotation [(* (get @main.botpop/measure :measure) 45) 0 1 0])
-    (q/fill 0 255 0)
-    (q/box 100)
-    )
-     ; ( dotimes [n a])
-  (q/with-translation [20 (* 2 50) 30]
-    (q/box 30)
-  )
-)
+
 
 (defn draw [x y z ttl seed]
   "main draw for this visual instrument"
@@ -155,44 +145,7 @@
 
 
 
-(defn updatevizBAD []
-  ;(println "updateviz called")
-  ; for some reason not all pills are deleted
-  (reset! vizcount [])
-  (dotimes [n (count @viz)]
-    (if (false? (= 0 (get (get @viz n) :ttl)))
-      (if (get (get @viz n) :virgin)
-        (do ;; virgins only
-          (swap! viz update-in [n :x] (fn [x] (+ x 1)))
-          ;; (println viz)
-          (if (> (get (nth @viz n) :x) 620)
-            ;; (println (nth @viz n))
-            (do
-              (swap! viz update-in [n :virgin] false)
 
-              ;; (swap! viz update-in [n :x] noiseX)
-              ;; (swap! viz update-in [n :y] noiseY)
-              ;; (swap! viz update-in [n :z] noise )
-              )
-            )
-          )
-        (do ;;non virgins only!
-          (swap! vizbiz conj (nth @viz n))
-          (swap! viz update-in [n :ttl] dec)
-          )
-
-        )
-      ;;else mark pill for deletion
-      (do
-      ;  (println "deleting")
-        (swap! vizcount conj n)))
-    )
-  (dotimes [n (count @vizcount)]
-    ;;(println " really dropping stuff")
-    (reset! viz  (drop-nth (nth @vizcount n) @viz))
-    )
-
-  )
 
 (defn channel [channel]
   (swap! channel assoc :vizsynth add :render render :update updateviz)

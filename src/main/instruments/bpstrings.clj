@@ -32,8 +32,7 @@
 
 (fillvizbiz 4)
 
-(def radrot (seq->stream (cycle-between 0 6.2830 0.1 6.2830))
-  )
+(def radrot (seq->stream (cycle-between 0 6.2830 0.1 6.2830))  )
 
 (defn module [x y z seed  p1 ]
   (q/noise-seed seed)
@@ -90,21 +89,26 @@
   )
 
 ;;; render datafeedercube
-(defn renderCube [x y z]
-(q/with-translation [x y z]
-    (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
-      (q/with-translation [-240 -240 0]
-        (dotimes [n (count @vizbiz)]
-          (let [x (get (nth @vizbiz n) :x)
-                y (get (nth @vizbiz n) :y)
-                z (get (nth @vizbiz n) :z)
-                ttl (get (nth @vizbiz n) :ttl)
-                type (get (nth @vizbiz n) :type)
-                space 120
-                ]
-            (drawbiz (* space  x) (* space  y) (* space z) ttl type)
-            )))))
+(defn renderCube []
+  (let [x (get @main.botpop/cubetween :x)
+        y (get @main.botpop/cubetween :y)
+        z (get @main.botpop/cubetween :z)]
+    (q/with-translation [x y z]
+      (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
+        (q/with-translation [-240 -240 0]
+          (dotimes [n (count @vizbiz)]
+            (let [x (get (nth @vizbiz n) :x)
+                  y (get (nth @vizbiz n) :y)
+                  z (get (nth @vizbiz n) :z)
+                  ttl (get (nth @vizbiz n) :ttl)
+                  type (get (nth @vizbiz n) :type)
+                  space 120
+                  ]
+              (drawbiz (* space  x) (* space  y) (* space z) ttl type)
+              ))))))
   )
+
+
 
 
 (defn renderStringNotes []

@@ -33,8 +33,8 @@
               (let [note (:note e)
                     vel  (:velocity e)
                     channel (:channel e)]
-                                        ;(println "note " note)
-                (swap! notestatistics update-in [(str "ch" (+ 1 channel)) note] inc)
+                ;(println "note " note "channel " channel)
+                (swap! notestatistics update-in [(str "ch" channel) note] inc)
                 (if @midiREPL
                   (println note vel channel))
                 (case channel

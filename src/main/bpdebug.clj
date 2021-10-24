@@ -125,7 +125,7 @@
   (reset! notestatistics {})
   (dotimes [c 16]
     (swap! notestatistics assoc (str "ch" c) {})
-    (dotimes [n 127]
+    (dotimes [n 128]
       (swap! notestatistics assoc-in [(str "ch" c) n] 0)
       )))
 

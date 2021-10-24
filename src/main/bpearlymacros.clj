@@ -43,6 +43,31 @@
 (def lasttype (atom 0))
 
 
+;;;; atoms needed for animation states
+(def cubetween (atom {:x 0 :y 0 :z 0}))
+(defn resettweeners []
+  (def p12x (seq->stream (range-incl 2200 1000 -5)))
+  (def p12y (seq->stream (range-incl 2000 1000 -6)))
+  (def p12z (seq->stream (range-incl -1800 -500 1)))
+
+  )
+(resettweeners)
+(defn setcubetween [x y z]
+  (reset! cubetween {:x x :y y :z z}))
+(defn updatecubetween []
+  (let [x (p12x)
+        y (p12y)
+        z (p12z)]
+    (if (not (nil? x)) (swap! cubetween assoc :x x))
+    (if (not (nil? y)) (swap! cubetween assoc :y y))
+    (if (not (nil? z)) (swap! cubetween assoc :z z))
+    )
+  )
+
+
+
+
+
 
 (def midiREPL (atom false)) ;; print midi notes to REPL
 (def ctrlREPL (atom false))

@@ -1,4 +1,4 @@
-;;start using C-c M-j
+3;;start using C-c M-j
 
 (ns main.botpop
   (:use [overtone.live])
@@ -64,14 +64,15 @@
        (apply (nth render (* 2 n)) (nth render (+ (* 2 n) 1)))
       )
     )
-  )
+  ;(bps/renderCube (p12x) (p12y) (p12z))
 
-(defn renderdebug []
-  (let [debug (get (get @bp (get @bp :active)):debug)]
-    (dotimes [n (/ (count debug) 2)]
-       (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
-      )
-    ))
+
+  (defn renderdebug []
+    (let [debug (get (get @bp (get @bp :active)):debug)]
+      (dotimes [n (/ (count debug) 2)]
+        (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
+        )
+      )))
 
 
 (defn draw [state]
