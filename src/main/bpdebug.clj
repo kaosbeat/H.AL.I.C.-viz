@@ -113,7 +113,7 @@
   (q/rect x y 300 200)
   (q/with-translation [(+ x 150) (+ y 100) 0]
     (q/with-rotation [@measure 1 1 0]
-      (bps/drawbiz 0 0 0 10 @lasttype)))
+      (bps/cubeModule 0 0 0 (* @lasttype 50) 50 50 10 @lasttype)))
   (q/fill 0 255 0)
   (let [txt (nth titlestring (- @lasttype 1))]
     (q/text txt x (+ 189 y) ))

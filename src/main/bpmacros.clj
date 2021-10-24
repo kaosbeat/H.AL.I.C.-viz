@@ -1,4 +1,4 @@
-,(ns main.botpop
+(ns main.botpop
 
   (:require
    [clojure.string :refer [replace split]]
@@ -89,10 +89,11 @@
 
 
 
-;; in init omnly functions with a single argument allowed (for now)
+
 (def bp (atom {:active 0
                0 {:active true
                   :phase "off"
+                  :update [bps/updateviz []]
                   :init [println ["init phase 0" "yeah"] bps/fillvizbiz [2]]
                   :debug [audiodebugger [100 100 channels]  ]
                   :render [bps/renderStringNotes []]
@@ -100,7 +101,10 @@
                   }
                1 {:active false
                   :phase "ouverture"
-                  :init [println ["init phase 1"] bps/fillvizbiz [2]]
+                  :update [bps/updateviz []]
+                  :init [println ["init phase 1"]
+                         bps/fillvizbiz [2]
+                         setcubetween [2200 1900 -1800]]
                   :debug [debugmidistrings [:ch4 @ch1 1600 30 "violin1"]
                           debugmidistrings [:ch5 @ch2 1600 260 "violin2"]
                           debugmidistrings [:ch6 @ch1 1600 490 "alto"]
@@ -109,8 +113,8 @@
                           debugstringtype [1600 950 "debugstrings"]
                           debugnotestatistics ["ch5" 100 1000 115 50]
                           emptydebug [1270 950 0 300 200]
-                          setcubetween [2200 2000 -1800]
-                          bps/renderCube []
+
+                          bps/cubeView []
 ;;                          bootingdebug [ 500 500 500]
                           ]
                   :render [bps/renderStringNotes []
@@ -119,22 +123,27 @@
                   }
                2 {:active false
                   :phase "prepulsar"
-                  :init [println ["init phase 1"] bps/fillvizbiz [2] resettweeners []]
+                  :update [bps/updateviz [] updatecubetween []]
+                  :init [println ["init phase 1"] bps/fillvizbiz [8] resettweeners []]
                   :debug [debugmidistrings [:ch4 @ch1 1600 30 "violin1"]
                           debugmidistrings [:ch5 @ch2 1600 260 "violin2"]
                           debugmidistrings [:ch6 @ch1 1600 490 "alto"]
                           debugmidistrings [:ch7 @ch1 1600 720 "cello"]
                           audiodebugger [100 100 channels]
                           debugstringtype [1600 950 "debugstrings"]
-                          ;debugnotestatistics ["ch5" 100 1000 115 50]
-                          emptydebug [1270 950 0 300 200]
-
-                          updatecubetween []
-                          bps/renderCube []
-;;                          bootingdebug [ 500 500 500]
+                          debugnotestatistics ["ch5" 100 1000 115 50]
+                          ;emptydebug [1270 950 0 300 200]
                           ]
-                  :render [bps/renderStringNotes []
-
+                  :render [bps/cubeView []
+                            ]
+                  }
+               3 {:active false
+                  :phase "pulsar"
+                  :update [bps/updateviz []]
+                  :init [println ["init phase 1"] bps/fillvizbiz [8] resettweeners []]
+                  :debug [audiodebugger [100 100 channels]
+                          ]
+                  :render [bps/cubeView []
                             ]
                   }
 

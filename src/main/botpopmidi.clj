@@ -72,7 +72,7 @@
 
                       )
 
-                  13 (do  ;;bpstrings variables
+                  13 (do
                        (if (= note 41)
                          (swap! bps/params assoc :b1 (not (get @bps/params :b1))))
                        (if (= note 42)
@@ -90,9 +90,20 @@
                        (if (= note 60)
                          (swap! bps/params assoc :b8 (not (get @bps/params :b8))))
                        (if (= note 105)
-                         (reset! midiREPL (not @midiREPL) ))
+                         (do
+                           (phaseswitch 0)
+                          ; (reset! midiREPL (not @midiREPL) )
+                           ))
                        (if (= note 106)
-                         (reset! ctrlREPL (not @ctrlREPL)))
+                         (do
+                           (phaseswitch 1)
+                          ; (reset! ctrlREPL (not @ctrlREPL))
+                           ))
+                       (if (= note 107)
+                         (do
+                           (phaseswitch 2)
+                          ; (reset! audioREPL (not @audioREPL))
+                           ))
 
 
 

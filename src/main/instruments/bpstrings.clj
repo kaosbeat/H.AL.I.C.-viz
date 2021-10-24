@@ -2,13 +2,18 @@
   (:require
    [main.util :refer [drop-nth]]
    [quil.core :as q]
-   [quil.helpers.seqs :refer [seq->stream range-incl cycle-between steps]]))
+   [quil.helpers.seqs :refer [seq->stream range-incl cycle-between steps]]
+   [main.botpop :refer [ch1 ch2]]
+   ))
 
 
 (def viz (atom []))
 (def vizbiz (atom []))
 (def vizcount (atom []))
 (def vizbizcount (atom []))
+(def ewiviz (atom []))
+(def ewivizcount (atom []))
+
 (def rendering (atom false))
 ;; (def lasttype (atom 0))
 
@@ -18,21 +23,20 @@
                    :b1 false :b2 false :b3 false :b4 false :b5 false :b6 false :b7 false :b8 false} ))
 (def dynamics (atom {:bootphase 0 :hfreq1 1200 :hfreq2 600 :hfreq3 300 :hfreq4 200 :nfreq1 0 :nfreq2 0 :nfreq3 0 :nfreq4 0 :amp1 0 :amp2 0 :amp3 0 :amp4 0} ))
 
-
+(def vizbizsize (atom 1))
 (defn fillvizbiz [size3D]
   (reset! vizbiz [])
   (dotimes [x size3D]
     (dotimes [y size3D]
       (dotimes [z size3D]
-        (let [space 20]
-         (swap! vizbiz conj {:x x :y y :z z :ttl 10 :type 1})
-         ;; (swap! vizbiz conj {:x (* space x) :y (* space y) :z (* space z) :ttl 0 :type 0 })
-          ;;(println "duh")
-          )))))
+        (reset! vizbizsize size3D)
+        (swap! vizbiz conj {:x x :y y :z z :ttl 10 :type 1})
+        ))))
 
-(fillvizbiz 4)
+(fillvizbiz 5)
 
-(def radrot (seq->stream (cycle-between 0 6.2830 0.1 6.2830))  )
+
+(def radrot (seq->stream (cycle-between 0 6.2830 0.01 6.2830))  )
 
 (defn module [x y z seed  p1 ]
   (q/noise-seed seed)
@@ -74,40 +78,50 @@
   )
 
 
-(defn drawbiz [x y z ttl type]
-  "main draw for this visual instrument"
-  ;(println "drawing " id  x y z freq beat)
-
-  (let [colors [(q/color 0 0 0 0) (q/color 55 0 255 128) (q/color 255 0 0 128) (q/color 255 255 255 128) (q/color 0 0 255 128)]]
-       (q/fill (nth colors (- type 1)))
-       )
-  (q/with-translation [x y z]
-
-    ;;(q/fill 255 255 0 ttl)
-    (q/box (* type  50) 50 50)
-    )
+(defn cubeModule [x y z w h d ttl type ]
+  (let [colors [(q/color 0 0 0 0)
+                (q/color 55 0 255 128)
+                (q/color 255 0 0 128)
+                (q/color 255 255 255 128)
+                (q/color 0 0 255 128)]]
+    (q/fill (nth colors (- type 1))))
+    (q/with-translation [x y z]
+      (let [a (get @ch1 :peak)]
+        (q/box  (* a w) h d)))
   )
 
 ;;; render datafeedercube
-(defn renderCube []
-  (let [x (get @main.botpop/cubetween :x)
-        y (get @main.botpop/cubetween :y)
-        z (get @main.botpop/cubetween :z)]
-    (q/with-translation [x y z]
-      (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
-        (q/with-translation [-240 -240 0]
+
+(defn renderCube [x y z]
+  (q/with-translation [x y z]
+    (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
+      (let [size 50
+            a (get @ch2 :peak)
+            space (+ 100 (* a 50))
+            order @vizbizsize
+            rotoffset (- 0  (/ (* order space) 2))]
+        (q/with-translation [rotoffset rotoffset rotoffset ]
           (dotimes [n (count @vizbiz)]
             (let [x (get (nth @vizbiz n) :x)
                   y (get (nth @vizbiz n) :y)
                   z (get (nth @vizbiz n) :z)
                   ttl (get (nth @vizbiz n) :ttl)
                   type (get (nth @vizbiz n) :type)
-                  space 120
-                  ]
-              (drawbiz (* space  x) (* space  y) (* space z) ttl type)
-              ))))))
-  )
 
+
+                  ]
+              (cubeModule (* space  x) (* space  y) (* space z) (* type size) size size ttl type)
+              )))))))
+
+(defn cubeView []
+  (let [x (get @main.botpop/cubetween :x)
+        y (get @main.botpop/cubetween :y)
+        z (get @main.botpop/cubetween :z)]
+
+    (renderCube x y z)
+   ;; (println "cubeView Called" x y z )
+    )
+  )
 
 
 
@@ -122,6 +136,28 @@
           seed (get (nth @viz n) :seed )]
         (draw x y z ttl type seed)
         )
+    )
+  )
+
+(defn ewistream []
+  (q/with-translation [500 500 0]
+    (q/box 600))
+  )
+
+(defn updateewistream []
+  (reset! ewivizcount [])
+  (dotimes [n (count @ewiviz)]
+    (if (false? (= 0 (get (get @ewiviz n) :ttl)))
+      (do
+        (swap! viz update-in [n :ttl] dec)
+        (swap! viz update-in [n :x] (fn [x] (+ x 5)))
+        )
+      (swap! ewivizcount conj n)
+      )
+    )
+  (dotimes [n (count @ewivizcount)]
+    ;;    (println " really dropping stuff")
+    (reset! viz  (drop-nth (nth @ewivizcount n) @viz))
     )
   )
 
@@ -188,7 +224,4 @@
     )
   )
 
-(defn channel [channel]
-  (swap! channel assoc :vizsynth add :render renderStringNotes :update updateviz)
-;  (swap! rendering true)
-  )
+;(defn channel [channel] (swap! channel assoc :vizsynth add :render renderStringNotes :update updateviz))

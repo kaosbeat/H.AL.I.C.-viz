@@ -1,4 +1,4 @@
-3;;start using C-c M-j
+;;start using C-c M-j
 
 (ns main.botpop
   (:use [overtone.live])
@@ -7,14 +7,10 @@
             [quil.applet :as qa]
             [main.bpearlymacros]
             [main.bpdebug]
-            [main.instruments.box :as box]
             [main.instruments.bpstrings :as bps]
-            [main.instruments.bppulsar :as bpp]
-            [main.instruments.bpewi :as bpe]
-            [main.bpchannelmapping]
             [main.botpoposc]
-            [main.botpopmidi]
             [main.bpmacros]
+            [main.botpopmidi]
             )
   (:import ( 'codeanticode.syphon.SyphonServer))
     (:import ('jsyphon.JSyphonServer))
@@ -45,16 +41,12 @@
   )
 
 (defn updatestuff []
-;;  ((get @ch1 :update) @ch1)
-;;  ((get @ch2 :update) @ch2)
-;;  ((get @ch3 :update) @ch3)
-;;  ((get @ch4 :update) @ch4)
-;;  ((get @ch5 :update) @ch5)
-;;  ((get @ch6 :update) @ch6)
-;;  ((get @ch7 :update) @ch7)
-  ;;  ((get @ch8 :update) @ch8)
-  (bps/updateviz)
-;;  (bpp/updateviz)
+  (let [update (get (get @bp (get @bp :active)):update)]
+    (dotimes [n (/ (count update) 2)]
+      (apply (nth update (* 2 n)) (nth update (+ (* 2 n) 1)))
+      )
+    )
+
   )
 
 (defn renderstuff []
@@ -65,14 +57,17 @@
       )
     )
   ;(bps/renderCube (p12x) (p12y) (p12z))
+)
 
 
-  (defn renderdebug []
-    (let [debug (get (get @bp (get @bp :active)):debug)]
-      (dotimes [n (/ (count debug) 2)]
-        (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
-        )
-      )))
+(defn renderdebug []
+  (let [debug (get (get @bp (get @bp :active)):debug)]
+    (dotimes [n (/ (count debug) 2)]
+      (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
+      )
+    ))
+
+
 
 
 (defn draw [state]
@@ -80,8 +75,13 @@
   (q/camera)
   (renderstuff)
   (renderdebug)
+
+
   (.sendScreen @server )
   ;; (mididebugger state)
+
+
+
   )
 
 
