@@ -71,11 +71,18 @@
 
 
 (defn draw [state]
+
+
+
+
   (updatestuff)
   (q/camera)
   (renderstuff)
   (renderdebug)
-
+  (q/no-fill)
+  (q/stroke 255 0 0)
+  (q/stroke-weight 1)
+  (q/rect 0 0 1600 1000)
 
   (.sendScreen @server )
   ;; (mididebugger state)
@@ -88,8 +95,8 @@
 
 (q/defsketch halic
   :title "halic"
-  ;;:size :fullscreen
-  :size [1920 1080]
+  :size :fullscreen
+ ;; :size [1920 1080]
                                         ;:size [(/  (q/width) 2) (/ (q/height) 2)]
                                         ;:size [(/  width 1) (/ height 1)]
   :features [:present]

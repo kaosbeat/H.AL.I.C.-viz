@@ -93,7 +93,7 @@
 
 
 
-(def bp (atom {:active 0
+(def bp (atom {:active 1
                0 {:active true
                   :phase "off"
                   :update [bps/updateviz []]
@@ -105,23 +105,29 @@
                   }
                1 {:active false
                   :phase "ouverture"
-                  :update [bps/updateviz []]
+                  :update [bps/updateviz [] followcubetween  []]
                   :init [println ["init phase 1"]
                          bps/fillvizbiz [2]
-                         setcubetween [2200 1900 -1800]]
-                  :debug [debugmidistrings [:ch4 @ch4 1600 30 "violin1"]
-                          debugmidistrings [:ch5 @ch5 1600 260 "violin2"]
-                          debugmidistrings [:ch6 @ch6 1600 490 "alto"]
-                          debugmidistrings [:ch7 @ch7 1600 720 "cello"]
-                          audiodebugger [100 100 channels]
-                          debugstringtype [1600 950 "debugstrings"]
-                          debugnotestatistics ["ch5" 100 1000 115 50]
+                         setcubetween [1400 100 100]]
+                  :debug [debugmidistrings [:ch4 @ch4 20 20 "violin1"]
+                          debugmidistrings [:ch5 @ch5 20 240 "violin2"]
+                          debugmidistrings [:ch6 @ch6 20 460 "alto"]
+                          debugmidistrings [:ch7 @ch7 20 680 "cello"]
+                          audiodebugger [1500 10 channels]
                           emptydebug [1270 950 0 300 200]
+                          debugstringtype [1200 350 "debugstrings"]
+                          debugnotestatistics ["ch5" 100 1000 115 50]
 
+                          q/ortho []
                           bps/cubeView []
+                          bps/cubeDebugannotateframe []
+                          q/perspective []
+
 ;;                          bootingdebug [ 500 500 500]
                           ]
                   :render [bps/renderStringNotes []
+
+
 
                            ]
                   }

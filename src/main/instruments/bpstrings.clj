@@ -88,11 +88,11 @@
 
 (defn cubeModule [x y z w h d ttl type ]
   (let [colors [(q/color 0 0 0 0)
-                (q/color 55 0 255 128)
+                (q/color 55 0 155 128)
                 (q/color 255 0 0 128)
-                (q/color 0 255 255 128)
-                (q/color 0 0 255 128)]]
-    (q/fill (nth colors  type )))
+                (q/color 0 25 155 128)
+                (q/color 0 0 55 128)]]
+    (q/fill (nth colors   type )))
   (if (= type 1) (q/no-fill))
   (q/with-translation [x y z]
       (let [a (get @ch4 :peak)
@@ -126,6 +126,21 @@
                   ]
               (cubeModule (* space  x) (* space  y) (* space z) (* type size) size size ttl type)
               )))))))
+
+
+(defn cubeDebugannotateframe []
+  (let [x (get @main.botpop/cubetween :x)
+        y (get @main.botpop/cubetween :y)
+        z (get @main.botpop/cubetween :z)]
+    (q/stroke 0 255 0)
+    (q/stroke-weight 3)
+    (q/no-fill)
+    (q/rect (- x 250) (- y 220) 300 300 )
+    (q/line (- x 250) y z  320 (+  (rand-int 200) (* 220 @main.botpop/lasttype)) 0)
+   ;; (println "cubeView Called" x y z )
+    )
+  )
+
 
 (defn cubeView []
   (let [x (get @main.botpop/cubetween :x)

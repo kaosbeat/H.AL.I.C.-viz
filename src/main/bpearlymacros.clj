@@ -55,6 +55,19 @@
 (resettweeners)
 (defn setcubetween [x y z]
   (reset! cubetween {:x x :y y :z z}))
+
+(defn followcubetween []
+  (let [x (get @cubetween :x)
+        y (+ 120 (* 220 @lasttype))
+        z (get @cubetween :z)
+
+
+       ]
+    (swap! cubetween assoc :x x)
+    (swap! cubetween assoc :y y)
+    (swap! cubetween assoc :z z)
+    ))
+
 (defn updatecubetween []
   (let [x (p12x)
         y (p12y)
