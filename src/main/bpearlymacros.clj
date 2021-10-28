@@ -13,6 +13,7 @@
 (def pirad (seq->stream (cycle-between 0 6.2830 0.02 6.2830)))
 (def zerorounddeg (seq->stream (cycle-between 0 360 0.1 360 )))
 (def binary01 (seq->stream (cycle-between 0 1 1)))
+(def ewidata (atom {:note1 65 :breath1 64 :note2 74 :breath2 65 }))
 
 ;;(def phase1x  (let [k (seq->stream (range -300) 300)] (if (k)) ))
 

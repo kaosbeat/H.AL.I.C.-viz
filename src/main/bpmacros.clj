@@ -90,13 +90,17 @@
 
 
 
+
+
+
 (def bp (atom {:active 0
                0 {:active true
                   :phase "off"
                   :update [bps/updateviz []]
                   :init [println ["init phase 0" "yeah"] bps/fillvizbiz [2]]
                   :debug [audiodebugger [100 100 channels]  ]
-                  :render [bps/renderStringNotes []]
+                  :render [;;bps/renderStringNotes []
+                           ]
                   :preset {}
                   }
                1 {:active false
@@ -105,10 +109,10 @@
                   :init [println ["init phase 1"]
                          bps/fillvizbiz [2]
                          setcubetween [2200 1900 -1800]]
-                  :debug [debugmidistrings [:ch4 @ch1 1600 30 "violin1"]
-                          debugmidistrings [:ch5 @ch2 1600 260 "violin2"]
-                          debugmidistrings [:ch6 @ch1 1600 490 "alto"]
-                          debugmidistrings [:ch7 @ch1 1600 720 "cello"]
+                  :debug [debugmidistrings [:ch4 @ch4 1600 30 "violin1"]
+                          debugmidistrings [:ch5 @ch5 1600 260 "violin2"]
+                          debugmidistrings [:ch6 @ch6 1600 490 "alto"]
+                          debugmidistrings [:ch7 @ch7 1600 720 "cello"]
                           audiodebugger [100 100 channels]
                           debugstringtype [1600 950 "debugstrings"]
                           debugnotestatistics ["ch5" 100 1000 115 50]
@@ -125,27 +129,49 @@
                   :phase "prepulsar"
                   :update [bps/updateviz [] updatecubetween []]
                   :init [println ["init phase 1"] bps/fillvizbiz [8] resettweeners []]
-                  :debug [debugmidistrings [:ch4 @ch1 1600 30 "violin1"]
-                          debugmidistrings [:ch5 @ch2 1600 260 "violin2"]
-                          debugmidistrings [:ch6 @ch1 1600 490 "alto"]
-                          debugmidistrings [:ch7 @ch1 1600 720 "cello"]
+                  :debug [debugmidistrings [:ch4 @ch4 1600 30 "violin1"]
+                          debugmidistrings [:ch5 @ch5 1600 260 "violin2"]
+                          debugmidistrings [:ch6 @ch6 1600 490 "alto"]
+                          debugmidistrings [:ch7 @ch7 1600 720 "cello"]
                           audiodebugger [100 100 channels]
                           debugstringtype [1600 950 "debugstrings"]
                           debugnotestatistics ["ch5" 100 1000 115 50]
                           ;emptydebug [1270 950 0 300 200]
                           ]
-                  :render [bps/cubeView []
+                  :render [q/ortho []
+                           bps/cubeView []
+                           bps/renderStringNotes []
                             ]
                   }
                3 {:active false
                   :phase "pulsar"
-                  :update [bps/updateviz []]
-                  :init [println ["init phase 1"] bps/fillvizbiz [8] resettweeners []]
+                  :update [q/perspective []  bps/updateviz []]
+                  :init [println ["init phase 1"] resettweeners []]
                   :debug [audiodebugger [100 100 channels]
                           ]
                   :render [bps/cubeView []
                             ]
                   }
+               4 {:active false
+                  :phase "preewi"
+                  :update [q/perspective []  bps/updateviz []]
+                  :init [println ["init phase 1"] resettweeners []]
+                  :debug [audiodebugger [100 100 channels]
+                          ]
+                  :render [bps/cubeView []
+                            ]
+                  }
+               5 {:active false
+                  :phase "ewi"
+                  :update [q/perspective []  bps/updateewistream []]
+                  :init [println ["init ewi phase"] resettweeners []]
+                  :debug [audiodebugger [100 100 channels]
+                          ewidebug [1600 30 0]
+                          ]
+                  :render [bps/ewiView [500 400 0]
+                            ]
+                  }
+
 
                }))
 

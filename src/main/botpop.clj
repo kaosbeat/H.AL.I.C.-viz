@@ -88,8 +88,8 @@
 
 (q/defsketch halic
   :title "halic"
-  :size :fullscreen
-  ;;size [960 540]
+  ;;:size :fullscreen
+  :size [1920 1080]
                                         ;:size [(/  (q/width) 2) (/ (q/height) 2)]
                                         ;:size [(/  width 1) (/ height 1)]
   :features [:present]

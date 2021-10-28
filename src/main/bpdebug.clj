@@ -82,7 +82,7 @@
   (q/text title (+ x 150) (+ y 30) )
   (let [msize 60]
     (q/with-translation [(+ 10 x) (+ 10 y) 0]
-      (bps/module x y 0 (get @lastnote channel) msize)
+      (bps/module x y 0 (get @lastnote channel) msize @lasttype)
       )
     (q/with-translation [(+ 10 x) (+ 70 y) 200]
       (q/with-rotation [1.57 0 1 0]
@@ -93,7 +93,7 @@
         (q/stroke-weight 2)
         (q/line 0 0 0 0 0 200)
         (q/with-translation [(/ msize 29) (/ msize 4) 0]
-          (bps/module x y 0 (get @lastnote channel) msize )))))
+          (bps/module x y 0 (get @lastnote channel) msize @lasttype )))))
 
 
   (q/with-translation [(+ 10 x) (+ 180 y) 200]
@@ -115,8 +115,8 @@
     (q/with-rotation [@measure 1 1 0]
       (bps/cubeModule 0 0 0 (* @lasttype 50) 50 50 10 @lasttype)))
   (q/fill 0 255 0)
-  (let [txt (nth titlestring (- @lasttype 1))]
-    (q/text txt x (+ 189 y) ))
+  (let [txt (nth titlestring @lasttype) ]
+    (q/text (str txt @lasttype ) x (+ 189 y) ))
   (q/perspective)
   )
 
@@ -150,7 +150,7 @@
               ]
          ; (println size)
           (q/with-translation [(* x size) (* y size)] 0
-        (bps/module (* x size) (* y size) 0 n s))
+            (bps/module (* x size) (* y size) 0 n s  @lasttype))
           (q/text (str m) (* x 50) size  )
           )
         )
@@ -161,30 +161,30 @@
 (def audioREPL (atom false))
 (defn audiodebugger [x y channels]
   (q/ortho)
-  (let [a1 (get @(get channels 1) :peak)
-        a2 (get @(get channels 2) :peak)
-        a3 (get @(get channels 3) :peak)
-        a4 (get @(get channels 4) :peak)
-        a5 (get @(get channels 5) :peak)
-        a6 (get @(get channels 6) :peak)
-        a7 (get @(get channels 7) :peak)
-        a8 (get @(get channels 8) :peak)
-        f1 (get @(get channels 1) :freq)
-        f2 (get @(get channels 2) :freq)
-        f3 (get @(get channels 3) :freq)
-        f4 (get @(get channels 4) :freq)
-        f5 (get @(get channels 5) :freq)
-        f6 (get @(get channels 6) :freq)
-        f7 (get @(get channels 7) :freq)
-        f8 (get @(get channels 8) :freq)
-        b1 (mod (get @(get channels 1) :beatnumber) 8)
-        b2 (mod (get @(get channels 2) :beatnumber) 8)
-        b3 (mod (get @(get channels 3) :beatnumber) 8)
-        b4 (mod (get @(get channels 4) :beatnumber) 8)
-        b5 (mod (get @(get channels 5) :beatnumber) 8)
-        b6 (mod (get @(get channels 6) :beatnumber) 8)
-        b7 (mod (get @(get channels 7) :beatnumber) 8)
-        b8 (mod (get @(get channels 8) :beatnumber) 8)
+  (let [a1 (get @(get channels 0) :peak)
+        a2 (get @(get channels 1) :peak)
+        a3 (get @(get channels 2) :peak)
+        a4 (get @(get channels 3) :peak)
+        a5 (get @(get channels 4) :peak)
+        a6 (get @(get channels 5) :peak)
+        a7 (get @(get channels 6) :peak)
+        a8 (get @(get channels 7) :peak)
+        f1 (get @(get channels 0) :freq)
+        f2 (get @(get channels 1) :freq)
+        f3 (get @(get channels 2) :freq)
+        f4 (get @(get channels 3) :freq)
+        f5 (get @(get channels 4) :freq)
+        f6 (get @(get channels 5) :freq)
+        f7 (get @(get channels 6) :freq)
+        f8 (get @(get channels 7) :freq)
+        b1 (mod (get @(get channels 0) :beatnumber) 8)
+        b2 (mod (get @(get channels 1) :beatnumber) 8)
+        b3 (mod (get @(get channels 2) :beatnumber) 8)
+        b4 (mod (get @(get channels 3) :beatnumber) 8)
+        b5 (mod (get @(get channels 4) :beatnumber) 8)
+        b6 (mod (get @(get channels 5) :beatnumber) 8)
+        b7 (mod (get @(get channels 6) :beatnumber) 8)
+        b8 (mod (get @(get channels 7) :beatnumber) 8)
         a [a1 a2 a3 a4 a5 a6 a7 a8]
         b [b1 b2 b3 b4 b5 b6 b7 b8]
         f [f1 f2 f3 f4 f5 f6 f7 f8]]
@@ -192,8 +192,9 @@
       (println "debugging audio" "ch" a f b))
     (q/with-translation [x y 0]
       (dotimes [n (count a)]
+       ; (println n a)
         (q/fill 0 (* (get f n) 255) 0)
-        (q/rect 0 (* n 20) (* 120 (get  a n)) 15 ))
+        (q/rect 0 (* n 20) (* 120 (get a n)) 15))
       (q/fill 255)
       (q/with-translation [0 0 0]
         (dotimes [n (count b)]
@@ -236,4 +237,21 @@
 
     )
 
+  )
+
+(defn ewidebug [x y z]
+  (q/ortho)
+  (let [note1 (get @ewidata :note1)
+        breath1 (get @ewidata :breath1)
+        note2 (get @ewidata :note2)
+        breath2 (get @ewidata :breath2)]
+    (q/with-translation [x y z]
+      (q/no-fill)
+      (q/rect 0 0 300 200)
+      (q/fill note1 0 128 255)
+      (q/rect 20 20 breath1  20)
+      (q/fill note2 0 128 255)
+      (q/rect 20 50 breath2  20))
+    )
+  q/perspective
   )

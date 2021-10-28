@@ -3,7 +3,7 @@
    [main.util :refer [drop-nth]]
    [quil.core :as q]
    [quil.helpers.seqs :refer [seq->stream range-incl cycle-between steps]]
-   [main.botpop :refer [ch1 ch2]]
+   [main.botpop :refer [ch1 ch2 ch3 ch4 ch5 ch6 ch7 ch8]]
    ))
 
 
@@ -13,7 +13,8 @@
 (def vizbizcount (atom []))
 (def ewiviz (atom []))
 (def ewivizcount (atom []))
-
+(def ewisecviz (atom []))
+(def ewisecvizcount (atom []))
 (def rendering (atom false))
 ;; (def lasttype (atom 0))
 
@@ -38,15 +39,21 @@
 
 (def radrot (seq->stream (cycle-between 0 6.2830 0.01 6.2830))  )
 
-(defn module [x y z seed  p1 ]
+(defn module [x y z seed p1 type]
+;  (println p)
   (q/noise-seed seed)
   (q/stroke-weight 0.5)
-  (let [
+  (let [a (get @ch3 :peak)
+        b (get @ch4 :peak)
+        c (get @ch5 :peak)
+        d (get @ch6 :peak)
+        peak [a b c d]
         p2 (get @params :p2)
         p3 (get @params :p3)
-        size (+ 10 p1)
-        layers (+ 1 (int (/ p2 4)))]
-    (q/fill 255 (* 2 p3))
+        size p1
+
+        layers (+ 1 (int (nth peak type )))]
+    (q/fill 255 (* 12 3))
     (dotimes [n layers]
       (let [sizex (* size (q/noise (* n 0.2)))
             sizey (* size (q/noise (* n 0.3)))]
@@ -55,7 +62,7 @@
           (q/box sizex sizey 0))
 
 
-          ))
+))
     (q/with-translation [0 0 50]
       (q/text-size 12)
       (q/fill 255 0 0)
@@ -72,7 +79,8 @@
     (q/fill 255 255 255 ttl)
   ;  (q/box (* type  50) 50 0)
     (q/perspective)
-    (module x y z seed (get @params :p1))
+
+   (module x y z seed (get @params :p1) type)
 
   )
   )
@@ -82,12 +90,18 @@
   (let [colors [(q/color 0 0 0 0)
                 (q/color 55 0 255 128)
                 (q/color 255 0 0 128)
-                (q/color 255 255 255 128)
+                (q/color 0 255 255 128)
                 (q/color 0 0 255 128)]]
-    (q/fill (nth colors (- type 1))))
-    (q/with-translation [x y z]
-      (let [a (get @ch1 :peak)]
-        (q/box  (* a w) h d)))
+    (q/fill (nth colors  type )))
+  (if (= type 1) (q/no-fill))
+  (q/with-translation [x y z]
+      (let [a (get @ch4 :peak)
+            c (get @ch5 :peak)
+            b (get @ch6 :peak)
+            e (get @ch7 :peak)
+            r1 (get @ch4  :beatnumber)]
+        (q/with-rotation [r1 0 1 0]
+          (q/box  (* a w) (* c h) (*  e  d)))))
   )
 
 ;;; render datafeedercube
@@ -139,40 +153,79 @@
     )
   )
 
-(defn ewistream []
-  (q/with-translation [500 500 0]
-    (q/box 600))
+(defn renderEwi  []
+  (dotimes [n (count @ewiviz)]
+    (let [x (get (nth @ewiviz n) :x)
+          b1 (get @main.botpop/ewidata :breath1)
+          b2 (get @main.botpop/ewidata :breath2)]
+      (q/with-translation [x 500 0]
+        (q/box 150 b1 b2 ))))
+
   )
 
-(defn updateewistream []
-  (reset! ewivizcount [])
-  (dotimes [n (count @ewiviz)]
-    (if (false? (= 0 (get (get @ewiviz n) :ttl)))
-      (do
-        (swap! viz update-in [n :ttl] dec)
-        (swap! viz update-in [n :x] (fn [x] (+ x 5)))
-        )
-      (swap! ewivizcount conj n)
-      )
-    )
-  (dotimes [n (count @ewivizcount)]
-    ;;    (println " really dropping stuff")
-    (reset! viz  (drop-nth (nth @ewivizcount n) @viz))
+(defn ewiView [x y z]
+  (q/with-translation [x y z]
+    (renderEwi) )
+  )
+
+
+
+
+
+
+
+(defn addewi [note type]
+  (let [x 500
+        y 500
+        z 0
+        type type
+        note note
+        ttl 1300
+        ]
+    ;(println  note)
+    (if (= 0 (count @ewiviz))
+      (reset! ewiviz []))
+    (swap! ewiviz conj {:x x :y y :z z :type type :note note :ttl ttl :count 0 })
     )
   )
+
+
+(defn addewisec [x y z]
+  (let [x 5
+        y 5
+        z 0
+        ]
+    ;(println  note)
+    (if (= 0 (count @ewiviz))
+      (reset! ewiviz []))
+    (swap! ewisecviz conj {:x x :y y :z z})
+    )
+  )
+
+(defn removeewi [note]
+  (reset! ewiviz []
+))
+
 
 
 
 (defn add [type note]
-  (let [x -200
-        y (* 200 type)
+  (let [x 300
+        y (* 200 (+ 1 type))
         z 0
         ttl 100
         note note
-        type type]
+        type type
+        a (get @ch4 :peak)
+        b (get @ch5 :peak)
+        c (get @ch6 :peak)
+        d (get @ch7 :peak)
+        p [a b c d]
+        ]
+    ;(println  p)
     (if (= 0 (count @viz))
       (reset! viz []))
-    (swap! viz conj {:x x :y y :z z :ttl ttl :seed note :type type})
+    (swap! viz conj {:x x :y y :z z :ttl ttl :seed note :type type :p (nth p type)})
   )
 )
 
@@ -184,7 +237,7 @@
     (if (false? (= 0 (get (get @viz n) :ttl)))
       (do
         ;;(swap! viz update-in [n :ttl] dec)
-        (swap! viz update-in [n :x] (fn [x] (+ x 5)))
+        (swap! viz update-in [n :x] (fn [x] (+ x 25)))
         (if (> (get  (get @viz n) :x) 1500)
           ;;(println "fgound one")
           (do
@@ -225,3 +278,29 @@
   )
 
 ;(defn channel [channel] (swap! channel assoc :vizsynth add :render renderStringNotes :update updateviz))
+
+
+(defn updateewistream []
+  (reset! ewivizcount [])
+  (dotimes [n (count @ewiviz)]
+    (let [x (get (get @ewiviz n) :x)
+          y(get (get @ewiviz n) :y)
+          z (get (get @ewiviz n) :z)]
+      (if (false? (= 0 (get (get @ewiviz n) :ttl)))
+        (do
+          (swap! ewiviz update-in [n :ttl] dec)
+          (swap! ewiviz update-in [n :count] inc)
+          (swap! ewiviz update-in [n :x] (fn [x] (+ x 5)))
+          )
+        (swap! ewivizcount conj n)
+        )
+      (if (= 0 (mod  (get (get @ewiviz n) :count) 10 ))
+        (addewisec x y z)
+        ))
+    )
+
+ (dotimes [n (count @ewivizcount)]
+    ;;    (println " really dropping stuff")
+    (reset! viz  (drop-nth (nth @ewivizcount n) @viz))
+    )
+  )
