@@ -52,8 +52,8 @@
         p3 (get @params :p3)
         size p1
 
-        layers (+ 1 (int (nth peak type )))]
-    (q/fill 255 (* 12 3))
+        layers (int (* p3 (nth peak type )))]
+    (q/fill 255 (* 2 p2))
     (dotimes [n layers]
       (let [sizex (* size (q/noise (* n 0.2)))
             sizey (* size (q/noise (* n 0.3)))]
@@ -88,10 +88,10 @@
 
 (defn cubeModule [x y z w h d ttl type ]
   (let [colors [(q/color 0 0 0 0)
-                (q/color 55 0 155 128)
-                (q/color 255 0 0 128)
-                (q/color 0 25 155 128)
-                (q/color 0 0 55 128)]]
+                (q/color 55 0 155 255)
+                (q/color 25 234 334 4)
+                (q/color 255 225 5 15)
+                (q/color 0 255 255 128)]]
     (q/fill (nth colors   type )))
   (if (= type 1) (q/no-fill))
   (q/with-translation [x y z]
@@ -100,14 +100,28 @@
             b (get @ch6 :peak)
             e (get @ch7 :peak)
             r1 (get @ch4  :beatnumber)]
-        (q/with-rotation [r1 0 1 0]
-          (q/box  (* a w) (* c h) (*  e  d)))))
+        (q/with-rotation [r1 0 0 0]
+          (q/stroke 255 0 0 )
+          (q/stroke-weight  (* 0.1 (mod r1 8)) )
+          (q/box  (* 10 (* a w)) (* c h) (*  e  d))
+          (q/with-rotation [a 1 0 1]
+            (dotimes [ n 4]
+              (q/stroke 0 255 0)
+              (q/with-translation [(* n 290 ) 240 20]
+                (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1)))))))
+
+          (q/with-rotation [c 1 0 1]
+            (dotimes [ n 10]
+              (q/stroke 0 0 255)
+              (q/with-translation [(* n -90 ) 40 20]
+                (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1)))))))
+          )))
   )
 
 ;;; render datafeedercube
 
 (defn renderCube [x y z]
-  (q/with-translation [x y z]
+  (q/with-translation [(- x 1400 ) y z]
     (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
       (let [size 50
             a (get @ch2 :peak)
@@ -124,7 +138,7 @@
 
 
                   ]
-              (cubeModule (* space  x) (* space  y) (* space z) (* type size) size size ttl type)
+              (cubeModule (* 0.2 (* space  x)) (* 0.3 (* space  y)) (* 0.1 (* space z)) (* type size) size size ttl type)
               )))))))
 
 
@@ -137,6 +151,7 @@
     (q/no-fill)
     (q/rect (- x 250) (- y 220) 300 300 )
     (q/line (- x 250) y z  320 (+  (rand-int 200) (* 220 @main.botpop/lasttype)) 0)
+    (q/text "converting RNN outputs" (- x 230) (- y 60))
    ;; (println "cubeView Called" x y z )
     )
   )
@@ -252,7 +267,7 @@
     (if (false? (= 0 (get (get @viz n) :ttl)))
       (do
         ;;(swap! viz update-in [n :ttl] dec)
-        (swap! viz update-in [n :x] (fn [x] (+ x 25)))
+        (swap! viz update-in [n :x] (fn [x] (+ 5  (+ x (/ (get @params :p4) 4)))))
         (if (> (get  (get @viz n) :x) 1500)
           ;;(println "fgound one")
           (do

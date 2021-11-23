@@ -96,19 +96,59 @@
                          (swap! bps/params assoc :b7 (not (get @bps/params :b7))))
                        (if (= note 60)
                          (swap! bps/params assoc :b8 (not (get @bps/params :b8))))
-                       (if (= note 105)
+                       (if (= note 73)
                          (do
                            (phaseswitch 0)
-                          ; (reset! midiREPL (not @midiREPL) )
+
+                           ))
+                       (if (= note 74)
+                         (do
+                           (phaseswitch 1)
+
+                           ))
+                       (if (= note 75)
+                         (do
+                           (phaseswitch 2)
+
+                           ))
+                       (if (= note 76)
+                         (do
+                           (phaseswitch 3)
+
+                           ))
+                       (if (= note 89)
+                         (do
+                           (phaseswitch 4)
+
+                           ))
+                       (if (= note 90)
+                         (do
+                           (phaseswitch 5)
+
+                           ))
+                       (if (= note 91)
+                         (do
+                           (phaseswitch 0)
+
+                           ))
+                       (if (= note 92)
+                         (do
+                           (phaseswitch 0)
+
+                           ))
+                       (if (= note 105)
+                         (do
+                          ; (phaseswitch 0)
+                           (reset! midiREPL (not @midiREPL) )
                            ))
                        (if (= note 106)
                          (do
-                           (phaseswitch 1)
-                          ; (reset! ctrlREPL (not @ctrlREPL))
+                          ; (phaseswitch 1)
+                          (reset! ctrlREPL (not @ctrlREPL))
                            ))
                        (if (= note 107)
                          (do
-                           (phaseswitch 2)
+                          ; (phaseswitch 2)
                            (reset! audioREPL (not @audioREPL))
                            ))
 

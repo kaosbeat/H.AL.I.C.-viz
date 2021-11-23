@@ -47,8 +47,8 @@
 ;;;; atoms needed for animation states
 (def cubetween (atom {:x 0 :y 0 :z 0}))
 (defn resettweeners []
-  (def p12x (seq->stream (range-incl 2200 1000 -5)))
-  (def p12y (seq->stream (range-incl 2000 1000 -6)))
+  (def p12x (seq->stream (range-incl 2500 960 -5)))
+  (def p12y (seq->stream (range-incl 540 540 -6)))
   (def p12z (seq->stream (range-incl -1800 -500 1)))
 
   )
@@ -58,7 +58,7 @@
 
 (defn followcubetween []
   (let [x (get @cubetween :x)
-        y (+ 120 (* 220 @lasttype))
+        y (+ 220 (* 220 @lasttype))
         z (get @cubetween :z)
 
 

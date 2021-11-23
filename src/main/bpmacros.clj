@@ -93,13 +93,14 @@
 
 
 
-(def bp (atom {:active 1
+(def bp (atom {:active 2
                0 {:active true
                   :phase "off"
                   :update [bps/updateviz []]
                   :init [println ["init phase 0" "yeah"] bps/fillvizbiz [2]]
-                  :debug [audiodebugger [100 100 channels]  ]
-                  :render [;;bps/renderStringNotes []
+                  :debug [audiodebugger [100 100 channels]
+                          debugstringtype [30 770 "debugstrings"]]
+                  :render [bps/renderStringNotes []
                            ]
                   :preset {}
                   }
@@ -108,15 +109,15 @@
                   :update [bps/updateviz [] followcubetween  []]
                   :init [println ["init phase 1"]
                          bps/fillvizbiz [2]
-                         setcubetween [1400 100 100]]
+                         setcubetween [1800 260 100]]
                   :debug [debugmidistrings [:ch4 @ch4 20 20 "violin1"]
                           debugmidistrings [:ch5 @ch5 20 240 "violin2"]
                           debugmidistrings [:ch6 @ch6 20 460 "alto"]
                           debugmidistrings [:ch7 @ch7 20 680 "cello"]
                           audiodebugger [1500 10 channels]
-                          emptydebug [1270 950 0 300 200]
-                          debugstringtype [1200 350 "debugstrings"]
-                          debugnotestatistics ["ch5" 100 1000 115 50]
+                          ;;emptydebug [1270 950 0 300 200]
+
+                          debugnotestatistics ["ch5" 100 900 115 50]
 
                           q/ortho []
                           bps/cubeView []
@@ -135,24 +136,24 @@
                   :phase "prepulsar"
                   :update [bps/updateviz [] updatecubetween []]
                   :init [println ["init phase 1"] bps/fillvizbiz [8] resettweeners []]
-                  :debug [debugmidistrings [:ch4 @ch4 1600 30 "violin1"]
-                          debugmidistrings [:ch5 @ch5 1600 260 "violin2"]
-                          debugmidistrings [:ch6 @ch6 1600 490 "alto"]
-                          debugmidistrings [:ch7 @ch7 1600 720 "cello"]
+                  :debug [debugmidistrings [:ch4 @ch4 1600 20 "violin1"]
+                          debugmidistrings [:ch5 @ch5 1600 240 "violin2"]
+                          debugmidistrings [:ch6 @ch6 1600 460 "alto"]
+                          debugmidistrings [:ch7 @ch7 1600 680 "cello"]
                           audiodebugger [100 100 channels]
-                          debugstringtype [1600 950 "debugstrings"]
-                          debugnotestatistics ["ch5" 100 1000 115 50]
+                          debugstringtype [1600 89 0 "debugstrings"]
+                          debugnotestatistics ["ch5" 100 1150 115 50]
                           ;emptydebug [1270 950 0 300 200]
                           ]
                   :render [q/ortho []
                            bps/cubeView []
-                           bps/renderStringNotes []
+                           ;;bps/renderStringNotes []
                             ]
                   }
                3 {:active false
                   :phase "pulsar"
                   :update [q/perspective []  bps/updateviz []]
-                  :init [println ["init phase 1"] resettweeners []]
+                  :init [println ["init phase 3"]]
                   :debug [audiodebugger [100 100 channels]
                           ]
                   :render [bps/cubeView []
@@ -172,7 +173,7 @@
                   :update [q/perspective []  bps/updateewistream []]
                   :init [println ["init ewi phase"] resettweeners []]
                   :debug [audiodebugger [100 100 channels]
-                          ewidebug [1600 30 0]
+                          ewidebug [1300 30 0]
                           ]
                   :render [bps/ewiView [500 400 0]
                             ]

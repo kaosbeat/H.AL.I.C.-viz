@@ -18,7 +18,8 @@
 
 
 (def server (atom nil))
-;(println (. System getProperty "java.library.path"))
+                                        ;(println (. System getProperty "java.library.path"))
+
 ;
 
 (defn setup []
@@ -82,7 +83,7 @@
   (q/no-fill)
   (q/stroke 255 0 0)
   (q/stroke-weight 1)
-  (q/rect 0 0 1600 1000)
+  (q/rect 0 0 1920 1080)
 
   (.sendScreen @server )
   ;; (mididebugger state)
