@@ -33,6 +33,7 @@
               (let [note (:note e)
                     vel  (:velocity e)
                     channel (:channel e)]
+
                 ;(println "note " note "channel " channel)
                 (swap! notestatistics update-in [(str "ch" channel) note] inc)
                 (if @midiREPL
@@ -71,7 +72,7 @@
 
                       )
                   9 (do
-                      (println "lets add ewi")
+                      ;(println "lets add ewi")
                       (swap! ewidata assoc :note1 note)
                       (bps/addewi note 1)
                       )
@@ -227,20 +228,36 @@
                         ))
 
 
-                13 (case data1    ;;; bottom row sliders on launch control XL 77 > 84
+                13 (case data1    ;;; top row knobs on launch control XL 77 > 84
                      13 (swap! bps/params assoc :p1 data2 )
                      14 (swap! bps/params assoc :p2 data2 )
                      15 (swap! bps/params assoc :p3 data2 )
                      16 (swap! bps/params assoc :p4 data2 )
-                     29 (swap! bps/params assoc :p5 data2 )
-                     30 (swap! bps/params assoc :p6 data2 )
-                     31 (swap! bps/params assoc :p7 data2 )
-                     32 (swap! bps/params assoc :p8 data2 )
+                     17 (swap! bps/params assoc :p5 data2 )
+                     18 (swap! bps/params assoc :p6 data2 )
+                     19 (swap! bps/params assoc :p7 data2 )
+                     20 (swap! bps/params assoc :p8 data2 )
 
 
-                     ;;  (println "unchanneled midi CC data" data1 data2)
+                     ;(println "unchanneled midi CC data" data1 data2)
+
+
+                     ;;; second knobs on launch control XL 77 > 84
+
+                     29 (swap! bps/params assoc :q1 data2 )
+                     30 (swap! bps/params assoc :q2 data2 )
+                     31 (swap! bps/params assoc :q3 data2 )
+                     32 (swap! bps/params assoc :q4 data2 )
+                     33 (swap! bps/params assoc :q5 data2 )
+                     34 (swap! bps/params assoc :q6 data2 )
+                     35 (swap! bps/params assoc :q7 data2 )
+                     36 (swap! bps/params assoc :q8 data2 )
+
+
+                                        ;(println "unchanneled midi CC data" data1 data2)
+
                      (+ 1 1)
-                     )
+                       )
                 14 (case data1    ;;; bottom row sliders on launch control XL 77 > 84
                      77 (println data2)
                      78 (println data2)

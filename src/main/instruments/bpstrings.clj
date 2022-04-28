@@ -21,6 +21,7 @@
 
 (def status (atom {:debug true :violin1 true :size3D :5}))
 (def params (atom {:p1 64 :p2 64 :p3 64 :p4 64 :p5 64 :p6 64 :p7 64 :p8 64
+                   :q1 64 :q2 64 :q3 64 :q4 64 :q5 64 :q6 64 :q7 64 :q8 64
                    :b1 false :b2 false :b3 false :b4 false :b5 false :b6 false :b7 false :b8 false} ))
 (def dynamics (atom {:bootphase 0 :hfreq1 1200 :hfreq2 600 :hfreq3 300 :hfreq4 200 :nfreq1 0 :nfreq2 0 :nfreq3 0 :nfreq4 0 :amp1 0 :amp2 0 :amp3 0 :amp4 0} ))
 
@@ -57,6 +58,7 @@
     (dotimes [n layers]
       (let [sizex (* size (q/noise (* n 0.2)))
             sizey (* size (q/noise (* n 0.3)))]
+;        (q/with-rotation [(main.botpop/pirad) 1 1 0])
         (q/with-translation [ (/ sizex 2) (/ sizey 2) (* n 9)]
 
           (q/box sizex sizey 0))
@@ -87,10 +89,10 @@
 
 
 (defn cubeModule [x y z w h d ttl type ]
-  (let [colors [(q/color 0 0 0 0)
+  (let [colors [(q/color 0 0 250 150)
                 (q/color 55 0 155 255)
-                (q/color 25 234 334 4)
-                (q/color 255 225 5 15)
+                (q/color 25 234 334 154)
+                (q/color 255 225 5 105)
                 (q/color 0 255 255 128)]]
     (q/fill (nth colors   type )))
   (if (= type 1) (q/no-fill))
@@ -100,28 +102,31 @@
             b (get @ch6 :peak)
             e (get @ch7 :peak)
             r1 (get @ch4  :beatnumber)]
-        (q/with-rotation [r1 0 0 0]
+        (q/with-rotation [0 0 0 0]
           (q/stroke 255 0 0 )
           (q/stroke-weight  (* 0.1 (mod r1 8)) )
-          (q/box  (* 10 (* a w)) (* c h) (*  e  d))
-          (q/with-rotation [a 1 0 1]
-            (dotimes [ n 4]
-              (q/stroke 0 255 0)
-              (q/with-translation [(* n 290 ) 240 20]
-                (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1)))))))
-
+          (q/box   (* a w)  (* c h) (*  e  d))
           (q/with-rotation [c 1 0 1]
-            (dotimes [ n 10]
+            (dotimes [ n 1]
+              (q/stroke 0 255 0)
+              (q/with-translation [(* n 290 ) 20 20]
+               (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                )))
+
+          (q/with-rotation [0 1 0 1]
+            (dotimes [ n 1]
               (q/stroke 0 0 255)
               (q/with-translation [(* n -90 ) 40 20]
-                (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1)))))))
+                [<0;174;64M
+                 ] (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                )))
           )))
   )
 
 ;;; render datafeedercube
 
 (defn renderCube [x y z]
-  (q/with-translation [(- x 1400 ) y z]
+  (q/with-translation [(+ x 40 ) (+ 60  y) z]
     (q/with-rotation [(* (radrot) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
       (let [size 50
             a (get @ch2 :peak)
@@ -150,7 +155,7 @@
     (q/stroke-weight 3)
     (q/no-fill)
     (q/rect (- x 250) (- y 220) 300 300 )
-    (q/line (- x 250) y z  320 (+  (rand-int 200) (* 220 @main.botpop/lasttype)) 0)
+    (q/line (- x 250) y z  320 (+ (* 100 (get @(nth main.botpop/channels @main.botpop/lasttype) :peak))  (* 220 @main.botpop/lasttype)) 0)
     (q/text "converting RNN outputs" (- x 230) (- y 60))
    ;; (println "cubeView Called" x y z )
     )

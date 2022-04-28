@@ -64,7 +64,7 @@
 (defn renderdebug []
   (let [debug (get (get @bp (get @bp :active)):debug)]
     (dotimes [n (/ (count debug) 2)]
-      (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
+    (apply (nth debug (* 2 n)) (nth debug (+ (* 2 n) 1)))
       )
     ))
 

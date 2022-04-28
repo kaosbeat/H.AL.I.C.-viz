@@ -106,17 +106,17 @@
  (q/perspective)
   )
 
-(def titlestring ["debug" "violin1" "violin2" "alto" "cello"])
+(def titlestring [ "violin 1" "violin 2" "alto" "cello" "debug" ])
 (defn debugstringtype [x y title]
   (q/ortho)
   (q/no-fill)
   (q/rect x y 300 200)
   (q/with-translation [(+ x 150) (+ y 100) 0]
     (q/with-rotation [@measure 1 1 0]
-      (bps/cubeModule 0 0 0 (* @lasttype 50) 50 50 10 @lasttype)))
+      (bps/cubeModule 0 0 0 (* @lasttype 50) 50 20 50 @lasttype)))
   (q/fill 0 255 0)
   (let [txt (nth titlestring @lasttype) ]
-    (q/text (str txt @lasttype ) x (+ 189 y) ))
+    (q/text (str txt " ") x (+ 189 y) ))
   (q/perspective)
   )
 

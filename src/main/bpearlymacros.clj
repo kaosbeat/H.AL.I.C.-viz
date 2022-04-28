@@ -10,7 +10,7 @@
 ;;helpers
 (def tr (seq->stream (cycle-between 0 1 0.01 0.01)))
 (def camrot (seq->stream (cycle-between 0 180 0.01)))
-(def pirad (seq->stream (cycle-between 0 6.2830 0.02 6.2830)))
+(def pirad (seq->stream (cycle-between 0 6.2830 0.0002 6.2830)))
 (def zerorounddeg (seq->stream (cycle-between 0 360 0.1 360 )))
 (def binary01 (seq->stream (cycle-between 0 1 1)))
 (def ewidata (atom {:note1 65 :breath1 64 :note2 74 :breath2 65 }))

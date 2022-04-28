@@ -14,8 +14,8 @@
 (defn printChannelData [name channel]
   (println
    name
-   (if (get @channel :rendering) "|    ON   | " "|    OFF  | " )        (nth (clojure.string/split (clojure.string/replace (str (get @channel :vizsynth)) #"main.instruments." "") #"\$") 0 )
-           "| beat" (get @channel :beatnumber)  "| freq" (int  (get @channel :freq))  )
+   (if (get @channel :debug) "|    ON   | " "|    OFF  | " )        (nth (clojure.string/split (clojure.string/replace (str (get @channel :vizsynth)) #"main.instruments." "") #"\$") 0 )
+   "| beat" (get @channel :beatnumber)  "| freq"  (get @channel :freq)  )
   )
 
 
@@ -93,13 +93,14 @@
 
 
 
-(def bp (atom {:active 2
+(def bp (atom {:active 1
                0 {:active true
                   :phase "off"
                   :update [bps/updateviz []]
-                  :init [println ["init phase 0" "yeah"] bps/fillvizbiz [2]]
+                  :init [println ["init phase 0" "yeah"] bps/fillvizbiz [1] setcubetween [0 260 100]]
                   :debug [audiodebugger [100 100 channels]
-                          debugstringtype [30 770 "debugstrings"]]
+                          debugstringtype [30 770 "debugstrings"]
+                          ]
                   :render [bps/renderStringNotes []
                            ]
                   :preset {}
@@ -141,7 +142,7 @@
                           debugmidistrings [:ch6 @ch6 1600 460 "alto"]
                           debugmidistrings [:ch7 @ch7 1600 680 "cello"]
                           audiodebugger [100 100 channels]
-                          debugstringtype [1600 89 0 "debugstrings"]
+                          debugstringtype [1600 89 "debugstrings"]
                           debugnotestatistics ["ch5" 100 1150 115 50]
                           ;emptydebug [1270 950 0 300 200]
                           ]
