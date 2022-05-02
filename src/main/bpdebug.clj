@@ -82,7 +82,8 @@
   (q/text title (+ x 150) (+ y 30) )
   (let [msize 60]
     (q/with-translation [(+ 10 x) (+ 10 y) 0]
-      (bps/module x y 0 (get @lastnote channel) msize @lasttype)
+     ; (println (get @(get channels (get audiochannel :id)) :peak))
+      (bps/module2 x y 0 (get @lastnote channel)  (get @(get channels  (-  (get audiochannel :id) 1)) :peak))
       )
     (q/with-translation [(+ 10 x) (+ 70 y) 200]
       (q/with-rotation [1.57 0 1 0]
@@ -93,7 +94,8 @@
         (q/stroke-weight 2)
         (q/line 0 0 0 0 0 200)
         (q/with-translation [(/ msize 29) (/ msize 4) 0]
-          (bps/module x y 0 (get @lastnote channel) msize @lasttype )))))
+          (bps/module2 x y 0 (get @lastnote channel)  (get @(get channels (-  (get audiochannel :id) 1)) :peak))
+))))
 
 
   (q/with-translation [(+ 10 x) (+ 180 y) 200]
@@ -212,28 +214,39 @@
       (q/rect 0 0 w h)))
 
 (def bootprocess [
-    "initializing RNN"
-    "enabling model"
-    "loading preseed variables"
-    "starting midi clock"
-    "establishing link"
-    "sending notes"
-    "booting string mode"
-    "getting errors from database"
-    "learning from previous mistakes"
-    "be more human"
-    "be more robot"
+                  "initializing RNN"
+                  "enabling model"
+                  "loading preseed variables"
+                  "starting midi clock"
+                  "establishing link"
+                  "sending notes"
+                  "booting string mode"
+                  "getting errors from database"
+                  "learning from previous mistakes"
+                  "be more human"
+                  "be more robot"
+                  "be more robot"
+                  "be more robot"
+                  "be more robot"
+                  "be more robot"
+                  "be more robot"
     ])
 
 (defn bootingdebug [x y z]
   (q/no-fill)
   (q/with-translation [x y z]
-    (q/rect 0 0 300 200)
-    (q/fill 255 0 0)
-    (let [n (mod @absolutemeasure (* 1 (count bootprocess)))]
-     ;; (println n (nth bootprocess n))
-      (q/text (nth bootprocess n) 0 10 )
-      )
+(q/fill 18)
+    (q/rect 0 0 350 180)
+    (q/fill 0 255 0)
+    (q/text-size 25 )
+   ;; (q/text  (get  (get @bp (get @bp :active)) :phase) 10 25 ) ;;;@bp cannot yet be resolved at startup
+    (q/text-size 10)
+    (dotimes [k 5]
+      (let [n (mod @absolutemeasure (- (count bootprocess) 5))]
+        ;; (println n (nth bootprocess n))
+        (q/text (nth bootprocess (+ n k)) 15 (* (+ 2 k) 25) )
+        (q/text (str @main.botpop/lastnote)   15 (+ 10 (* (+ 2 k) 25)) )
+        ))
 
     )
 

@@ -111,11 +111,11 @@
                   :init [println ["init phase 1"]
                          bps/fillvizbiz [2]
                          setcubetween [1800 260 100]]
-                  :debug [debugmidistrings [:ch4 @ch4 20 20 "violin1"]
-                          debugmidistrings [:ch5 @ch5 20 240 "violin2"]
-                          debugmidistrings [:ch6 @ch6 20 460 "alto"]
-                          debugmidistrings [:ch7 @ch7 20 680 "cello"]
-                          audiodebugger [1500 10 channels]
+                  :debug [debugmidistrings [:ch4 @ch3 20 20 "violin1"]
+                          debugmidistrings [:ch5 @ch4 20 240 "violin2"]
+                          debugmidistrings [:ch6 @ch5 20 460 "alto"]
+                          debugmidistrings [:ch7 @ch6 20 680 "cello"]
+                          audiodebugger [1600 10 channels]
                           ;;emptydebug [1270 950 0 300 200]
 
                           debugnotestatistics ["ch5" 100 900 115 50]
@@ -125,7 +125,7 @@
                           bps/cubeDebugannotateframe []
                           q/perspective []
 
-;;                          bootingdebug [ 500 500 500]
+                          bootingdebug [1570 900 0]
                           ]
                   :render [bps/renderStringNotes []
 

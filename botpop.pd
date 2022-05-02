@@ -1,4 +1,4 @@
-#N canvas 347 66 1330 1154 10;
+#N canvas 347 24 1330 1154 10;
 #X msg 24 -340 disconnect;
 #X obj 107 -241 tgl 30 0 empty empty 1=connected 34 15 0 12 -4034 -258113
 -1 1 1;
@@ -64,7 +64,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4101 1;
+-1 -1 841 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -97,7 +97,7 @@
 #X connect 18 0 20 0;
 #X connect 19 0 21 0;
 #X coords 0 -1 1 1 85 60 1 100 100;
-#X restore 742 -179 pd nornmalize;
+#X restore 747 -175 pd nornmalize;
 #N canvas 0 23 674 564 nornmalize 0;
 #X obj 107 35 inlet;
 #X obj 292 30 inlet;
@@ -124,7 +124,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1025 1;
+-1 -1 181 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -157,7 +157,7 @@
 #X connect 18 0 20 0;
 #X connect 19 0 21 0;
 #X coords 0 -1 1 1 85 60 1 100 100;
-#X restore 611 -177 pd nornmalize;
+#X restore 611 -167 pd nornmalize;
 #X floatatom 299 210 5 0 0 0 - - -;
 #X obj 590 24 spigot;
 #X obj 623 1 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
@@ -192,7 +192,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4056 1;
+-1 -1 786 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -252,7 +252,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1083 1;
+-1 -1 2533 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -321,7 +321,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4056 1;
+-1 -1 4109 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -381,7 +381,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1083 1;
+-1 -1 1339 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -448,7 +448,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4239 1;
+-1 -1 3078 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -508,7 +508,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1614 1;
+-1 -1 2374 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -575,7 +575,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4056 1;
+-1 -1 3286 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -635,7 +635,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1083 1;
+-1 -1 3480 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -702,7 +702,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4239 1;
+-1 -1 0 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -762,7 +762,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1614 1;
+-1 -1 4900 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -829,7 +829,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4056 1;
+-1 -1 0 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -889,7 +889,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1083 1;
+-1 -1 0 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -988,7 +988,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4239 1;
+-1 -1 3682 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -1048,7 +1048,7 @@
 #X floatatom 380 517 5 0 0 0 - - -;
 #X obj 269 543 outlet;
 #X obj 117 135 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1614 1;
+-1 -1 1856 1;
 #X text 138 113 reset;
 #X connect 0 0 3 0;
 #X connect 0 0 10 0;
@@ -1090,9 +1090,9 @@
 #X obj 1019 -340 *~;
 #X obj 1032 -364 / 127;
 #X obj 986 -386 adc~ 3;
-#X msg 404 -380 bang resety normalize;
-#X obj 387 -380 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X msg 385 -387 bang resety normalize;
+#X obj 328 -419 bng 50 250 50 0 empty empty empty 17 7 0 10 -4032 -1
+-1;
 #X msg 993 -127 sendtyped /ch3attack i 1;
 #X msg 1150 -127 sendtyped /ch3 ffi \$1 \$2 \$3;
 #X obj 570 -332 adc~ 1;
@@ -1302,6 +1302,12 @@
 #X connect 135 0 77 1;
 #X connect 135 0 86 1;
 #X connect 135 0 85 1;
+#X connect 135 0 126 1;
+#X connect 135 0 34 1;
+#X connect 135 0 35 1;
+#X connect 135 0 43 1;
+#X connect 135 0 44 1;
+#X connect 135 0 125 1;
 #X connect 136 0 127 0;
 #X connect 137 0 127 0;
 #X connect 138 0 103 0;

@@ -72,6 +72,34 @@
     )
 
   )
+(defn module2 [x y z seed peak]
+  ;(println peak)
+  (q/noise-seed seed)
+  (q/stroke-weight 0.5)
+  (let [p1 (get @params :p1)
+        p2 (get @params :p2)
+        p3 (get @params :p3)
+        size p1
+        layers (int (* p3 (* peak peak)))]
+    (q/fill 255 (* 2 p2))
+    ;(println layers)
+    (dotimes [n layers]
+      (let [sizex (* size (q/noise (* n 0.2)))
+            sizey (* size (q/noise (* n 0.3)))]
+;        (q/with-rotation [(main.botpop/pirad) 1 1 0])
+        (q/with-translation [ (/ sizex 2) (/ sizey 2) (* n 9)]
+
+          (q/box sizex sizey 0))
+
+
+))
+    (q/with-translation [0 0 50]
+      (q/text-size 12)
+      (q/fill 255 0 0)
+      (q/text (str "seed " seed ) 0 0))
+    )
+
+  )
 
 
 (defn draw [x y z ttl type seed]
@@ -117,8 +145,7 @@
             (dotimes [ n 1]
               (q/stroke 0 0 255)
               (q/with-translation [(* n -90 ) 40 20]
-                [<0;174;64M
-                 ] (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                 (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
                 )))
           )))
   )
