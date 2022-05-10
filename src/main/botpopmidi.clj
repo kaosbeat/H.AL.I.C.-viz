@@ -41,15 +41,21 @@
                 (case channel
                   0 (do
                       (swap! midid1 assoc :velocity vel :note note :beat (inc (get @midid1 :beat)))
-                    )
+                      (reset! bps/rotoff (/ (rand-int 100) 100 ))
+                      (reset! bps/kickspace 2.0)
+                      (swap! lastnote assoc :ch0 note)
+                      )
                   1 (do
                       (swap! midid2 assoc :velocity vel :note note :beat (inc (get @midid2 :beat)))
-                    )
+                      (swap! lastnote assoc :ch1 note)
+                      )
                   2 (do
                       (swap! midid3 assoc :velocity vel :note note :beat (inc (get @midid3 :beat)))
-                    )
+                      (swap! lastnote assoc :ch2 note)
+                      )
                   3 (do
                       (swap! midid4 assoc :velocity vel :note note :beat (inc (get @midid4 :beat)))
+                      (swap! lastnote assoc :ch3 note)
                       )
                   4 (do
                       (swap! lastnote assoc :ch4 note)
@@ -71,14 +77,19 @@
                       (bps/add 3 note) ;; type 3 = cello
 
                       )
+                  8 (do
+                      (swap! lastnote assoc :ch8 note)
+                      )
                   9 (do
                       ;(println "lets add ewi")
                       (swap! ewidata assoc :note1 note)
                       (bps/addewi note 1)
+                      (swap! lastnote assoc :ch9 note)
                       )
                   10 (do
                        (swap! ewidata assoc :note2 note)
                        (bps/addewi note 2)
+                       (swap! lastnote assoc :ch10 note)
                        )
                   13 (do
                        (if (= note 41)
@@ -192,10 +203,11 @@
 
 ;                 (println "unchannelled midi")
                 9 (do
-                    (bps/removeewi note)
+                                        ;   (bps/removeewi note)
+                   ; (swap! ewiviz update-in)
                     )
                 10 (do
-                   (bps/removeewi note)
+                ;   (bps/removeewi note)
                     )
                 (+ 1 1)
                 )

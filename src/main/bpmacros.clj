@@ -93,15 +93,24 @@
 
 
 
-(def bp (atom {:active 1
+(def bp (atom {:active 5
                0 {:active true
                   :phase "off"
                   :update [bps/updateviz []]
-                  :init [println ["init phase 0" "yeah"] bps/fillvizbiz [1] setcubetween [0 260 100]]
+                  :init [println ["init phase 0" "yeah"]
+                         bps/fillvizbiz [1]
+                         setcubetween [0 260 100]
+                         bps/resetviz ["resetting inputs"]
+                         ]
                   :debug [audiodebugger [100 100 channels]
-                          debugstringtype [30 770 "debugstrings"]
+                          ;debugstringtype [30 770 "debugstrings"]
+                          debugstring [30 770 "violin1" 0]
+                          debugstring [330 770 "violin2" 1]
+                          debugstring [630 770 "alto" 2]
+                          debugstring [930 770 "cello" 3]
                           ]
                   :render [bps/renderStringNotes []
+                           ;bps/printrandomstuff [100]
                            ]
                   :preset {}
                   }
@@ -110,7 +119,8 @@
                   :update [bps/updateviz [] followcubetween  []]
                   :init [println ["init phase 1"]
                          bps/fillvizbiz [2]
-                         setcubetween [1800 260 100]]
+                         setcubetween [1800 260 100]
+                         bps/resetviz ["resetting inputs"]]
                   :debug [debugmidistrings [:ch4 @ch3 20 20 "violin1"]
                           debugmidistrings [:ch5 @ch4 20 240 "violin2"]
                           debugmidistrings [:ch6 @ch5 20 460 "alto"]
@@ -122,7 +132,7 @@
 
                           q/ortho []
                           bps/cubeView []
-                          bps/cubeDebugannotateframe []
+                          bps/stringDebugannotateframe []
                           q/perspective []
 
                           bootingdebug [1570 900 0]
@@ -135,18 +145,22 @@
                   }
                2 {:active false
                   :phase "prepulsar"
-                  :update [bps/updateviz [] updatecubetween []]
-                  :init [println ["init phase 1"] bps/fillvizbiz [8] resettweeners []]
-                  :debug [debugmidistrings [:ch4 @ch4 1600 20 "violin1"]
-                          debugmidistrings [:ch5 @ch5 1600 240 "violin2"]
-                          debugmidistrings [:ch6 @ch6 1600 460 "alto"]
-                          debugmidistrings [:ch7 @ch7 1600 680 "cello"]
+                  :update [bps/updateviz [] updatecubetween [] bps/updatekick []]
+                  :init [println ["init phase 2"] bps/fillvizbiz [8] resettweeners [550 40 -1800
+                                                                                    960 540 -1500
+                                                                                    5 10 10 ]]
+                  :debug [;debugmidistrings [:ch4 @ch3 1600 20 "violin1"]
+                          ;debugmidistrings [:ch5 @ch4 1600 240 "violin2"]
+                          ;debugmidistrings [:ch6 @ch5 1600 460 "alto"]
+                          ;debugmidistrings [:ch7 @ch6 1600 680 "cello"]
                           audiodebugger [100 100 channels]
-                          debugstringtype [1600 89 "debugstrings"]
-                          debugnotestatistics ["ch5" 100 1150 115 50]
+                          ;debugstringtype [1600 89 "debugstrings"]
+                          ;debugnotestatistics ["ch5" 100 1150 115 50]
                           ;emptydebug [1270 950 0 300 200]
+                          bootingdebug [1570 900 0]
+                          ;bps/cubeDebugannotateframe []
                           ]
-                  :render [q/ortho []
+                  :render [q/perspective []
                            bps/cubeView []
                            ;;bps/renderStringNotes []
                             ]
@@ -156,6 +170,7 @@
                   :update [q/perspective []  bps/updateviz []]
                   :init [println ["init phase 3"]]
                   :debug [audiodebugger [100 100 channels]
+                          bootingdebug [1570 900 0]
                           ]
                   :render [bps/cubeView []
                             ]
@@ -163,20 +178,23 @@
                4 {:active false
                   :phase "preewi"
                   :update [q/perspective []  bps/updateviz []]
-                  :init [println ["init phase 1"] resettweeners []]
+                  :init [println ["init phase 1"] ]
                   :debug [audiodebugger [100 100 channels]
+                          bootingdebug [1570 900 0]
                           ]
-                  :render [bps/cubeView []
+                  :render [q/ortho []
+                           bps/cubeView []
                             ]
                   }
                5 {:active false
                   :phase "ewi"
                   :update [q/perspective []  bps/updateewistream []]
-                  :init [println ["init ewi phase"] resettweeners []]
+                  :init [println ["init ewi phase"] ]
                   :debug [audiodebugger [100 100 channels]
                           ewidebug [1300 30 0]
+                          bootingdebug [1570 900 0]
                           ]
-                  :render [bps/ewiView [500 400 0]
+                  :render [bps/ewiView [0 0 0]
                             ]
                   }
 

@@ -10,7 +10,7 @@
 ;;helpers
 (def tr (seq->stream (cycle-between 0 1 0.01 0.01)))
 (def camrot (seq->stream (cycle-between 0 180 0.01)))
-(def pirad (seq->stream (cycle-between 0 6.2830 0.0002 6.2830)))
+(def pirad (seq->stream (cycle-between 0 6.2830 0.02 6.2830)))
 (def zerorounddeg (seq->stream (cycle-between 0 360 0.1 360 )))
 (def binary01 (seq->stream (cycle-between 0 1 1)))
 (def ewidata (atom {:note1 65 :breath1 64 :note2 74 :breath2 65 }))
@@ -46,15 +46,23 @@
 
 ;;;; atoms needed for animation states
 (def cubetween (atom {:x 0 :y 0 :z 0}))
-(defn resettweeners []
-  (def p12x (seq->stream (range-incl 2500 960 -5)))
-  (def p12y (seq->stream (range-incl 540 540 -6)))
-  (def p12z (seq->stream (range-incl -1800 -500 1)))
 
-  )
-(resettweeners)
 (defn setcubetween [x y z]
   (reset! cubetween {:x x :y y :z z}))
+
+(defn resettweeners [xs ys zs xt yt zt xj yj zj]
+  (setcubetween xs ys zs)
+  (def p12x (seq->stream (range-incl xs xt xj)))
+  (def p12y (seq->stream (range-incl ys yt yj)))
+  (def p12z (seq->stream (range-incl zs zt zj)))
+
+  )
+(resettweeners 2500 540 -1800 960 540 -500 -5 -6 1)
+(resettweeners 1500 1540 1800
+               660 640 500
+               -50 -60 -100)
+
+
 
 (defn followcubetween []
   (let [x (get @cubetween :x)

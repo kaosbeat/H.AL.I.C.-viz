@@ -122,6 +122,22 @@
   (q/perspective)
   )
 
+(defn debugstring [x y title type]
+  (q/ortho)
+  (q/no-fill)
+  (q/stroke-weight 1)
+  (q/stroke 255)
+  (q/rect x y 300 200)
+  (q/with-translation [(+ x 150) (+ y 100) 0]
+    (q/with-rotation [2 1 1 0]
+      (bps/cubeModule 0 0 0 150 50 20 50 type)))
+  (q/fill 0 255 0)
+  (let [txt (nth titlestring type) ]
+    (q/text (str txt " ") x (+ 189 y) ))
+  (q/perspective)
+  )
+
+
 (def notestatistics (atom {}))
 (defn fillnotestatistics []
   (reset! notestatistics {})
@@ -232,6 +248,8 @@
                   "be more robot"
     ])
 
+
+(def bp (atom nil)) ;;; dirty workaround
 (defn bootingdebug [x y z]
   (q/no-fill)
   (q/with-translation [x y z]
@@ -239,7 +257,10 @@
     (q/rect 0 0 350 180)
     (q/fill 0 255 0)
     (q/text-size 25 )
-   ;; (q/text  (get  (get @bp (get @bp :active)) :phase) 10 25 ) ;;;@bp cannot yet be resolved at startup
+    (if (= @bp nil)
+      (q/text "booting atoms" 10 25)
+      (q/text  (get  (get @bp (get @bp :active)) :phase) 10 25 )) ;;;@bp cannot yet be resolved at startup
+
     (q/text-size 10)
     (dotimes [k 5]
       (let [n (mod @absolutemeasure (- (count bootprocess) 5))]
