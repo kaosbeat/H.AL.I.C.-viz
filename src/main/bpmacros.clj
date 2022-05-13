@@ -119,19 +119,18 @@
                   :update [bps/updateviz [] followcubetween  []]
                   :init [println ["init phase 1"]
                          bps/fillvizbiz [2]
-                         setcubetween [1800 260 100]
-                         bps/resetviz ["resetting inputs"]]
+                         setcubetween [1000 500 -500]]
                   :debug [debugmidistrings [:ch4 @ch3 20 20 "violin1"]
                           debugmidistrings [:ch5 @ch4 20 240 "violin2"]
                           debugmidistrings [:ch6 @ch5 20 460 "alto"]
-                          debugmidistrings [:ch7 @ch6 20 680 "cello"]
+                          debugmidstrings [:ch7 @ch6 20 680 "cello"]
                           audiodebugger [1600 10 channels]
                           ;;emptydebug [1270 950 0 300 200]
 
                           debugnotestatistics ["ch5" 100 900 115 50]
 
-                          q/ortho []
-                          bps/cubeView []
+                          q/ortho []                                        ;
+                          bps/cubeView [0 0 0]
                           bps/stringDebugannotateframe []
                           q/perspective []
 
@@ -161,7 +160,7 @@
                           ;bps/cubeDebugannotateframe []
                           ]
                   :render [q/perspective []
-                           bps/cubeView []
+                           bps/cubeView [0 0 0]
                            ;;bps/renderStringNotes []
                             ]
                   }
@@ -172,7 +171,7 @@
                   :debug [audiodebugger [100 100 channels]
                           bootingdebug [1570 900 0]
                           ]
-                  :render [bps/cubeView []
+                  :render [bps/cubeView [0 0 0]
                             ]
                   }
                4 {:active false
@@ -183,18 +182,22 @@
                           bootingdebug [1570 900 0]
                           ]
                   :render [q/ortho []
-                           bps/cubeView []
+                           bps/cubeView [0 0 0]
                             ]
                   }
                5 {:active false
                   :phase "ewi"
-                  :update [q/perspective []  bps/updateewistream []]
-                  :init [println ["init ewi phase"] ]
+                  :update [q/perspective []  bps/updateewistream [] bps/updateviz []]
+                  :init [println ["init ewi phase"]
+                         bps/resetviz ["resetting string  & drum inputs"]
+                         bps/resetewiviz ["resetting ewi inputs"]
+                         ]
                   :debug [audiodebugger [100 100 channels]
-                          ewidebug [1300 30 0]
+                          ewidebug [1600 30 0]
                           bootingdebug [1570 900 0]
                           ]
                   :render [bps/ewiView [0 0 0]
+                           bps/cubeView [0 0 0]
                             ]
                   }
 

@@ -131,9 +131,9 @@
   (q/with-translation [(+ x 150) (+ y 100) 0]
     (q/with-rotation [2 1 1 0]
       (bps/cubeModule 0 0 0 150 50 20 50 type)))
-  (q/fill 0 255 0)
+  (q/fill 35 138 196)
   (let [txt (nth titlestring type) ]
-    (q/text (str txt " ") x (+ 189 y) ))
+    (q/text (str txt " ") (+ 10  x) (+ 189 y) ))
   (q/perspective)
   )
 

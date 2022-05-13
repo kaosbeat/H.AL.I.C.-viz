@@ -4,7 +4,6 @@
    [quil.core :as q]
    [quil.helpers.seqs :refer [seq->stream range-incl cycle-between steps]]
    [main.botpop :refer [ch1 ch2 ch3 ch4 ch5 ch6 ch7 ch8]]
-
    [main.instruments.bpstrings :as bps]))
 
 
@@ -43,6 +42,12 @@
   (println message)
   )
 
+(defn resetewiviz [message]
+  (reset! ewiviz [])
+  (println message)
+  )
+
+
 
 (def radrot (seq->stream (cycle-between 0 6.2830 0.01 6.2830))  )
 
@@ -61,10 +66,10 @@
 
         layers (int (* p3 (nth peak type )))]
     (case type
-      0 (q/fill 23 25 250 (* 2 p2))
-      1 (q/fill 255 25 0 (* 2 p2))
-      2 (q/fill 0 225 250 (* 2 p2))
-      3 (q/fill 255 255 0 (* 2 p2))
+      0 (q/fill 43 146 148 (* 2 p2))
+      1 (q/fill 127 97 127 (* 2 p2))
+      2 (q/fill 133 216 192 (* 2 p2))
+      3 (q/fill 189 126 160 (* 2 p2))
       (q/fill  255 (* 2 p2)))
     (dotimes [n layers]
       (let [sizex (* size (q/noise (* n 0.2)))
@@ -135,10 +140,10 @@
 
 
 (defn cubeModule [x y z w h d ttl type ]
-  (let [colors [(q/color 0 0 250 150)
-                (q/color 55 0 155 255)
-                (q/color 25 233 334 154)
-                (q/color 255 225 5 105)
+  (let [colors [(q/color 43 146 148 150)
+                (q/color 127 97 127 155)
+                (q/color 133 216 192 154)
+                (q/color 189 126 160 155)
                 (q/color 0 255 255 128)]]
     (q/fill (nth colors type )))
   (if (= type 4) (q/no-fill))
@@ -148,30 +153,35 @@
     (let [a (/ (q/random 240) 1)
           b (/ (q/random 240) 1)
           c (/ (q/random 240) 1)
-          d (/ (q/random 240) 1)
+          d (/ (q/random 2400) 10)
           e (/ (q/random 240) 100)
           p (get @(get main.botpop/channels (+ type 2)) :peak)
+          ;c1 (get @(get main.botpop/channels 1) :peak)
+          q1 (get @params :q1)
           r1 (get @ch4  :beatnumber)
           ;r1 3
           ]
 
-        (q/with-rotation [e 1 0 0]
+        (q/with-rotation [e 1 1 0]
           (q/box (* a p)(* b p)(* c p))
           (q/stroke 255 0 0 )
           (q/stroke-weight  (* 0.1 (mod r1 8)) )
           (q/box   (* p w)  (* p h) (*  p  d))
           (q/with-rotation [r1 1 0 1]
-            (dotimes [ n 1]
+            (dotimes [ n (* 1 (int 2 ))]
+              (q/stroke-weight 0.1 )
               (q/stroke 0 255 0)
               (q/with-translation [(* n 290 ) 20 20]
-               ;(q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                (q/with-rotation [n 0 1 0]
+                  (q/box   (+ (q/random 100) (+ c h)) (/ (* 10 (* a w)) 1000) (* e 100)))
                 )))
 
           (q/with-rotation [0 1 0 1]
-            (dotimes [ n 1]
+            (dotimes [ n 4]
+              (q/stroke-weight 3)
               (q/stroke 0 0 255)
               (q/with-translation [(* n -90 ) 40 20]
-               ; (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                (q/box (* q1 40)  )
                 )))
           )))
   )
@@ -180,7 +190,7 @@
 (def rotoff (atom 0.0))
 (def kickspace (atom 0.0))
 (defn updatekick []
-(swap! kickspace * 0.95)
+(swap! kickspace * 0.7)
   )
 
 
@@ -212,7 +222,7 @@
 
               ))))
       (if (> 10 (q/random 1))
-        (do (print "doing lines")
+        (do; (print "doing lines")
             (let [space (+ 200 (* @kickspace 30))
                   ]
               (dotimes [n (count @vizbiz)]
@@ -234,7 +244,7 @@
     (q/stroke-weight 3)
     (q/no-fill)
     (q/rect (- x 250) (- y 220) 300 300 )
-    (q/line (- x 250) y z  320 (+ (* 100 (get @(nth main.botpop/channels @main.botpop/lasttype) :peak))  (* 220 @main.botpop/lasttype)) 0)
+    (q/line (- x 250) y z  320 (+ (* 100 (get @(nth main.botpop/channels (+ 2 @main.botpop/lasttype)) :peak))  (* 220 @main.botpop/lasttype)) 0)
     ;(q/text "converting RNN outputs" (- x 230) (- y 60))
     (q/text "cubeView Called" (- x 230) (- y 60))
     )
@@ -255,15 +265,16 @@
   )
 
 
-(defn cubeView []
-  (let [x (get @main.botpop/cubetween :x)
-        y (get @main.botpop/cubetween :y)
-        z (get @main.botpop/cubetween :z)]
+(defn cubeView [x y z]
+  (q/with-translation [x y z]
+    (let [xi (+ x  (get @main.botpop/cubetween :x))
+          yi (+ y (get @main.botpop/cubetween :y))
+          zi (+ z (get @main.botpop/cubetween :z))]
 
-    (renderCube x y z)
-   ;; (println "cubeView Called" x y z )
-    )
-  )
+      (renderCube xi yi zi)
+      ;; (println "cubeView Called" x y z )
+      )
+    ))
 
 
 
@@ -276,8 +287,8 @@
           ttl  (get (nth @viz n) :ttl)
           type (get (nth @viz n) :type)
           seed (get (nth @viz n) :seed )]
-         (draw x y z ttl type seed)
-        )
+      (draw x (- y 200 ) z ttl type seed)
+      )
     )
   )
 
@@ -292,6 +303,8 @@
           cnt  (get (nth @ewiviz n) :count)
           b1   (get @main.botpop/ewidata :breath1)
           b2   (get @main.botpop/ewidata :breath2)
+
+
           q1   (get @params :q1)
           q2   (get @params :q2)
           w    (/  (* cnt q1) (+ 1 q2))
@@ -303,18 +316,34 @@
           (q/text-size 50)
           (q/text (str  cnt) 100 100)
           (dotimes [n 1]
-            (q/with-rotation [(main.botpop/pirad) 1 0 0]
+            (q/with-rotation [(* 0 (main.botpop/pirad)) 1 0 0]
               (q/with-rotation [note 1 0 0]
 
                 (dotimes [m 100]
                   (if (<  (* m 20) cnt)
                     (q/with-translation [(* m 20) 0 0]
                                         ;(q/random-seed m)
-                      (q/box 1 1 (q/random  220) ))))
+                      (q/box 1 1 (q/random  b1) ))))
                 (q/with-translation [(/ w 2) 0 0 ]
                   (q/fill 255 ttl)
-                  (q/box  w 50  50 ))
+                  (q/box  w 15 b2 ))
                 )))))))
+
+  (let [
+        a1   (get @(get main.botpop/channels 6) :peak)
+        a2   (get @(get main.botpop/channels 7) :peak)
+        ]
+    (q/with-translation [800 300 -100]
+      (q/fill 255 25)
+      (q/with-rotation [1.64 1 0 1]
+        (dotimes [n 5]
+          (dotimes [m 5]
+            (q/with-translation [(* m 160) (* n 80) 0 ]
+              (q/sphere (* (q/random 200) a1))))
+          ))
+      ))
+
+
 
   )
 
@@ -441,7 +470,7 @@
         (swap! ewiviz update-in [n :ttl] dec)
         (swap! ewiviz update-in [n :count] (fn [x] (*  (+ x (get @main.botpop/ewidata :breath1)) 1 )))
         )
-      (if (false?  (and (= 2 type) (= note not)))
+      (if (false?  (and (= 2 type) (= note note2)))
         (swap! ewiviz update-in [n :ttl] dec)
         (swap! ewiviz update-in [n :count] (fn [x] (*  (+ x (get @main.botpop/ewidata :breath1)) 1 )))
         )

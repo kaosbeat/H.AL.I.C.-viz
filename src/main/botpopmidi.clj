@@ -34,23 +34,24 @@
                     vel  (:velocity e)
                     channel (:channel e)]
 
-                ;(println "note " note "channel " channel)
+               ;(println "note " note "channel " channel)
                 (swap! notestatistics update-in [(str "ch" channel) note] inc)
                 (if @midiREPL
                   (println note vel channel))
                 (case channel
                   0 (do
                       (swap! midid1 assoc :velocity vel :note note :beat (inc (get @midid1 :beat)))
-                      (reset! bps/rotoff (/ (rand-int 100) 100 ))
                       (reset! bps/kickspace 2.0)
                       (swap! lastnote assoc :ch0 note)
                       )
                   1 (do
                       (swap! midid2 assoc :velocity vel :note note :beat (inc (get @midid2 :beat)))
+
                       (swap! lastnote assoc :ch1 note)
                       )
                   2 (do
                       (swap! midid3 assoc :velocity vel :note note :beat (inc (get @midid3 :beat)))
+                      (reset! bps/rotoff (/ (rand-int 100) 100 ))
                       (swap! lastnote assoc :ch2 note)
                       )
                   3 (do
@@ -91,6 +92,7 @@
                        (bps/addewi note 2)
                        (swap! lastnote assoc :ch10 note)
                        )
+                  11 (print (str "channel " channel))
                   13 (do
                        (if (= note 41)
                          (swap! bps/params assoc :b1 (not (get @bps/params :b1))))
@@ -233,10 +235,14 @@
                     2 (do
                         (swap! ewidata assoc :breath1 data2)
 
-                        ))
+                        )
+                    3 (do
+                        (swap! ewidata assoc :breath2 data2))
+                    (+ 1 1)
+                    )
                 10 (case data1
                     2 (do
-                        (swap! ewidata assoc :breath2 data2)
+
                         ))
 
 
