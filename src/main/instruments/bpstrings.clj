@@ -202,17 +202,17 @@
                   ydiv (/ (q/height) (+ 1  n))
 
                   ]
-              (q/stroke-weight 1)
+              (q/stroke-weight 10)
               (cubeModule (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z)) (* type size) size size ttl type)
-              (q/stroke-weight 1.5)
-              (q/stroke 255)
+              (q/stroke-weight 2.5)
+              (q/stroke 255 128)
 
               (q/line (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z))  10000 (* n ydiv) 10000  )
               ;(print (q/random 1))
 
               ))))
       (if (> 10 (q/random 1))
-        (do (print "doing lines")
+        (do ;;(print "doing lines")
             (let [space (+ 200 (* @kickspace 30))
                   ]
               (dotimes [n (count @vizbiz)]

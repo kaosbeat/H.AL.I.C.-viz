@@ -1,4 +1,4 @@
-#N canvas 910 142 929 1035 12;
+#N canvas 751 23 929 1005 12;
 #X msg 224 133 \; pd dsp 1;
 #X obj 304 217 abl_link~ 1 0 4 120;
 #X obj 305 164 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
@@ -189,7 +189,7 @@
 #X obj 308 401 noteout 3;
 #X obj 439 397 noteout 4;
 #X obj 302 299 spigot;
-#X obj 341 277 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 341 277 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X msg 453 136 tempo \$1;
 #X floatatom 459 98 5 0 0 2 tempo - -;
@@ -451,7 +451,7 @@
 #X obj 289 485 spigot;
 #X obj 328 459 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#N canvas 0 23 922 910 randomnote 1;
+#N canvas 0 23 922 910 randomnote 0;
 #X obj 53 142 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X floatatom 94 250 5 0 0 0 - - -;
@@ -497,7 +497,7 @@
 #X connect 19 0 12 0;
 #X connect 20 0 0 0;
 #X restore 70 860 pd randomnote;
-#N canvas 86 354 922 910 randomnote 1;
+#N canvas 86 118 922 910 randomnote 0;
 #X obj 55 59 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X floatatom 96 167 5 0 0 0 - - -;
@@ -630,7 +630,7 @@
 #X connect 17 0 0 0;
 #X restore 409 864 pd randomnote;
 #X obj 290 792 spigot;
-#X obj 329 766 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 329 766 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #N canvas 0 23 922 910 randomnote 0;
 #X obj 55 59 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -726,7 +726,7 @@
 #X msg 33 954 127 1250;
 #X obj 163 1027 pipe 1500;
 #X obj 157 1070 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
-0 1;
+1 1;
 #X obj 162 970 random 3500;
 #X obj 213 997 + 500;
 #X obj 61 1106 random 127;

@@ -1,4 +1,5 @@
-;;start using C-c M-j
+;; start using C-c M-j
+;; if no midi notes are arriving, app will not starts (note statistics can not be zero)
 
 (ns main.botpop
   (:use [overtone.live])
@@ -59,7 +60,6 @@
     )
   ;(bps/renderCube (p12x) (p12y) (p12z))
 )
-
 
 (defn renderdebug []
   (let [debug (get (get @bp (get @bp :active)):debug)]

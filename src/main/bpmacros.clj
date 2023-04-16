@@ -93,7 +93,7 @@
 
 
 
-(def bp (atom {:active 5
+(def bp (atom {:active 0
                0 {:active true
                   :phase "off"
                   :update [bps/updateviz []]
