@@ -71,7 +71,10 @@
             sizey (* size (q/noise (* n 0.3)))]
 ;        (q/with-rotation [(main.botpop/pirad) 1 1 0])
         (q/with-translation [ (/ sizex 2) (/ sizey 2) (* n 9)]
-
+          (dotimes [n 10]
+            (q/stroke 0 255 0)
+                 ; (q/with-rotation [1 1 0 (q/random 100)] (q/line 100 100 200 200))
+            )
           (q/box sizex sizey 0))
 
 
@@ -117,12 +120,13 @@
   "main draw for this visual instrument"
   ;(println "drawing " id  x y z freq beat)
   (q/with-translation [x y z]
-    (q/fill 255 255 255 ttl)
+    (q/fill 255 25 255 ttl)
     ;(q/box (* type  50) 50 0)
     (q/perspective)
     (q/with-translation [0 (- (* 3  seed) 150) 0]
 
-      (module x y z seed (get @params :p1) type))
+      (module x y z seed (get @params :p1) type)
+      )
 
   )
   )
@@ -145,10 +149,10 @@
   (q/random-seed (* type 513))
 
   (q/with-translation [x y z]
-    (let [a (/ (q/random 240) 1)
-          b (/ (q/random 240) 1)
-          c (/ (q/random 240) 1)
-          d (/ (q/random 240) 1)
+    (let [a (/ (q/random 240) 100)
+          b (/ (q/random 240) 100)
+          c (/ (q/random 240) 100)
+          d (/ (q/random 240) 100)
           e (/ (q/random 240) 100)
           p (get @(get main.botpop/channels (+ type 2)) :peak)
           r1 (get @ch4  :beatnumber)
@@ -158,20 +162,23 @@
         (q/with-rotation [e 1 0 0]
           (q/box (* a p)(* b p)(* c p))
           (q/stroke 255 0 0 )
-          (q/stroke-weight  (* 0.1 (mod r1 8)) )
-          (q/box   (* p w)  (* p h) (*  p  d))
+          (q/stroke-weight  (* 1 (mod r1 8)) )
+         (q/box   (* p w)  (* p h) (*  p  d))
           (q/with-rotation [r1 1 0 1]
-            (dotimes [ n 1]
-              (q/stroke 0 255 0)
+            (dotimes [ n 10]
+              (q/stroke 45 25 20)
+              ;(q/fill 25 100)
               (q/with-translation [(* n 290 ) 20 20]
-               ;(q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                                        ;
+               (q/box   (* 3 (* c h)) (/ (* 10 (get @main.botpop/ewidata :breath1)  (* a w)) 100)(*  e (* 0.2 (get @main.botpop/ewidata :breath1))))
+                ;(q/box 200)
                 )))
 
-          (q/with-rotation [0 1 0 1]
+          (q/with-rotation [3 1 0 1]
             (dotimes [ n 1]
               (q/stroke 0 0 255)
               (q/with-translation [(* n -90 ) 40 20]
-               ; (q/box   (* 1 (* c h)) (/ (* 1 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
+                (q/box   (* 1 (* c h)) (/ (* 10 (get @main.botpop/ewidata :breath1)  (* a w)) 100) (*  e (* 3 (get @main.botpop/ewidata :breath1))))
                 )))
           )))
   )
@@ -189,7 +196,7 @@
 
     (q/with-rotation [(* (+ @rotoff (radrot)) 1) (if (get @params :b1) 1 0) (if (get @params :b2) 1 0) (if (get @params :b3) 1 0) ]
       (let [size      50
-            space     (+ 200 (* @kickspace 30))
+            space     (+ 200 (* @kickspace 300))
             order     @vizbizsize
             rotoffset (- 0 (/(* order space)2 ))]
         (q/with-translation [rotoffset rotoffset rotoffset ]
@@ -204,10 +211,10 @@
                   ]
               (q/stroke-weight 10)
               (cubeModule (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z)) (* type size) size size ttl type)
-              (q/stroke-weight 2.5)
+              (q/stroke-weight 25)
               (q/stroke 255 128)
 
-              (q/line (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z))  10000 (* n ydiv) 10000  )
+;              (q/line (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z))  10000 (* n ydiv) 10000  )
               ;(print (q/random 1))
 
               ))))
@@ -216,7 +223,7 @@
             (let [space (+ 200 (* @kickspace 30))
                   ]
               (dotimes [n (count @vizbiz)]
-;                (q/line (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z))  10000 (* n ydiv) 10000  )
+              ;  (q/line (* 1 (* space  x)) (* 1 (* space  y)) (* 1 (* space z))  10000 (* n ydiv) 10000  )
                 )
 
               )
@@ -253,7 +260,6 @@
     (q/text "cubeView Called" (- x 230) (- y 60))
     )
   )
-
 
 (defn cubeView []
   (let [x (get @main.botpop/cubetween :x)
@@ -298,22 +304,23 @@
           ]
 
       (q/with-translation [(+ 0 x) y z]
-        (q/with-rotation [1.64 0 1 0]
-          (q/fill 255)
+        (q/with-rotation [(+ (main.botpop/pirad) 1.64) 0 1 0]
+          (q/fill 25)
           (q/text-size 50)
           (q/text (str  cnt) 100 100)
-          (dotimes [n 1]
-            (q/with-rotation [(main.botpop/pirad) 1 0 0]
+          (dotimes [n 10]
+            (q/with-rotation [(/  (main.botpop/pirad) (+ n  1)) 1 1 n]
               (q/with-rotation [note 1 0 0]
 
-                (dotimes [m 100]
+                (dotimes [m 10]
                   (if (<  (* m 20) cnt)
                     (q/with-translation [(* m 20) 0 0]
-                                        ;(q/random-seed m)
-                      (q/box 1 1 (q/random  220) ))))
+                                        (q/random-seed m)
+                      (q/box 10 10 (q/random  22) ))))
                 (q/with-translation [(/ w 2) 0 0 ]
-                  (q/fill 255 ttl)
-                  (q/box  w 50  50 ))
+                  (q/fill 255 230 45 ttl)
+                  (q/with-rotation [0 1 0 (main.botpop/pirad) ]
+                    (q/box  w 50  50 )))
                 )))))))
 
   )
@@ -335,7 +342,7 @@
         z 0
         type type
         note note
-        ttl 130
+        ttl 100
         ]
     ;(println  x y z)
 

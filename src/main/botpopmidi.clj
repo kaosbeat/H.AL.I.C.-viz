@@ -1,5 +1,7 @@
 (ns main.botpop
-  (:require [main.instruments.bpstrings :as bps]))
+  (:require [main.instruments.bpstrings :as bps]
+;;            [quil.core :as q]
+            ))
 
 
 (on-event [:midi :timing-clock]
@@ -312,37 +314,37 @@
         s 40
         ts 20]
     (q/text-size ts)
+    (q/with-translation [800 900 0]
+      (if-not (= (get (:d1 state) :velocity) 0)
+        (do
+          (q/fill (* 2 (get (:d1 state) :velocity)) 0 0 255)
+          (q/rect w h s s)
+          (q/fill 255)
+          (q/text "kck" (+ w 8) (+ h 26) ))
 
-    (if-not (= (get (:d1 state) :velocity) 0)
-      (do
-        (q/fill (* 2 (get (:d1 state) :velocity)) 0 0 255)
-        (q/rect w h s s)
-        (q/fill 255)
-        (q/text "D1" (+ w 8) (+ h 26) ))
+        )
+      (if-not (= (get (:d2 state) :velocity) 0)
+        (do
+          (q/fill (* 2 (get (:d2 state) :velocity)) 0 0 120)
+          (q/rect (* 2 w) h s s)
+          (q/fill 255)
+          (q/text "prc" (+ (* 2 w) 8) (+ h 26) ))
+        )
 
-      )
-    (if-not (= (get (:d2 state) :velocity) 0)
-      (do
-        (q/fill (* 2 (get (:d2 state) :velocity)) 0 0 120)
-        (q/rect (* 2 w) h s s)
-        (q/fill 255)
-        (q/text "sd" (+ (* 2 w) 8) (+ h 26) ))
-      )
+      (if-not (= (get (:d3 state) :velocity) 0)
+        (do
+          (q/fill (* 2 (get (:d3 state) :velocity)) 0 0 120)
+          (q/rect (* 3 w) h s s)
+          (q/fill 255)
+          (q/text "sn" (+ (* 3 w) 8) (+ h 26) ))
 
-    (if-not (= (get (:d3 state) :velocity) 0)
-      (do
-        (q/fill (* 2 (get (:d3 state) :velocity)) 0 0 120)
-        (q/rect (* 3 w) h s s)
-        (q/fill 255)
-        (q/text "ch" (+ (* 3 w) 8) (+ h 26) ))
-
-      )
-    (if-not (= (get (:d4 state) :velocity) 0)
-      (do
-        (q/fill (* 2 (get (:d4 state) :velocity)) 0 0 120)
-        (q/rect (* 4 w) h s s)
-        (q/fill 255)
-        (q/text "oh" (+ (* 4 w) 8) (+ h 26) ))
-      )
+        )
+      (if-not (= (get (:d4 state) :velocity) 0)
+        (do
+          (q/fill (* 2 (get (:d4 state) :velocity)) 0 0 120)
+          (q/rect (* 4 w) h s s)
+          (q/fill 255)
+          (q/text "hh" (+ (* 4 w) 8) (+ h 26) ))
+        ))
     )
   )
